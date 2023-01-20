@@ -1,7 +1,7 @@
 const menu = [
   {
     text: "Dashboard",
-    link: "/pages/app/CollegeDashboard",
+    link: "/pages/app/Dashboard",
   }, 
   {
      
