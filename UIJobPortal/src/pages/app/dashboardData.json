@@ -1,0 +1,24 @@
+[
+    {
+      "CollegeID": 1,
+      "CollegeName": "SSN College",
+      "OrgType": "Enginnering",
+      "NoOfStudent": 1000,
+      "ContactNo": "79911236712",
+      "EmailID": "rajeshkanna.it@gmail.com",
+      "CompanyID":100,
+      "CompanyName":"HCL"
+    },
+    {
+      "CollegeID": 2,
+      "CollegeName": "MGM College",
+      "OrgType": "Arts & Science",
+      "NoOfStudent": 500,
+      "ContactNo": "22211236712",
+      "EmailID": "naga.it@gmail.com",
+      "CompanyID":200,
+      "CompanyName":"INFY"
+    }       
+    
+  ]
+  

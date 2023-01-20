@@ -31,6 +31,7 @@ const Login = () => {
       localStorage.setItem("accessToken", "token");
       setTimeout(() => {
         debugger
+        sessionStorage.setItem('LoginOrgType', 'INSTITUTION'); 
         window.history.pushState(
           `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
           "auth-login",
