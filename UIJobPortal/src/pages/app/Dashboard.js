@@ -23,7 +23,7 @@ const initialDataState = {
   skip: 0,
   take: 20,
 };
-function CollegeDashboard() {
+function Dashboard() {
     const [controlLoaded, setcontrolLoaded] = useState(false);
     const [filter, setFilter] = React.useState(initialFilter);
     let gridPDFExport;
@@ -104,4 +104,4 @@ function CollegeDashboard() {
         </div >
     </div>
     );    
-  }export default CollegeDashboard;  
+  }export default Dashboard;  
