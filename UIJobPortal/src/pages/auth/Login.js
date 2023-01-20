@@ -34,6 +34,7 @@ const Login = () => {
         window.history.pushState(
           `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
           "auth-login",
+          "pages/app/CollegeDashboard",
           `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`
         );
         window.location.reload();
