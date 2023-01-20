@@ -1,0 +1,85 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Techathon\\Techathon-Round-1\\CampusRecruitment\\CampusRecruitment.Entities\\CampusRecruitment.Entities\\CampusRecruitment.Entities.csproj": {}
+  },
+  "projects": {
+    "D:\\Techathon\\Techathon-Round-1\\CampusRecruitment\\CampusRecruitment.Entities\\CampusRecruitment.Entities\\CampusRecruitment.Entities.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Techathon\\Techathon-Round-1\\CampusRecruitment\\CampusRecruitment.Entities\\CampusRecruitment.Entities\\CampusRecruitment.Entities.csproj",
+        "projectName": "CampusRecruitment.Entities",
+        "projectPath": "D:\\Techathon\\Techathon-Round-1\\CampusRecruitment\\CampusRecruitment.Entities\\CampusRecruitment.Entities\\CampusRecruitment.Entities.csproj",
+        "packagesPath": "C:\\Users\\raja.kolanghinathan\\.nuget\\packages\\",
+        "outputPath": "D:\\Techathon\\Techathon-Round-1\\CampusRecruitment\\CampusRecruitment.Entities\\CampusRecruitment.Entities\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\raja.kolanghinathan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
