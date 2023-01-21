@@ -10,6 +10,7 @@ namespace CampusRecruitment.Service.Interface
     public interface IStudentService
     {
         Result<List<StudentViewModel>> GetAllStudentsByDepartmentId(int departmentId);
+        Result<List<StudentDepartmentModel>> GetAllStudentsByOrganizationId(int organizationId);
         Result<StudentViewModel> SaveStudentDetails(StudentViewModel studentViewModel);
     }
 }

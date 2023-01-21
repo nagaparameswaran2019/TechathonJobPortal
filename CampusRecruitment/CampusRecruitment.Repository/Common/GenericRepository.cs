@@ -14,7 +14,7 @@ namespace CampusRecruitment.Repository.Common
     {
         protected readonly DbContext _dbContext;
         protected readonly DbSet<T> _dbSet;
-        
+
         public GenericRepository(DbContext context)
         {
             _dbContext = context ?? throw new ArgumentException(nameof(context));
@@ -46,6 +46,25 @@ namespace CampusRecruitment.Repository.Common
         public IEnumerable<T> Get(Expression<Func<T, bool>> predicate)
         {
             return _dbSet.Where(predicate).AsEnumerable();
+        }
+
+        public IEnumerable<T> Get(Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
+             bool disableTracking = true)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if (disableTracking) query = query.AsNoTracking();
+
+            if (include != null) query = include(query);
+
+            if (predicate != null) query = query.Where(predicate);
+
+            if (orderBy != null)
+                return orderBy(query).AsEnumerable();
+
+            return query.AsEnumerable();
         }
 
         public void Add(T entity)

@@ -10,6 +10,7 @@ using CampusRecruitment.ViewModel;
 using CampusRecruitment.Repository.Repository;
 using CampusRecruitment.Mapper;
 using CampusRecruitment.Entities.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CampusRecruitment.Service.Service
 {
@@ -29,6 +30,13 @@ namespace CampusRecruitment.Service.Service
             var studentList = _studentRepository.Get(t => t.DepartmentId == departmentId).ToList();
             var viewData = studentList.CopyTo<List<StudentViewModel>>();
             return new Result<List<StudentViewModel>>("Student details retrieved successfully.", viewData, true);
+        }
+
+        public Result<List<StudentDepartmentModel>> GetAllStudentsByOrganizationId(int organizationId)
+        {
+            var studentList = _studentRepository.Get(predicate: t => t.Department.OrganizationId == organizationId, include: i => i.Include(s => s.Department.DepartmentType)).ToList();
+            var viewData = studentList.CopyTo<List<StudentDepartmentModel>>();
+            return new Result<List<StudentDepartmentModel>>("Student details retrieved successfully.", viewData, true);
         }
 
         public Result<StudentViewModel> SaveStudentDetails(StudentViewModel studentViewModel)

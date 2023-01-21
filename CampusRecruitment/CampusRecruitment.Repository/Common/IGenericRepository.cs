@@ -16,6 +16,10 @@ namespace CampusRecruitment.Repository.Common
             bool disableTracking = true);
         IEnumerable<T> GetAll();
         IEnumerable<T> Get(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> Get(Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
+             bool disableTracking = true);
         void Add(T entity);
         void Add(params T[] entities);
         void Add(IEnumerable<T> entities);

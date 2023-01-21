@@ -32,7 +32,7 @@ namespace CampusRecruitment.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetLookupGroupByName/{departmentId}")]
+        [Route("GetAllStudentsByDepartmentId/{departmentId}")]
         public Result<List<StudentViewModel>> GetAllStudentsByDepartmentId([FromRoute] int departmentId)
         {
             try
@@ -42,6 +42,20 @@ namespace CampusRecruitment.WebAPI.Controllers
             catch (Exception ex)
             {
                 return new Result<List<StudentViewModel>>("Unable to get student details", null, false);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllStudentsByOrganizationId/{organizationId}")]
+        public Result<List<StudentDepartmentModel>> GetAllStudentsByOrganizationId([FromRoute] int organizationId)
+        {
+            try
+            {
+                return _studentService.GetAllStudentsByOrganizationId(organizationId);
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<StudentDepartmentModel>>("Unable to get student details", null, false);
             }
         }
     }
