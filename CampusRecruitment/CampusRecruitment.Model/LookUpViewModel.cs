@@ -9,6 +9,7 @@ namespace CampusRecruitment.ViewModel
     public class LookUpViewModel
     {
         public LookUpViewModel() { }
+
         public int LookUpId { get; set; }
 
         public string Code { get; set; } = null!;

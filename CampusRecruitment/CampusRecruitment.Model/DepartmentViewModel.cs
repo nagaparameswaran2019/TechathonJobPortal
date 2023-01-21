@@ -9,6 +9,7 @@ namespace CampusRecruitment.ViewModel
     public class DepartmentViewModel
     {
         public DepartmentViewModel() { }
+
         public int DepartmentId { get; set; }
 
         public string Name { get; set; } = null!;
@@ -18,5 +19,7 @@ namespace CampusRecruitment.ViewModel
         public int OrganizationId { get; set; }
 
         public virtual OrganizationViewModel Organization { get; set; } = null!;
+
+        public virtual ICollection<DepartmentCoreAreaMappingViewModel> DepartmentCoreAreaMappings { get; }
     }
 }

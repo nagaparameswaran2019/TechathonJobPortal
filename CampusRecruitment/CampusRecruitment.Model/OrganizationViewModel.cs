@@ -9,6 +9,7 @@ namespace CampusRecruitment.ViewModel
     public class OrganizationViewModel
     {
         public OrganizationViewModel() { }
+
         public int OrganizationId { get; set; }
 
         public string Name { get; set; } = null!;
@@ -22,6 +23,7 @@ namespace CampusRecruitment.ViewModel
         public int OrganizationTypeId { get; set; }
 
         public int OrganizationSubTypeId { get; set; }
+
         public string? Department { get; set; }
 
         public virtual ICollection<DepartmentViewModel> Departments { get; set; } = new List<DepartmentViewModel>();

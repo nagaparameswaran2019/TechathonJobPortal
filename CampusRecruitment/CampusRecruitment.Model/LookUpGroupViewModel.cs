@@ -11,6 +11,7 @@ namespace CampusRecruitment.ViewModel
         public LookUpGroupViewModel() {
             LookUps = new List<LookUpViewModel>();
         }
+
         public int LookUpGroupId { get; set; }
 
         public string Code { get; set; } = null!;
