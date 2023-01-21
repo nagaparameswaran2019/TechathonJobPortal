@@ -19,9 +19,10 @@ namespace CampusRecruitment.Mapper
             base.CreateMap<LookUp, LookUpViewModel>().ReverseMap();
             base.CreateMap<User, UserViewModel>().ReverseMap();
             base.CreateMap<User, LoginModel>().ReverseMap();
-                //.ForMember(t => t.OrganizationName, opt => opt.MapFrom(src => src != null && src.Organization != null ? src.Organization.Name : string.Empty))
-                //.ForMember(t => t.OrganizationType, opt => opt.MapFrom(src => src != null && src.Organization != null && src.Organization.OrganizationType != null ? src.Organization.OrganizationType.Code : string.Empty))
-                //.ForMember(t => t.OrganizationSubType, opt => opt.MapFrom(src => src != null && src.Organization != null && src.Organization.OrganizationSubType != null ? src.Organization.OrganizationSubType.Code : string.Empty));
+            base.CreateMap<DepartmentCoreAreaMapping, DepartmentCoreAreaMappingViewModel>().ReverseMap();
+            //.ForMember(t => t.OrganizationName, opt => opt.MapFrom(src => src != null && src.Organization != null ? src.Organization.Name : string.Empty))
+            //.ForMember(t => t.OrganizationType, opt => opt.MapFrom(src => src != null && src.Organization != null && src.Organization.OrganizationType != null ? src.Organization.OrganizationType.Code : string.Empty))
+            //.ForMember(t => t.OrganizationSubType, opt => opt.MapFrom(src => src != null && src.Organization != null && src.Organization.OrganizationSubType != null ? src.Organization.OrganizationSubType.Code : string.Empty));
         }
     }
 }

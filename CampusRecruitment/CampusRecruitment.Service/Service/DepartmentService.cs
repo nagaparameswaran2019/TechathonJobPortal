@@ -9,6 +9,7 @@ using CampusRecruitment.Repository.Interface;
 using CampusRecruitment.ViewModel;
 using CampusRecruitment.Repository.Repository;
 using CampusRecruitment.Mapper;
+using CampusRecruitment.Entities.Entities;
 
 namespace CampusRecruitment.Service
 {
@@ -16,11 +17,13 @@ namespace CampusRecruitment.Service
     {
         IUnitOfWork _unitOfWork;
         IDepartmentRepository _departmentRepository;
+        IDepartmentCoreAreaMappingRepository _departmentCoreAreaMappingRepository;
 
-        public DepartmentService(IUnitOfWork unitOfWork, IDepartmentRepository departmentRepository)
+        public DepartmentService(IUnitOfWork unitOfWork, IDepartmentRepository departmentRepository, IDepartmentCoreAreaMappingRepository departmentCoreAreaMappingRepository)
         {
             _unitOfWork = unitOfWork;
             _departmentRepository = departmentRepository;
+            _departmentCoreAreaMappingRepository = departmentCoreAreaMappingRepository;
         }
 
         public List<DepartmentViewModel> GetAll()
@@ -28,6 +31,33 @@ namespace CampusRecruitment.Service
             var data = _departmentRepository.GetAll();
             var viewData = data.CopyTo<List<DepartmentViewModel>>();
             return viewData;
+        }
+
+        public Result<List<DepartmentCoreAreaMappingViewModel>> CreateDepartmentCoreAreaMapping(DepartmentCoreAreaMappingViewModel model)
+        {
+            if (!string.IsNullOrEmpty(model.CoreAreaTyps))
+            {
+                List<DepartmentCoreAreaMapping> departmentList = model.CoreAreaTyps.Split(',').Select(s =>
+                new DepartmentCoreAreaMapping()
+                {
+                    CoreAreaTypeId = Convert.ToInt32(s.Trim()),
+                    DepartmentId = model.DepartmentId,
+                    CoreAreaType = null,
+                    Department = null
+                }
+                ).ToList();
+
+                _departmentCoreAreaMappingRepository.Add(departmentList);
+                _unitOfWork.Save();
+
+                var data = _departmentCoreAreaMappingRepository.Get(t => t.DepartmentId == model.DepartmentId).ToList();
+                var viewData = data.CopyTo<List<DepartmentCoreAreaMappingViewModel>>();
+                return new Result<List<DepartmentCoreAreaMappingViewModel>>("Department Core Area Mapping saved successfully", viewData, true);
+            }
+            else
+            {
+                return new Result<List<DepartmentCoreAreaMappingViewModel>>("CoreAreaTyps should not be empty", null, false);
+            }
         }
     }
 }

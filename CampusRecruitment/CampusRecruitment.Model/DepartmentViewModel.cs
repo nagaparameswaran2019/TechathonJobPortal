@@ -18,5 +18,7 @@ namespace CampusRecruitment.ViewModel
         public int OrganizationId { get; set; }
 
         public virtual OrganizationViewModel Organization { get; set; } = null!;
+
+        public virtual ICollection<DepartmentCoreAreaMappingViewModel> DepartmentCoreAreaMappings { get; }
     }
 }
