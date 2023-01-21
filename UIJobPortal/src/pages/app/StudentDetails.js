@@ -112,9 +112,11 @@ if (Array.isArray(dataSource) && dataSource.length) {
             <GridColumn field="studentId" title="StudentID" /> 
             <GridColumn field="firstName" title="FirstName" />
             <GridColumn field="lastName" title="LastName"/>
+            <GridColumn field="departmentName" title="DepartmentName"/>
+            <GridColumn field="department.departmentId" title="DepartmentID"/>
             <GridColumn field="dateOfBirth" title="DateofBirth" /> 
             <GridColumn field="cgpaorPercentage" title="CGPAOrPercentage"/>
-            <GridColumn field="email" title="EmailID" />       
+            <GridColumn field="email" title="EmailID"  />       
             <GridColumn field="contact" title="Contact" />         
             <GridColumn cell={MyCustomCell} field="studentID"  title=" "  width="200px"  />            
         </Grid>
