@@ -11,6 +11,7 @@ namespace CampusRecruitment.Service.Interface
     {
         List<UserViewModel> GetAll();
         Result<UserViewModel> RegisterUser(UserViewModel model);
+        Result<LoginModel> Login(LoginModel model);
     }
 }
 

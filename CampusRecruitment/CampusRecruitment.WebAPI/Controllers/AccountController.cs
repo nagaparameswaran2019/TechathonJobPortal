@@ -7,10 +7,10 @@ namespace CampusRecruitment.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegistrationController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private IUserService _userService;
-        public RegistrationController(IUserService userService)
+        public AccountController(IUserService userService)
         {
             _userService = userService;
         }
@@ -41,6 +41,20 @@ namespace CampusRecruitment.WebAPI.Controllers
             catch (Exception ex)
             {
                 return new Result<UserViewModel>("Unable to register user details", null, false);
+            }
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public Result<LoginModel> Login([FromBody] LoginModel model)
+        {
+            try
+            {
+                return _userService.Login(model);
+            }
+            catch (Exception ex)
+            {
+                return new Result<LoginModel>("Unable to register user details", null, false);
             }
         }
     }

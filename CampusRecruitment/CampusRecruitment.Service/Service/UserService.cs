@@ -79,5 +79,23 @@ namespace CampusRecruitment.Service.Service
             var viewData = user.CopyTo<UserViewModel>();
             return new Result<UserViewModel>("User details save successfully", viewData, true);
         }
+
+        public Result<LoginModel> Login(LoginModel model)
+        {
+            var user = _userRepository.Login(model.UserName, model.Password);
+            if (user == null)
+            {
+                return new Result<LoginModel>("Unable to login user", null, false);
+            }
+
+            var viewData = user.CopyTo<LoginModel>();
+            viewData.Email = user?.Organization?.Email;
+            viewData.OrganizationName = user?.Organization?.Name;
+            viewData.OrganizationType = user?.Organization?.OrganizationType?.Code;
+            viewData.OrganizationSubType = user?.Organization?.OrganizationSubType?.Code;
+
+
+            return new Result<LoginModel>("User login successfully.", viewData, true);
+        }
     }
 }
