@@ -39,7 +39,7 @@ const [controlLoaded, setcontrolLoaded] = useState(false);
 const [filter, setFilter] = React.useState(initialFilter);
 let gridPDFExport;
 const _export = React.useRef(null);
-const apiUrl = 'https://api.github.com/users/hadley/orgs';
+const apiUrl = 'https://localhost:7077/api/Student/GetAllStudentsByOrganizationId/7';
 const [page, setPage] = useState(initialDataState);
 const pageChange = (event) => {
     setPage(event.page);
@@ -49,11 +49,11 @@ const [dataSource, setDataSource] = useState({
 });
 const getAllStudent = () => {
     setcontrolLoaded(false);
-    debugger;
     setTimeout(() => {
     getDataService(apiUrl)
         .then((result) => {
-            setDataSource(JSON.parse(JSON.stringify(studentData)));
+            debugger;
+            setDataSource(JSON.parse(JSON.stringify(result.data)));
             setcontrolLoaded(true);
         });
     }, 250);
@@ -109,11 +109,11 @@ if (Array.isArray(dataSource) && dataSource.length) {
             </GridToolbar>
             <br></br>
             <br></br>
-            <GridColumn field="studentID" title="StudentID" /> 
+            <GridColumn field="studentId" title="StudentID" /> 
             <GridColumn field="firstName" title="FirstName" />
             <GridColumn field="lastName" title="LastName"/>
-            <GridColumn field="dateofbirth" title="DateofBirth" /> 
-            <GridColumn field="cgpaorpercentage" title="CGPAOrPercentage"/>
+            <GridColumn field="dateOfBirth" title="DateofBirth" /> 
+            <GridColumn field="cgpaorPercentage" title="CGPAOrPercentage"/>
             <GridColumn field="email" title="EmailID" />       
             <GridColumn field="contact" title="Contact" />         
             <GridColumn cell={MyCustomCell} field="studentID"  title=" "  width="200px"  />            
