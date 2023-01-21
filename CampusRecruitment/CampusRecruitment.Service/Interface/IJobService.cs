@@ -11,5 +11,6 @@ namespace CampusRecruitment.Service.Interface
     {
         Result<JobOpeningViewModel> SaveJobOpening(JobOpeningViewModel model);
         Result<InviteViewModel> SaveInvite(InviteViewModel inviteViewModel);
+        Result<List<JobOpeningViewModel>> GetJobOpeningsByOrganizationId(int organizationId);
     }
 }

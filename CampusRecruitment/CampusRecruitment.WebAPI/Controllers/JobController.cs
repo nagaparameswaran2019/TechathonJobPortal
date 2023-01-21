@@ -31,6 +31,20 @@ namespace CampusRecruitment.WebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetJobOpeningsByOrganizationId/{organizationId}")]
+        public Result<List<JobOpeningViewModel>> GetJobOpeningsByOrganizationId([FromRoute] int organizationId)
+        {
+            try
+            {
+                return _jobService.GetJobOpeningsByOrganizationId(organizationId);
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<JobOpeningViewModel>>("Unable to get Job opening details", null, false);
+            }
+        }
+
         [HttpPost]
         [Route("SaveInvite")]
         public Result<InviteViewModel> AddInvite([FromBody] InviteViewModel model)
