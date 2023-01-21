@@ -13,10 +13,11 @@ namespace CampusRecruitment.Mapper
     {
         public AutoMapperConfig()
         {
-            base.CreateMap<OrganizationViewModel, Organization>().ReverseMap();
-            base.CreateMap<DepartmentViewModel, Department>().ReverseMap();
-            base.CreateMap<LookUpViewModel, LookUp>().ReverseMap();
-            base.CreateMap<UserViewModel, User>().ReverseMap();
+            base.CreateMap<Organization, OrganizationViewModel>().ReverseMap();
+            base.CreateMap<Department, DepartmentViewModel>().ReverseMap();
+            base.CreateMap<LookUp, LookUpViewModel>().ReverseMap();
+            base.CreateMap<User, UserViewModel>().ReverseMap();
+            base.CreateMap<LookUpGroup, LookUpGroupViewModel>().ReverseMap();
         }
     }
 }

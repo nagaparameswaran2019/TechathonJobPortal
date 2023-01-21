@@ -13,12 +13,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args); //new ContainerBuilder();
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers();//.AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -53,6 +54,9 @@ builder.Services.AddScoped<ILookUpRepository, LookUpRepository>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<ILookUpGroupService, LookUpGroupService>();
+builder.Services.AddScoped<ILookUpGroupRepository, LookUpGroupRepository>();
 
 AutoMapper.Mapper.Initialize(mc =>
 {

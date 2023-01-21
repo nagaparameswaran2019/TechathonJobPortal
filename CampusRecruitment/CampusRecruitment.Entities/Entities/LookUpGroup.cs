@@ -11,5 +11,5 @@ public partial class LookUpGroup
 
     public string? Description { get; set; }
 
-    public virtual ICollection<LookUp> LookUps { get; } = new List<LookUp>();
+    public virtual ICollection<LookUp> LookUps { get; set; }
 }
