@@ -12,6 +12,7 @@ using CampusRecruitment.Service.Service;
 using CampusRecruitment.Utils.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -39,10 +40,13 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddCors(option =>
 {
     option.AddPolicy("CorsPolicy",
-        builders => builders.AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials());
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000")
+                                              .AllowAnyHeader()
+                                              .AllowAnyOrigin()
+                                              .AllowAnyMethod();
+                      }); 
 });
 
 //Include Configurations in Appsettings
@@ -123,5 +127,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors("CorsPolicy");
 app.Run();
