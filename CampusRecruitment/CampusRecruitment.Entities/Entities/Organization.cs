@@ -19,11 +19,13 @@ public partial class Organization
 
     public int OrganizationSubTypeId { get; set; }
 
+    public virtual ICollection<Department> Departments { get; set; } = new List<Department>();
+
     public virtual ICollection<Invite> Invites { get; } = new List<Invite>();
 
-    public virtual LookUp OrganizationSubType { get; set; } = null!;
+    public virtual LookUp OrganizationSubType { get; } = null!;
 
-    public virtual LookUp OrganizationType { get; set; } = null!;
+    public virtual LookUp OrganizationType { get;} = null!;
 
     public virtual ICollection<User> Users { get; } = new List<User>();
 }

@@ -10,5 +10,6 @@ namespace CampusRecruitment.Repository.Interface
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        User Login(string userName, string password);
     }
 }

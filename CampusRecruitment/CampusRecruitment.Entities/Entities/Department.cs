@@ -7,15 +7,15 @@ public partial class Department
 {
     public int DepartmentId { get; set; }
 
-    public string Name { get; set; } = null!;
-
     public int DepartmentTypeId { get; set; }
 
     public int OrganizationId { get; set; }
 
-    public virtual ICollection<DepartmentCoreAreaMapping> DepartmentCoreAreaMappings { get; } = new List<DepartmentCoreAreaMapping>();
+    public virtual ICollection<DepartmentCoreAreaMapping> DepartmentCoreAreaMappings { get; }
 
-    public virtual LookUp DepartmentType { get; set; } = null!;
+    public virtual LookUp DepartmentType { get; } = null!;
 
-    public virtual ICollection<Student> Students { get; } = new List<Student>();
+    public virtual Organization Organization { get; } = null!;
+
+    public virtual ICollection<Student> Students { get; }
 }

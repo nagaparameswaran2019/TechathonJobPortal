@@ -16,28 +16,48 @@ namespace CampusRecruitment.Entities
 
         }
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public virtual DbSet<Department> Departments { get; set; }
 
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//            => optionsBuilder.UseSqlServer("Server=20.191.102.175,1433;Database=TechathonDB_user8;User Id=techathondbuser8;Password=wr5drLc#;TrustServerCertificate=True;");
+        public virtual DbSet<DepartmentCoreAreaMapping> DepartmentCoreAreaMappings { get; set; }
 
+        public virtual DbSet<Interview> Interviews { get; set; }
+
+        public virtual DbSet<InterviewHistory> InterviewHistories { get; set; }
+
+        public virtual DbSet<Invite> Invites { get; set; }
+
+        public virtual DbSet<JobOpening> JobOpenings { get; set; }
+
+        public virtual DbSet<JobOpeningCoreAreaMapping> JobOpeningCoreAreaMappings { get; set; }
+
+        public virtual DbSet<LookUp> LookUps { get; set; }
+
+        public virtual DbSet<LookUpGroup> LookUpGroups { get; set; }
+
+        public virtual DbSet<Offer> Offers { get; set; }
+
+        public virtual DbSet<Organization> Organizations { get; set; }
+
+        public virtual DbSet<Student> Students { get; set; }
+
+        public virtual DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Department>(entity =>
             {
                 entity.HasKey(e => e.DepartmentId).HasName("PK_Department_DepartmentId");
 
                 entity.ToTable("Department");
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
                 entity.HasOne(d => d.DepartmentType).WithMany(p => p.Departments)
                     .HasForeignKey(d => d.DepartmentTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_LookUp_DepartmentTypeId");
+
+                entity.HasOne(d => d.Organization).WithMany(p => p.Departments)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Department_OrganizationId");
             });
 
             modelBuilder.Entity<DepartmentCoreAreaMapping>(entity =>
@@ -312,46 +332,5 @@ namespace CampusRecruitment.Entities
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        public override int SaveChanges()
-        {
-            var entities = from e in ChangeTracker.Entries()
-                           where e.State == EntityState.Added
-                               || e.State == EntityState.Modified
-                           select e.Entity;
-            foreach (var entity in entities)
-            {
-                var validationContext = new ValidationContext(entity);
-                Validator.ValidateObject(entity, validationContext);
-            }
-
-            return base.SaveChanges();
-        }
-
-        public virtual DbSet<Department> Department { get; set; }
-
-        public virtual DbSet<DepartmentCoreAreaMapping> DepartmentCoreAreaMapping { get; set; }
-
-        public virtual DbSet<Interview> Interview { get; set; }
-
-        public virtual DbSet<InterviewHistory> InterviewHistorie { get; set; }
-
-        public virtual DbSet<Invite> Invite { get; set; }
-
-        public virtual DbSet<JobOpening> JobOpening { get; set; }
-
-        public virtual DbSet<JobOpeningCoreAreaMapping> JobOpeningCoreAreaMapping { get; set; }
-
-        public virtual DbSet<LookUp> LookUp { get; set; }
-
-        public virtual DbSet<LookUpGroup> LookUpGroup { get; set; }
-
-        public virtual DbSet<Offer> Offer { get; set; }
-
-        public virtual DbSet<Organization> Organization { get; set; }
-
-        public virtual DbSet<Student> Student { get; set; }
-
-        public virtual DbSet<User> User { get; set; }
     }
 }
