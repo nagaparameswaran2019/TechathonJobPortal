@@ -32,12 +32,12 @@ namespace CampusRecruitment.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("CreateDepartment")]
-        public Result<List<DepartmentCoreAreaMappingViewModel>> CreateDepartment([FromBody] DepartmentCoreAreaMappingViewModel model)
+        [Route("AddCoreAreasToDepartment")]
+        public Result<List<DepartmentCoreAreaMappingViewModel>> AddCoreAreasToDepartment([FromBody] DepartmentCoreAreaMappingViewModel model)
         {
             try
             {
-                return _departmentService.CreateDepartment(model);
+                return _departmentService.AddCoreAreasToDepartment(model);
             }
             catch (Exception ex)
             {

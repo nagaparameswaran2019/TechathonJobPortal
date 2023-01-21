@@ -33,7 +33,7 @@ namespace CampusRecruitment.Service
             return viewData;
         }
 
-        public Result<List<DepartmentCoreAreaMappingViewModel>> CreateDepartment(DepartmentCoreAreaMappingViewModel model)
+        public Result<List<DepartmentCoreAreaMappingViewModel>> AddCoreAreasToDepartment(DepartmentCoreAreaMappingViewModel model)
         {
             if (!string.IsNullOrEmpty(model.CoreAreaTypes))
             {

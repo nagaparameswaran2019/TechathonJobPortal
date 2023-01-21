@@ -16,8 +16,8 @@ namespace CampusRecruitment.ViewModel
 
         public string? CoreAreaTypes { get; set; } = null;
 
-        public virtual LookUpViewModel CoreAreaType { get; set; } = null!;
+        public virtual LookUpViewModel? CoreAreaType { get; set; } = null!;
 
-        public virtual DepartmentViewModel Department { get; set; } = null!;
+        public virtual DepartmentViewModel? Department { get; set; } = null!;
     }
 }
