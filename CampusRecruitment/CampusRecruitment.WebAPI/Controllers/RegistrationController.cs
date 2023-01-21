@@ -30,19 +30,18 @@ namespace CampusRecruitment.WebAPI.Controllers
             }
         }
 
-        //[HttpPost]
-        //[Route("RegisterUser")]
-        //public Result<UserViewModel> RegisterUser()
-        //{
-        //    try
-        //    {
-        //        UserViewModel user = _userService.GetAllOrganization();
-        //        return new Result<List<OrganizationViewModel>>("Organization details get successfully", organizationViewModels);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new Result<List<OrganizationViewModel>>("Unable to get Organization the details", null, false);
-        //    }
-        //}
+        [HttpPost]
+        [Route("RegisterUser")]
+        public Result<UserViewModel> RegisterUser([FromBody] UserViewModel model)
+        {
+            try
+            {
+                return _userService.RegisterUser(model);
+            }
+            catch (Exception ex)
+            {
+                return new Result<UserViewModel>("Unable to register user details", null, false);
+            }
+        }
     }
 }

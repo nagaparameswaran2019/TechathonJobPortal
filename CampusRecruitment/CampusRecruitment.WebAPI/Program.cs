@@ -1,4 +1,5 @@
 using Autofac;
+using Autofac.Core;
 using CampusRecruitment.Entities;
 using CampusRecruitment.Entities.Entities;
 using CampusRecruitment.Mapper;
@@ -28,6 +29,15 @@ builder.Services.AddSwaggerGen(c =>
     c.IgnoreObsoleteActions();
     c.IgnoreObsoleteProperties();
     c.CustomSchemaIds(type => type.FullName);
+});
+
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("CorsPolicy",
+        builders => builders.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials());
 });
 
 //Include Configurations in Appsettings

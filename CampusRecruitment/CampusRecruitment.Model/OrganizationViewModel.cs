@@ -22,5 +22,6 @@ namespace CampusRecruitment.ViewModel
         public int OrganizationTypeId { get; set; }
 
         public int OrganizationSubTypeId { get; set; }
+        public virtual ICollection<DepartmentViewModel> LookUps { get; set; }
     }
 }
