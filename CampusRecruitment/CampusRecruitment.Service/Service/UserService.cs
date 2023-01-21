@@ -5,6 +5,7 @@ using CampusRecruitment.Repository.Interface;
 using CampusRecruitment.Repository.Repository;
 using CampusRecruitment.Service.Interface;
 using CampusRecruitment.ViewModel;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,19 @@ namespace CampusRecruitment.Service.Service
     {
         IUnitOfWork _unitOfWork;
         IUserRepository _userRepository;
-        IOrganizationRepository _organizationRepository;
+        //IOrganizationRepository _organizationRepository;
+        //IDepartmentRepository _departmentRepository;
 
-        public UserService(IUnitOfWork unitOfWork, IUserRepository userRepository, IOrganizationRepository organizationRepository)
+        public UserService(IUnitOfWork unitOfWork
+            , IUserRepository userRepository
+            //,IOrganizationRepository organizationRepository
+            //,IDepartmentRepository departmentRepository
+            )
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
-            _organizationRepository = organizationRepository;
+            //_organizationRepository = organizationRepository;
+            //_departmentRepository = departmentRepository;
         }
 
         public List<UserViewModel> GetAll()
@@ -42,15 +49,33 @@ namespace CampusRecruitment.Service.Service
                 return new Result<UserViewModel>("Username already exists", null, false);
             }
 
+            model.CreatedDate = DateTime.Now;
+            model.ModifiedDate = DateTime.Now;
+
+            if (!string.IsNullOrEmpty(model.Organization.Department))
+            {
+                List<DepartmentViewModel> departmentList = model.Organization.Department.Split(',').Select(s =>
+                new DepartmentViewModel()
+                {
+                    DepartmentTypeId = Convert.ToInt32(s.Trim()),
+                    OrganizationId = model.Organization.OrganizationId,
+                    Organization = model.Organization,
+                }
+                ).ToList();
+
+                model.Organization.Departments = departmentList;
+            }
+            else
+            {
+                model.Organization.Departments = null;
+            }
+
             User user = model.CopyTo<User>();
+
             _userRepository.Add(user);
 
-            Organization organization = model.Organization.CopyTo<Organization>();
-            _organizationRepository.Add(organization);
+            _unitOfWork.Save();
 
-
-
-            var data = _userRepository.GetAll();
             var viewData = user.CopyTo<UserViewModel>();
             return new Result<UserViewModel>("User details save successfully", viewData, true);
         }

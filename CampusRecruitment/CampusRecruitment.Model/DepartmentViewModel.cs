@@ -16,5 +16,7 @@ namespace CampusRecruitment.ViewModel
         public int DepartmentTypeId { get; set; }
 
         public int OrganizationId { get; set; }
+
+        public virtual OrganizationViewModel Organization { get; set; } = null!;
     }
 }
