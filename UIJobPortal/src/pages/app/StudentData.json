@@ -1,0 +1,22 @@
+[
+    {
+      "studentID": 1,
+      "firstName": "Raja",
+      "lastName": "K",
+      "dateofbirth": "11/11/2001",
+      "cgpaorpercentage": "78",
+      "email": "rajeshkanna.it@gmail.com",
+      "contact":"22211236712"
+    },
+    {
+      "studentID": 2,
+      "firstName": "MGM College",
+      "lastName": "Arts & Science",
+      "dateofbirth": "11/11/2000",
+      "cgpaorpercentage": "22211236712",
+      "email": "naga.it@gmail.com",
+      "contact":"33311236712"
+    }     
+    
+  ]
+  

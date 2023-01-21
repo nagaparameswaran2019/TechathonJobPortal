@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,createContext, useContext} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, GridColumn, GridToolbar } from "@progress/kendo-react-grid";
 import { ExcelExport } from '@progress/kendo-react-excel-export';
 import { GridPDFExport } from "@progress/kendo-react-pdf";
@@ -18,7 +18,6 @@ const initialFilter = {
     ],
   };
 
-const UserContext = createContext();
 const initialDataState = {
   skip: 0,
   take: 20,
@@ -54,12 +53,12 @@ function Dashboard() {
               gridPDFExport.save(dataSource);
           }
       }, 250);
-  };
-  const excelExport = () => {
-      if (_export.current !== null) {
+    };
+     const excelExport = () => {
+        if (_export.current !== null) {
           _export.current.save();
       }
-  };
+    };
 
     const CustomCell = (props) => {
     const field = props.field || "";
@@ -68,12 +67,12 @@ function Dashboard() {
         <button className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary k-grid-edit-command" onClick={() => { alert(props.dataItem[field].toString());}}>Invite</button> 
       </td>
     );
-  };
-  const MyCustomCell = (props) => <CustomCell {...props}  />;
+    };
+    const MyCustomCell = (props) => <CustomCell {...props}  />;
 
-  var orgsGrid =[];
-  if (Array.isArray(dataSource) && dataSource.length) {
-    orgsGrid = (      
+    var dashboardGrid =[];
+    if (Array.isArray(dataSource) && dataSource.length) {
+        dashboardGrid = (      
         <Grid style={{ height: "600px" }}   
         data={filterBy(dataSource, filter)} filterable={false} sortable={false}  filter={filter} onFilterChange={(e) => {setFilter(e.filter);} }
             total={dataSource.length}         
@@ -105,16 +104,16 @@ function Dashboard() {
                 
             </Grid>
         );
-}
+        }
     return (
       <div>
       {!controlLoaded && <LoadingPanel/>}                  
       <div className="page-head"><h2>{orgDesc}</h2>
-        <ExcelExport data={dataSource} ref={_export} fileName="OrgsGrid.xlsx">
-            {orgsGrid}
+        <ExcelExport data={dataSource} ref={_export} fileName="dashboardGrid.xlsx">
+            {dashboardGrid}
         </ExcelExport> 
-        < GridPDFExport ref={(pdfExport) => (gridPDFExport = pdfExport)} margin="1cm" fileName="OrgsGrid.pdf">
-            {orgsGrid}
+        < GridPDFExport ref={(pdfExport) => (gridPDFExport = pdfExport)} margin="1cm" fileName="dashboardGrid.pdf">
+            {dashboardGrid}
         </GridPDFExport>             
         </div >
     </div>
