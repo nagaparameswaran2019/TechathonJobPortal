@@ -17,5 +17,5 @@ public partial class JobOpening
 
     public virtual ICollection<Invite> Invites { get; } = new List<Invite>();
 
-    public virtual ICollection<JobOpeningCoreAreaMapping> JobOpeningCoreAreaMappings { get; } = new List<JobOpeningCoreAreaMapping>();
+    public virtual ICollection<JobOpeningCoreAreaMapping> JobOpeningCoreAreaMappings { get; set; } = new List<JobOpeningCoreAreaMapping>();
 }

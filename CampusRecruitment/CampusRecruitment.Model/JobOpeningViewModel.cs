@@ -17,11 +17,12 @@ namespace CampusRecruitment.ViewModel
         public decimal MinCgpaorPercent { get; set; }
 
         public bool? IsActive { get; set; }
+        public string JobOpeningCoreAreaMapping { get; set; }
 
-        public virtual ICollection<InterviewViewModel> Interviews { get; } = new List<InterviewViewModel>();
+        public virtual ICollection<InterviewViewModel>? Interviews { get; } = null;
 
-        public virtual ICollection<InviteViewModel> Invites { get; } = new List<InviteViewModel>();
+        public virtual ICollection<InviteViewModel>? Invites { get; } = null;
 
-        public virtual ICollection<JobOpeningCoreAreaMappingViewModel> JobOpeningCoreAreaMappings { get; } = new List<JobOpeningCoreAreaMappingViewModel>();
+        public virtual ICollection<JobOpeningCoreAreaMappingViewModel>? JobOpeningCoreAreaMappings { get; set; } = null;
     }
 }

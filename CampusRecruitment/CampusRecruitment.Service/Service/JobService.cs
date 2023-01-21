@@ -10,6 +10,7 @@ using CampusRecruitment.ViewModel;
 using CampusRecruitment.Repository.Repository;
 using CampusRecruitment.Mapper;
 using CampusRecruitment.Entities.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CampusRecruitment.Service.Service
 {
@@ -32,6 +33,54 @@ namespace CampusRecruitment.Service.Service
             _interviewRepository = interviewRepository;
             _interviewHistoryRepository = interviewHistoryRepository;
             _offerRepository = offerRepository;
+        }
+
+        public Result<JobOpeningViewModel> SaveJobOpening(JobOpeningViewModel model)
+        {
+            JobOpening? jobOpening = null;
+
+            model.IsActive = true;
+            if (model.JobOpeningId == 0)
+            {
+                if (!string.IsNullOrEmpty(model.JobOpeningCoreAreaMapping))
+                {
+                    List<JobOpeningCoreAreaMappingViewModel> jobOpeningCoreAreaMappingViewModels = model.JobOpeningCoreAreaMapping.Split(',').Select(s =>
+                    new JobOpeningCoreAreaMappingViewModel()
+                    {
+                        CoreAreaTypeId = Convert.ToInt32(s.Trim()),
+                        JobOpening = model
+                    }
+                    ).ToList();
+
+                    model.JobOpeningCoreAreaMappings = jobOpeningCoreAreaMappingViewModels;
+                }
+                else
+                {
+                    model.JobOpeningCoreAreaMappings = null;
+                }
+                jobOpening = model.CopyTo<JobOpening>();
+                _jobOpeningRepository.Add(jobOpening);
+            }
+            else
+            {
+                jobOpening = _jobOpeningRepository.Single(predicate: t => t.JobOpeningId == model.JobOpeningId, include: i => i.Include(s => s.JobOpeningCoreAreaMappings));
+
+                if (jobOpening != null)
+                {
+                    jobOpening.MinCgpaorPercent = model.MinCgpaorPercent;
+                    jobOpening.NumberOfOpening = model.NumberOfOpening;
+                    _jobOpeningRepository.Update(jobOpening);
+                }
+                else
+                {
+                    return new Result<JobOpeningViewModel>("Unable to get Job opening details.", null, false);
+                }
+            }
+
+            _unitOfWork.Save();
+
+            var viewData = jobOpening.CopyTo<JobOpeningViewModel>();
+            return new Result<JobOpeningViewModel>("Job opening details saved successfully", viewData, true);
         }
     }
 }
