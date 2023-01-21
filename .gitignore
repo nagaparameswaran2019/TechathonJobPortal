@@ -5,3 +5,13 @@
 **/.vs/*
 **/bin/*
 **/obj/*
+obj/*
+/CampusRecruitment/CampusRecruitment.WebAPI/.vs/*
+/CampusRecruitment/CampusRecruitment.Model/obj/*
+/CampusRecruitment/CampusRecruitment.Model/obj/*
+/CampusRecruitment/CampusRecruitment.Repository/obj/*
+/CampusRecruitment/CampusRecruitment.Repository/obj/*
+/CampusRecruitment/CampusRecruitment.Service/obj/*
+/CampusRecruitment/CampusRecruitment.Service/obj/*
+/CampusRecruitment/CampusRecruitment.Mapper/obj/*
+/CampusRecruitment/CampusRecruitment.Mapper/obj/*

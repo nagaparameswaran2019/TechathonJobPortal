@@ -1,5 +1,6 @@
 using Autofac;
 using CampusRecruitment.Entities;
+using CampusRecruitment.Entities.Entities;
 using CampusRecruitment.Mapper;
 using CampusRecruitment.Repository.Common;
 using CampusRecruitment.Repository.Interface;
@@ -41,12 +42,17 @@ appConfigBuilder.BuildAppSettingProvider(configurationBuilder.Build());
 builder.Services.AddDbContext<CampusRecruitmentContext>(x => x.UseSqlServer(AppSetting.GetConfigValue("CampusRecruitmentDatabase")));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 builder.Services.AddScoped<ILookUpRepository, LookUpRepository>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 AutoMapper.Mapper.Initialize(mc =>
 {

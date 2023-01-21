@@ -16,6 +16,7 @@ namespace CampusRecruitment.Mapper
             base.CreateMap<OrganizationViewModel, Organization>().ReverseMap();
             base.CreateMap<DepartmentViewModel, Department>().ReverseMap();
             base.CreateMap<LookUpViewModel, LookUp>().ReverseMap();
+            base.CreateMap<UserViewModel, User>().ReverseMap();
         }
     }
 }
