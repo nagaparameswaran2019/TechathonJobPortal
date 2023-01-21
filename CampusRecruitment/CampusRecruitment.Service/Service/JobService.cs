@@ -82,5 +82,31 @@ namespace CampusRecruitment.Service.Service
             var viewData = jobOpening.CopyTo<JobOpeningViewModel>();
             return new Result<JobOpeningViewModel>("Job opening details saved successfully", viewData, true);
         }
+
+        public Result<InviteViewModel> SaveInvite(InviteViewModel inviteViewModel)
+        {
+            if (inviteViewModel == null)
+            {
+                return new Result<InviteViewModel>("Unable save Invite details.", null, false);
+            }
+
+            var inviteModel = inviteViewModel.CopyTo<Invite>();           
+
+
+            if (inviteModel.InviteId > 0)
+            {
+                _inviteRepository.Update(inviteModel);
+            }
+            else
+            {
+                inviteModel.DatetimeOfInvite = DateTime.Now;
+                _inviteRepository.Add(inviteModel);
+            }
+
+            _unitOfWork.Save();
+
+            var viewData = inviteModel.CopyTo<InviteViewModel>();
+            return new Result<InviteViewModel>("Invite details saved successfully", viewData, true);
+        }
     }
 }

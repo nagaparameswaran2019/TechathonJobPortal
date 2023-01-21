@@ -16,10 +16,10 @@ namespace CampusRecruitment.ViewModel
 
         public int JobOpeningId { get; set; }
 
-        public DateTime? DatetimeOfInvite { get; set; }
+        public DateTime? DatetimeOfInvite { get; set; } = null;
 
-        public virtual JobOpeningViewModel JobOpening { get; set; } = null!;
+        public virtual JobOpeningViewModel? JobOpening { get; set; } = null!;
 
-        public virtual OrganizationViewModel Organization { get; set; } = null!;
+        public virtual OrganizationViewModel? Organization { get; set; } = null!;
     }
 }

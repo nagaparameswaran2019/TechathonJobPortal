@@ -10,5 +10,6 @@ namespace CampusRecruitment.Service.Interface
     public interface IJobService
     {
         Result<JobOpeningViewModel> SaveJobOpening(JobOpeningViewModel model);
+        Result<InviteViewModel> SaveInvite(InviteViewModel inviteViewModel);
     }
 }

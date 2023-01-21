@@ -30,5 +30,19 @@ namespace CampusRecruitment.WebAPI.Controllers
                 return new Result<JobOpeningViewModel>("Unable to Save Job opening", null, false);
             }
         }
+
+        [HttpPost]
+        [Route("SaveInvite")]
+        public Result<InviteViewModel> AddInvite([FromBody] InviteViewModel model)
+        {
+            try
+            {
+                return _jobService.SaveInvite(model);
+            }
+            catch (Exception ex)
+            {
+                return new Result<InviteViewModel>("Unable to Save Invite details.", null, false);
+            }
+        }
     }
 }
