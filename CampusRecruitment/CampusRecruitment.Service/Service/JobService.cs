@@ -13,12 +13,25 @@ using CampusRecruitment.Entities.Entities;
 
 namespace CampusRecruitment.Service.Service
 {
-    public class JobService
+    public class JobService : IJobService
     {
         IUnitOfWork _unitOfWork;
-        public JobService(IUnitOfWork unitOfWork)
+        IInviteRepository _inviteRepository;
+        IJobOpeningRepository _jobOpeningRepository;
+        IJobOpeningCoreAreaMappingRepository _jobOpeningCoreAreaMappingRepository;
+        IInterviewRepository _interviewRepository;
+        IInterviewHistoryRepository _interviewHistoryRepository;
+        IOfferRepository _offerRepository;
+
+        public JobService(IUnitOfWork unitOfWork, IInviteRepository inviteRepository, IJobOpeningRepository jobOpeningRepository, IJobOpeningCoreAreaMappingRepository jobOpeningCoreAreaMappingRepository, IInterviewRepository interviewRepository, IInterviewHistoryRepository interviewHistoryRepository, IOfferRepository offerRepository)
         {
             _unitOfWork = unitOfWork;
+            _inviteRepository = inviteRepository;
+            _jobOpeningRepository = jobOpeningRepository;
+            _jobOpeningCoreAreaMappingRepository = jobOpeningCoreAreaMappingRepository;
+            _interviewRepository = interviewRepository;
+            _interviewHistoryRepository = interviewHistoryRepository;
+            _offerRepository = offerRepository;
         }
     }
 }
