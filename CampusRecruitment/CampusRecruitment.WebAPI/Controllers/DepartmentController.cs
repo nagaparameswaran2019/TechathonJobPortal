@@ -16,7 +16,8 @@ namespace CampusRecruitment.WebAPI.Controllers
             _departmentService = departmentService;
         }
 
-        [HttpGet(Name = "GetAllDepartment")]
+        [HttpGet]
+        [Route("GetAllDepartment")]
         public Result<List<DepartmentViewModel>> GetAll()
         {
             try
@@ -27,6 +28,20 @@ namespace CampusRecruitment.WebAPI.Controllers
             catch (Exception ex)
             {
                 return new Result<List<DepartmentViewModel>>("Unable to get department details", null, false);
+            }
+        }
+
+        [HttpPost]
+        [Route("CreateDepartmentCoreAreaMapping")]
+        public Result<List<DepartmentCoreAreaMappingViewModel>> CreateDepartmentCoreAreaMapping([FromBody] DepartmentCoreAreaMappingViewModel model)
+        {
+            try
+            {
+                return _departmentService.CreateDepartmentCoreAreaMapping(model);
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<DepartmentCoreAreaMappingViewModel>>("Unable to create department core area mapping", null, false);
             }
         }
     }

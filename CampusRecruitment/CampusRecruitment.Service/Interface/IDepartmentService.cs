@@ -10,5 +10,6 @@ namespace CampusRecruitment.Service.Interface
     public interface IDepartmentService
     {
         List<DepartmentViewModel> GetAll();
+        Result<List<DepartmentCoreAreaMappingViewModel>> CreateDepartmentCoreAreaMapping(DepartmentCoreAreaMappingViewModel model);
     }
 }

@@ -35,9 +35,9 @@ namespace CampusRecruitment.Service
 
         public Result<List<DepartmentCoreAreaMappingViewModel>> CreateDepartmentCoreAreaMapping(DepartmentCoreAreaMappingViewModel model)
         {
-            if (!string.IsNullOrEmpty(model.CoreAreaTyps))
+            if (!string.IsNullOrEmpty(model.CoreAreaTypes))
             {
-                List<DepartmentCoreAreaMapping> departmentList = model.CoreAreaTyps.Split(',').Select(s =>
+                List<DepartmentCoreAreaMapping> departmentList = model.CoreAreaTypes.Split(',').Select(s =>
                 new DepartmentCoreAreaMapping()
                 {
                     CoreAreaTypeId = Convert.ToInt32(s.Trim()),
@@ -56,7 +56,7 @@ namespace CampusRecruitment.Service
             }
             else
             {
-                return new Result<List<DepartmentCoreAreaMappingViewModel>>("CoreAreaTyps should not be empty", null, false);
+                return new Result<List<DepartmentCoreAreaMappingViewModel>>("CoreAreaTypes should not be empty", null, false);
             }
         }
     }
