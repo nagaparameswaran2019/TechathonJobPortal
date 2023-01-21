@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 const Head = ({ ...props }) => {
   return (
     <Helmet>
-      <title>{props.title ? props.title + " | " : null} DashLite React Admin Template</title>
+      <title>Job Portal</title>
     </Helmet>
   );
 };

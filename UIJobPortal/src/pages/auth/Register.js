@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Block,
   BlockContent,
@@ -9,53 +9,92 @@ import {
   Icon,
   PreviewCard,
 } from "../../components/Component";
-import Logo from "../../images/logo.png";
-import LogoDark from "../../images/logo-dark.png";
 import { Spinner, FormGroup, Form } from "reactstrap";
 import PageContainer from "../../layout/page-container/PageContainer";
 import Head from "../../layout/head/Head";
 import AuthFooter from "./AuthFooter";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { ComboBox } from "@progress/kendo-react-dropdowns";
+import { ComboBox, MultiSelect } from "@progress/kendo-react-dropdowns";
+import { getOrganizationCoreTypes } from '../../services';
+import { de } from "date-fns/locale";
+
+// import {
+//   MultiSelect,
+//   MultiSelectChangeEvent,
+// } from "@progress/kendo-react-dropdowns";
 
 const Register = ({ history }) => {
   var coreTypeDataSource = [{ CoreTypeID: 1, CoreType: "MCA" },
   { CoreTypeID: 2, CoreType: "MBA" }, { CoreTypeID: 3, CoreType: "BCA" }];
 
+  const [inputs, setInputs] = useState({});
   const [passState, setPassState] = useState(false);
+  const [showDepartment, setshowDepartment] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [dataSource, setdataSource] = useState(coreTypeDataSource);
+  const [dataSource, setdataSource] = useState([]);
+  const [lookupDataSource, setlookupDataSource] = useState([]);
+  const [departmentLookup, setDepartmentLookup] = useState([]);
   const { errors, register, handleSubmit } = useForm();
-
   const [value, setValue] = React.useState(null);
+  const [department, setDepartment] = React.useState(null);
+  
+
+  useEffect(() => {
+    setTimeout(() => {
+      getOrganizationCoreTypes('COMPANYTYPE,INSTITUTIONTYPE,DEPARTMENTTYPE')
+        .then((result) => {
+          if (result.isSuccess) {
+            setlookupDataSource(result.data);
+            var lookup = result.data.find(s => s.code == "INSTITUTIONTYPE").lookUps;
+            setdataSource(lookup);
+            lookup = result.data.find(s => s.code == "DEPARTMENTTYPE").lookUps;
+            setDepartmentLookup(lookup);
+          }
+          console.log(result);
+        });
+    }, 500);
+  }, []);
 
   const handleFormSubmit = () => {
-    setLoading(true);
-    setTimeout(() => history.push(`${process.env.PUBLIC_URL}/auth-success`), 2000);
+    console.log(inputs);
+    // setLoading(true);
+    // setTimeout(() => history.push(`${process.env.PUBLIC_URL}/auth-success`), 2000);
   };
-
+ 
+  const onChangeDepartment = (event)=>{ 
+    var lookupIds = [];
+    event.value.forEach((element, index) => {
+      lookupIds.push(element.lookUpId);
+      console.log(element.lookUpId)
+    });
+     setDepartment(event.value);
+  };
   const handleChange = (event) => {
+    setDepartment([]);
     setValue(event.value);
   };
-  
+  const sizes = ["X-Small", "Small", "Medium", "Large", "X-Large", "2X-Large"];
+
+  const handleInputChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({ ...values, [name]: value }))
+  }
   const onRadioButtonChanged = (event) => {
     setValue("");
-    if (event.currentTarget.dataset.orgType == "Institution") {
-      setdataSource(coreTypeDataSource);
-    }
-    else {
-      var coreTypeDataSource1 = [{ CoreTypeID: 1, CoreType: "IT" },
-      { CoreTypeID: 2, CoreType: "ITES" }, { CoreTypeID: 3, CoreType: "Civil" }];
-      setdataSource(coreTypeDataSource1);
-    } 
+    setDepartment([]);
+    var orgType = event.currentTarget.dataset.orgType;
+    setshowDepartment(orgType == 'INSTITUTIONTYPE' ? true : false);
+    var result = lookupDataSource.find(s => s.code == event.currentTarget.dataset.orgType).lookUps;
+    setdataSource(result);
   };
 
   return (
     <React.Fragment>
       <Head title="Register" />
       <PageContainer>
-        <Block className="nk-block-middle nk-auth-body  wide-xs">
+        <Block className="nk-block-middle nk-auth-body wide-xs  ">
           <div className="brand-logo pb-4 text-center">
             <h2 tag="h4">Job Portal</h2>
           </div>
@@ -75,6 +114,8 @@ const Register = ({ history }) => {
                     type="text"
                     id="name"
                     name="name"
+                    value={inputs.name || ""}
+                    onChange={handleInputChange}
                     placeholder="Enter your name"
                     ref={register({ required: true })}
                     className="form-control-lg form-control"
@@ -94,7 +135,9 @@ const Register = ({ history }) => {
                     bssize="lg"
                     id="default-01"
                     name="email"
+                    value={inputs.email || ""}
                     ref={register({ required: true })}
+                    onChange={handleInputChange}
                     className="form-control-lg form-control"
                     placeholder="Enter your email address or username"
                   />
@@ -102,47 +145,102 @@ const Register = ({ history }) => {
                 </div>
               </FormGroup>
               <FormGroup>
-                <div className="form-label-group">
-                  <label className="form-label" htmlFor="default-01">
-                    Organization Type
-                  </label>
-                </div>
-                <div className="form-control-wrap">
-                  <div className="custom-control custom-control-sm custom-radio">
-                    <input type="radio" className="custom-control-input"
-                      defaultChecked={true}
-                      name="radio-list"
-                      id="radio-bl"
-                      data-org-type="Institution"
-                      onChange={onRadioButtonChanged} />
-                    <label className="custom-control-label" htmlFor="radio-bl">Institution</label>
+                  <div className="form-label-group">
+                    <label className="form-label" htmlFor="default-01">
+                      Organization Type
+                    </label>
                   </div>
-                  <div className="custom-control custom-control-sm custom-radio" style={{ marginLeft: 10 }}>
-                    <input type="radio" className="custom-control-input" data-org-type="Company" name="radio-list" id="radio-ph" onChange={onRadioButtonChanged} />
-                    <label className="custom-control-label" htmlFor="radio-ph">Company</label>
+                  <div className="form-control-wrap">
+                    <div className="custom-control custom-control-sm custom-radio">
+                      <input type="radio" className="custom-control-input"
+                        defaultChecked={true}
+                        name="radio-list"
+                        id="radio-bl"
+                        data-org-type="INSTITUTIONTYPE"
+                        onChange={onRadioButtonChanged} />
+                      <label className="custom-control-label" htmlFor="radio-bl">Institution</label>
+                    </div>
+                    <div className="custom-control custom-control-sm custom-radio" style={{ marginLeft: 10 }}>
+                      <input type="radio"
+                        className="custom-control-input"
+                        data-org-type="COMPANYTYPE"
+                        name="radio-list"
+                        id="radio-ph"
+                        onChange={onRadioButtonChanged} />
+                      <label className="custom-control-label" htmlFor="radio-ph">Company</label>
+                    </div>
                   </div>
-                </div>
-              </FormGroup>
-              <FormGroup>
-                <div className="form-label-group">
-                  <label className="form-label" htmlFor="default-033">
-                    Organization Core Type
-                  </label>
-                </div>
-                <div className="form-control-wrap">
-                  <ComboBox
-                    data={dataSource}
-                    textField="CoreType"
-                    dataItemKey="CoreTypeID"
-                    value={value}
-                    onChange={handleChange}
-                    placeholder="Please select ..."
-                    style={{
-                      width: "300px",
-                    }}
-                  />
-                </div>
-              </FormGroup>
+                </FormGroup>
+              {/* style={{ marginLeft: 10, maxWidth: calc(100 % - 10), marginRight: 10 }} */}
+              <fieldset >
+                <legend>Organization Info</legend>
+                <div class="form-group" style={{ marginBottom: 15 }}>
+                            <label class="form-label" for="name">
+                                Last Name</label>
+                            <div class="form-control-wrap">
+                                <Field
+                                    name={"lastName"}
+                                    component={Input} />
+                            </div>
+                        </div>
+                        <div class="form-group" style={{ marginBottom: 15 }}>
+                            <label class="form-label" for="name">
+                                Email</label>
+                            <div class="form-control-wrap">
+                                <input
+                                    name={"email"}
+                                    type={"email"}
+                                    component={EmailInput}
+                                    validator={emailValidator}
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group" style={{ marginBottom: 15 }}>
+                            <label class="form-label" for="name">
+                                Contact</label>
+                            <div class="form-control-wrap">
+                               
+                            </div>
+                        </div>
+            
+                <FormGroup>
+                  <div className="form-label-group">
+                    <label className="form-label" htmlFor="default-033">
+                      Organization Core Type
+                    </label>
+                  </div>
+                  <div className="form-control-wrap">
+                    <ComboBox
+                      data={dataSource}
+                      textField="description"
+                      dataItemKey="lookUpId"
+                      value={value}
+                      name="OrganizationCoreType"
+                      onChange={handleChange}
+                      placeholder="Please select ..." 
+                    />
+                  </div>
+                </FormGroup>
+                <FormGroup className={showDepartment ? 'd-block' : 'd-none'}>
+                  <div className="form-label-group">
+                    <label className="form-label" htmlFor="default-033">
+                      Department Type
+                    </label>
+                  </div>
+                  <div className="form-control-wrap">
+                    <MultiSelect
+                      data={departmentLookup}
+                      textField="description"
+                      dataItemKey="lookUpId"
+                      value={department}
+                      name="department"
+                      onChange={onChangeDepartment} 
+                      placeholder="Please select ..."
+                    />
+                  </div>
+                </FormGroup>
+              </fieldset>
+
               <FormGroup>
                 <div className="form-label-group">
                   <label className="form-label" htmlFor="password">
@@ -165,7 +263,9 @@ const Register = ({ history }) => {
                   <input
                     type={passState ? "text" : "password"}
                     id="password"
-                    name="passcode"
+                    name="password"
+                    value={inputs.password || ""}
+                    onChange={handleInputChange}
                     ref={register({ required: "This field is required" })}
                     placeholder="Enter your password"
                     className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
@@ -175,7 +275,7 @@ const Register = ({ history }) => {
               </FormGroup>
               <FormGroup>
                 <div className="form-label-group">
-                  <label className="form-label" htmlFor="password">
+                  <label className="form-label" htmlFor="confirmpassword">
                     Confirm Password
                   </label>
                 </div>
@@ -195,7 +295,9 @@ const Register = ({ history }) => {
                   <input
                     type={passState ? "text" : "password"}
                     id="confirmPassword"
-                    name="confirmPassword"
+                    name="confirmpassword"
+                    value={inputs.confirmpassword || ""}
+                    onChange={handleInputChange}
                     ref={register({ required: "This field is required" })}
                     placeholder="Enter your confirm password"
                     className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
