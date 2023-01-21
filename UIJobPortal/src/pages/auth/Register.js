@@ -25,10 +25,28 @@ import { de } from "date-fns/locale";
 // } from "@progress/kendo-react-dropdowns";
 
 const Register = ({ history }) => {
-  var coreTypeDataSource = [{ CoreTypeID: 1, CoreType: "MCA" },
-  { CoreTypeID: 2, CoreType: "MBA" }, { CoreTypeID: 3, CoreType: "BCA" }];
+  var _inputs = {
+      "userId": 0,
+      "firstName": "Naga",
+      "lastName": "Param",
+      "userName": "NagaTest",
+      "password": "Demo@123",
+      "createdDate": "2023-01-21T05:50:23.534Z",
+      "modifiedDate": "2023-01-21T05:50:23.534Z",
+      "organizationId": 0,
+      "organization": {
+        "organizationId": 0,
+        "name": "test",
+        "email": "test@email.com",
+        "website": "www.google.com",
+        "contact": "123456",
+        "organizationTypeId": 10,
+        "organizationSubTypeId": 12,
+        "department": "23, 24"
+      }
+    };
 
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState(_inputs);
   const [passState, setPassState] = useState(false);
   const [showDepartment, setshowDepartment] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -38,7 +56,7 @@ const Register = ({ history }) => {
   const { errors, register, handleSubmit } = useForm();
   const [value, setValue] = React.useState(null);
   const [department, setDepartment] = React.useState(null);
-  
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -61,14 +79,14 @@ const Register = ({ history }) => {
     // setLoading(true);
     // setTimeout(() => history.push(`${process.env.PUBLIC_URL}/auth-success`), 2000);
   };
- 
-  const onChangeDepartment = (event)=>{ 
+
+  const onChangeDepartment = (event) => {
     var lookupIds = [];
     event.value.forEach((element, index) => {
       lookupIds.push(element.lookUpId);
       console.log(element.lookUpId)
     });
-     setDepartment(event.value);
+    setDepartment(event.value);
   };
   const handleChange = (event) => {
     setDepartment([]);
@@ -77,9 +95,10 @@ const Register = ({ history }) => {
   const sizes = ["X-Small", "Small", "Medium", "Large", "X-Large", "2X-Large"];
 
   const handleInputChange = (event) => {
+    debugger
     const name = event.target.name;
     const value = event.target.value;
-    setInputs(values => ({ ...values, [name]: value }))
+    setInputs(values => ({ ...values.organization.name, name : value }))
   }
   const onRadioButtonChanged = (event) => {
     setValue("");
@@ -145,64 +164,96 @@ const Register = ({ history }) => {
                 </div>
               </FormGroup>
               <FormGroup>
-                  <div className="form-label-group">
-                    <label className="form-label" htmlFor="default-01">
-                      Organization Type
-                    </label>
+                <div className="form-label-group">
+                  <label className="form-label" htmlFor="default-01">
+                    Organization Type
+                  </label>
+                </div>
+                <div className="form-control-wrap">
+                  <div className="custom-control custom-control-sm custom-radio">
+                    <input type="radio" className="custom-control-input"
+                      defaultChecked={true}
+                      name="radio-list"
+                      id="radio-bl"
+                      data-org-type="INSTITUTIONTYPE"
+                      onChange={onRadioButtonChanged} />
+                    <label className="custom-control-label" htmlFor="radio-bl">Institution</label>
                   </div>
-                  <div className="form-control-wrap">
-                    <div className="custom-control custom-control-sm custom-radio">
-                      <input type="radio" className="custom-control-input"
-                        defaultChecked={true}
-                        name="radio-list"
-                        id="radio-bl"
-                        data-org-type="INSTITUTIONTYPE"
-                        onChange={onRadioButtonChanged} />
-                      <label className="custom-control-label" htmlFor="radio-bl">Institution</label>
-                    </div>
-                    <div className="custom-control custom-control-sm custom-radio" style={{ marginLeft: 10 }}>
-                      <input type="radio"
-                        className="custom-control-input"
-                        data-org-type="COMPANYTYPE"
-                        name="radio-list"
-                        id="radio-ph"
-                        onChange={onRadioButtonChanged} />
-                      <label className="custom-control-label" htmlFor="radio-ph">Company</label>
-                    </div>
+                  <div className="custom-control custom-control-sm custom-radio" style={{ marginLeft: 10 }}>
+                    <input type="radio"
+                      className="custom-control-input"
+                      data-org-type="COMPANYTYPE"
+                      name="radio-list"
+                      id="radio-ph"
+                      onChange={onRadioButtonChanged} />
+                    <label className="custom-control-label" htmlFor="radio-ph">Company</label>
                   </div>
-                </FormGroup>
+                </div>
+              </FormGroup>
               {/* style={{ marginLeft: 10, maxWidth: calc(100 % - 10), marginRight: 10 }} */}
               <fieldset >
                 <legend>Organization Info</legend>
                 <div class="form-group" style={{ marginBottom: 15 }}>
-                            <label class="form-label" for="name">
-                                Last Name</label>
-                            <div class="form-control-wrap">
-                                <Field
-                                    name={"lastName"}
-                                    component={Input} />
-                            </div>
-                        </div>
-                        <div class="form-group" style={{ marginBottom: 15 }}>
-                            <label class="form-label" for="name">
-                                Email</label>
-                            <div class="form-control-wrap">
-                                <input
-                                    name={"email"}
-                                    type={"email"}
-                                    component={EmailInput}
-                                    validator={emailValidator}
-                                />
-                            </div>
-                        </div>
-                        <div class="form-group" style={{ marginBottom: 15 }}>
-                            <label class="form-label" for="name">
-                                Contact</label>
-                            <div class="form-control-wrap">
-                               
-                            </div>
-                        </div>
-            
+                  <label class="form-label" htmlFor="organization.name">
+                    Name</label>
+                  <div class="form-control-wrap">
+                    <input
+                      type="text"
+                      id="organization.name"
+                      name="organization.name"
+                      value={inputs.organization.name || ""}
+                      onChange={handleInputChange}
+                      placeholder="Enter organization name"
+                      ref={register({ required: true })}
+                      className="form-control-lg form-control"
+                    />
+                  </div>
+                </div>
+                <div class="form-group" style={{ marginBottom: 15 }}>
+                  <label class="form-label" htmlFor="organization.email">
+                    Email</label>
+                  <div class="form-control-wrap">
+                    <input
+                      name="organization.email"
+                      id="organization.email"
+                      type="text"
+                      value={inputs.organization.email || ""}
+                      onChange={handleInputChange}
+                      className="form-control-lg form-control" />
+                  </div>
+                </div>
+                <div class="form-group" style={{ marginBottom: 15 }}>
+                  <label class="form-label" htmlFor="organization.contact">
+                    Contact</label>
+                  <div class="form-control-wrap">
+                    <input
+                      type="text"
+                      id="organization.contact"
+                      name="organization.contact"
+                      value={inputs.organization.contact || ""}
+                      onChange={handleInputChange}
+                      placeholder="Enter organization contact"
+                      ref={register({ required: true })}
+                      className="form-control-lg form-control"
+                    />
+                  </div>
+                </div>
+                <div class="form-group" style={{ marginBottom: 15 }}>
+                  <label class="form-label" htmlFor="organization.website">
+                    Website</label>
+                  <div class="form-control-wrap">
+                    <input
+                      type="text"
+                      id="organization.website"
+                      name="organization.website"
+                      value={inputs.organization.website || ""}
+                      onChange={handleInputChange}
+                      placeholder="Enter organization contact"
+                      ref={register({ required: true })}
+                      className="form-control-lg form-control"
+                    />
+                  </div>
+                </div>
                 <FormGroup>
                   <div className="form-label-group">
                     <label className="form-label" htmlFor="default-033">
@@ -217,7 +268,7 @@ const Register = ({ history }) => {
                       value={value}
                       name="OrganizationCoreType"
                       onChange={handleChange}
-                      placeholder="Please select ..." 
+                      placeholder="Please select ..."
                     />
                   </div>
                 </FormGroup>
@@ -234,7 +285,7 @@ const Register = ({ history }) => {
                       dataItemKey="lookUpId"
                       value={department}
                       name="department"
-                      onChange={onChangeDepartment} 
+                      onChange={onChangeDepartment}
                       placeholder="Please select ..."
                     />
                   </div>
