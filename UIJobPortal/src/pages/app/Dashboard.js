@@ -37,7 +37,7 @@ function Dashboard() {
         data: []
     });
     const IsOrgType = sessionStorage.getItem('LoginOrgType') =='INSTITUTION' ? true :false;
-    const [orgDesc, setorgDesc] = useState(IsOrgType ? 'College' : 'Company');
+    const [orgDesc, setorgDesc] = useState(IsOrgType ? 'College' : 'Company');         
     useEffect(() => {
         setTimeout(() => {
         getDataService(apiUrl)
@@ -60,15 +60,26 @@ function Dashboard() {
           _export.current.save();
       }
   };
+
+    const CustomCell = (props) => {
+    const field = props.field || "";
+    return (
+      <td className="k-command-cell">
+        <button className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary k-grid-edit-command" onClick={() => { alert(props.dataItem[field].toString());}}>Invite</button> 
+      </td>
+    );
+  };
+  const MyCustomCell = (props) => <CustomCell {...props}  />;
+
   var orgsGrid =[];
   if (Array.isArray(dataSource) && dataSource.length) {
     orgsGrid = (      
-        <Grid style={{ height: "600px" }}
-        data={filterBy(dataSource, filter)} filterable={true} sortable={true}  filter={filter} onFilterChange={(e) => {setFilter(e.filter);} }
+        <Grid style={{ height: "600px" }}   
+        data={filterBy(dataSource, filter)} filterable={false} sortable={false}  filter={filter} onFilterChange={(e) => {setFilter(e.filter);} }
             total={dataSource.length}         
         >
             <GridToolbar>
-                <button
+                {/* <button
                     title="Export Excel"
                     className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
                     onClick={excelExport}
@@ -80,14 +91,18 @@ function Dashboard() {
                     className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
                     onClick={exportPDF}>
                     Export PDF
-                </button>
+                </button>*/}
                 </GridToolbar>
+                <br></br>
+                <br></br>
                 <GridColumn field={IsOrgType ? "CollegeID" :"CompanyID"} title={IsOrgType ? "CollegeID" :"CompanyID"} /> 
                 <GridColumn field={IsOrgType ? "CollegeName" :"CompanyName"} title={IsOrgType ? "CollegeName" :"CompanyName"}/>
                 <GridColumn field="OrgType" title="OrgType"/>
                 {IsOrgType && <GridColumn field="NoOfStudent" title="NoOfStudent" />}
                 <GridColumn field="ContactNo" title="ContactNo"/>
-                <GridColumn field="EmailID" title="EmailID"/>
+                <GridColumn field="EmailID" title="EmailID" />                
+                {!IsOrgType && <GridColumn   cell={MyCustomCell} field="CollegeID"  title=" "  width="200px"  />}
+                
             </Grid>
         );
 }
