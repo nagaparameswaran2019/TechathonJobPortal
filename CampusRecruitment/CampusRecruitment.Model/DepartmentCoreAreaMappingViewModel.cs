@@ -13,6 +13,7 @@ namespace CampusRecruitment.ViewModel
         public int DepartmentId { get; set; }
 
         public int? CoreAreaTypeId { get; set; } = null;
+
         public string? CoreAreaTypes { get; set; } = null;
 
         public virtual LookUpViewModel CoreAreaType { get; set; } = null!;

@@ -9,6 +9,7 @@ namespace CampusRecruitment.ViewModel
     public class DepartmentViewModel
     {
         public DepartmentViewModel() { }
+
         public int DepartmentId { get; set; }
 
         public string Name { get; set; } = null!;

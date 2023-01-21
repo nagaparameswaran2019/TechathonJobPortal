@@ -14,9 +14,13 @@ namespace CampusRecruitment.ViewModel
             this.Message = Message;
             this.Data = Data;
         }
+
         public Result() { }
+
         public bool IsSuccess { get; set; }
+
         public string Message { get; set; }
+
         public T Data { get; set; }
     }
 
