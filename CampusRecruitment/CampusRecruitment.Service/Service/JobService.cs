@@ -23,8 +23,16 @@ namespace CampusRecruitment.Service.Service
         IInterviewRepository _interviewRepository;
         IInterviewHistoryRepository _interviewHistoryRepository;
         IOfferRepository _offerRepository;
+        ILookUpGroupRepository _lookUpGroupRepository;
 
-        public JobService(IUnitOfWork unitOfWork, IInviteRepository inviteRepository, IJobOpeningRepository jobOpeningRepository, IJobOpeningCoreAreaMappingRepository jobOpeningCoreAreaMappingRepository, IInterviewRepository interviewRepository, IInterviewHistoryRepository interviewHistoryRepository, IOfferRepository offerRepository)
+        public JobService(IUnitOfWork unitOfWork
+            , IInviteRepository inviteRepository
+            , IJobOpeningRepository jobOpeningRepository
+            , IJobOpeningCoreAreaMappingRepository jobOpeningCoreAreaMappingRepository
+            , IInterviewRepository interviewRepository
+            , IInterviewHistoryRepository interviewHistoryRepository
+            , IOfferRepository offerRepository
+            , ILookUpGroupRepository lookUpGroupRepository)
         {
             _unitOfWork = unitOfWork;
             _inviteRepository = inviteRepository;
@@ -33,6 +41,7 @@ namespace CampusRecruitment.Service.Service
             _interviewRepository = interviewRepository;
             _interviewHistoryRepository = interviewHistoryRepository;
             _offerRepository = offerRepository;
+            _lookUpGroupRepository = lookUpGroupRepository;
         }
 
         public Result<JobOpeningViewModel> SaveJobOpening(JobOpeningViewModel model)
@@ -90,7 +99,7 @@ namespace CampusRecruitment.Service.Service
                 return new Result<InviteViewModel>("Unable save Invite details.", null, false);
             }
 
-            var inviteModel = inviteViewModel.CopyTo<Invite>();           
+            var inviteModel = inviteViewModel.CopyTo<Invite>();
 
 
             if (inviteModel.InviteId > 0)
@@ -107,6 +116,33 @@ namespace CampusRecruitment.Service.Service
 
             var viewData = inviteModel.CopyTo<InviteViewModel>();
             return new Result<InviteViewModel>("Invite details saved successfully", viewData, true);
+        }
+
+        public Result<List<JobOpeningViewModel>> GetJobOpeningsByOrganizationId(int organizationId)
+        {
+            var jobCoreAreas = _lookUpGroupRepository.Get(predicate: t => t.Code.ToLower().Equals("coreareatype"), include: s => s.Include(i => i.LookUps)).FirstOrDefault();
+
+            List<JobOpening> jobOpenings = _jobOpeningRepository.Get(
+                predicate: t => t.Invites.Any(inv => inv.OrganizationId == organizationId),
+            include: inc => inc.Include(c => c.JobOpeningCoreAreaMappings)).ToList();
+
+            var viewData = jobOpenings.CopyTo<List<JobOpeningViewModel>>();
+
+            if (jobCoreAreas != null && jobCoreAreas.LookUps?.Count > 0)
+            {
+                var lookUp = jobCoreAreas.LookUps.ToList();
+                foreach (var item in viewData)
+                {
+                    var data = from a in item.JobOpeningCoreAreaMappings
+                               join b in lookUp
+                               on a.CoreAreaTypeId equals b.LookUpId
+                               select b.Description;
+
+                    item.JobOpeningCoreAreaMapping = string.Join(",", data);
+                    item.JobOpeningCoreAreaMappings = null;
+                }
+            }
+            return new Result<List<JobOpeningViewModel>>("Job openings retrieved successfully.", viewData, true);
         }
     }
 }
