@@ -28,10 +28,10 @@ namespace CampusRecruitment.ViewModel
 
         public int DepartmentId { get; set; }
 
-        public virtual DepartmentViewModel Department { get; set; } = null!;
+        public virtual DepartmentViewModel? Department { get; set; } = null!;
 
-        public virtual ICollection<InterviewViewModel> Interviews { get; } = new List<InterviewViewModel>();
+        public virtual ICollection<InterviewViewModel>? Interviews { get; } = new List<InterviewViewModel>();
 
-        public virtual LookUpViewModel Status { get; set; } = null!;
+        public virtual LookUpViewModel? Status { get; set; } = null!;
     }
 }
