@@ -59,6 +59,7 @@ builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IDepartmentCoreAreaMappingRepository, DepartmentCoreAreaMappingRepository>();
 
 builder.Services.AddScoped<ILookUpRepository, LookUpRepository>();
 
@@ -67,6 +68,20 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<ILookUpGroupService, LookUpGroupService>();
 builder.Services.AddScoped<ILookUpGroupRepository, LookUpGroupRepository>();
+
+builder.Services.AddScoped<ILookUpGroupService, LookUpGroupService>();
+builder.Services.AddScoped<ILookUpGroupRepository, LookUpGroupRepository>();
+
+builder.Services.AddScoped<IJobService, JobService>();
+builder.Services.AddScoped<IInviteRepository, InviteRepository>();
+builder.Services.AddScoped<IJobOpeningRepository, JobOpeningRepository>();
+builder.Services.AddScoped<IJobOpeningCoreAreaMappingRepository, JobOpeningCoreAreaMappingRepository>();
+builder.Services.AddScoped<IInterviewRepository, InterviewRepository>();
+builder.Services.AddScoped<IInterviewHistoryRepository, InterviewHistoryRepository>();
+builder.Services.AddScoped<IOfferRepository, OfferRepository>();
+
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 
 AutoMapper.Mapper.Initialize(mc =>
 {
