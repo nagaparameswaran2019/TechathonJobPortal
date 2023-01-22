@@ -210,19 +210,19 @@ namespace CampusRecruitment.Service.Service
             var viewData = data.CopyTo<OfferViewModel>();
             viewData.Interview = null;
 
-            //EmailInfo emailInfo = new EmailInfo()
-            //{
-            //    Subject = "Test Techathon Email",
-            //    Body = "Test Techathon Email body",
-            //    ToEmail = new List<string> { "nagaparameswaran.jayaram@rencata.com" },
-            //    FromEmail = AppSetting.GetConfigValue("SmtpFromEmail"),
-            //    FromDisplayName = "Raja K",
-            //    AttachmentPath = null,
-            //    IsBodyHtml = true,
-            //    ResendCount = null,
-            //    CCEmail = (AppSetting.GetConfigValue("DefaultCcEmails").Split(',')).ToList()
-            //};
-            //EmailService.EmailService.SendEmail(emailInfo);
+            EmailInfo emailInfo = new EmailInfo()
+            {
+                Subject = "Techathon Recruitment Email",
+                Body = "Techathon Recruitment Email body",
+                ToEmail = new List<string> { "ezhilan.manoharan@rencata.com" },
+                FromEmail = AppSetting.GetConfigValue("SmtpFromEmail"),
+                FromDisplayName = "Company Name",
+                AttachmentPath = null,
+                IsBodyHtml = true,
+                ResendCount = null,
+                CCEmail = (AppSetting.GetConfigValue("DefaultCcEmails").Split(',')).ToList()
+            };
+            EmailService.EmailService.SendEmail(emailInfo);
 
             return new Result<OfferViewModel>("Offer details saved successfully", viewData, true);
         }
