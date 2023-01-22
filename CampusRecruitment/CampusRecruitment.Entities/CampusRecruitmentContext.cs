@@ -41,6 +41,7 @@ namespace CampusRecruitment.Entities
         public virtual DbSet<Student> Students { get; set; }
 
         public virtual DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Department>(entity =>
@@ -156,9 +157,20 @@ namespace CampusRecruitment.Entities
                 entity.ToTable("JobOpening");
 
                 entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                entity.Property(e => e.JobDescription).IsUnicode(false);
                 entity.Property(e => e.MinCgpaorPercent)
                     .HasColumnType("decimal(18, 2)")
                     .HasColumnName("MinCGPAOrPercent");
+                entity.Property(e => e.Qualification)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+                entity.Property(e => e.Role)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.EmploymentType).WithMany(p => p.JobOpenings)
+                    .HasForeignKey(d => d.EmploymentTypeId)
+                    .HasConstraintName("FK_JobOpening_EmploymentTypeId");
             });
 
             modelBuilder.Entity<JobOpeningCoreAreaMapping>(entity =>

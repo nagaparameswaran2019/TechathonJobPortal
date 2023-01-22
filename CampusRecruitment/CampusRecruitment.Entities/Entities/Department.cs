@@ -11,11 +11,11 @@ public partial class Department
 
     public int OrganizationId { get; set; }
 
-    public virtual ICollection<DepartmentCoreAreaMapping> DepartmentCoreAreaMappings { get; }
+    public virtual ICollection<DepartmentCoreAreaMapping> DepartmentCoreAreaMappings { get; } = new List<DepartmentCoreAreaMapping>();
 
-    public virtual LookUp DepartmentType { get; } = null!;
+    public virtual LookUp DepartmentType { get; set; } = null!;
 
-    public virtual Organization Organization { get; } = null!;
+    public virtual Organization Organization { get; set; } = null!;
 
-    public virtual ICollection<Student> Students { get; }
+    public virtual ICollection<Student> Students { get; } = new List<Student>();
 }

@@ -48,7 +48,7 @@ namespace CampusRecruitment.Service.Service
         {
             JobOpening? jobOpening = null;
 
-            model.IsActive = true;
+            //model.IsActive = true;
             if (model.JobOpeningId == 0)
             {
                 if (!string.IsNullOrEmpty(model.JobOpeningCoreAreaMapping))
