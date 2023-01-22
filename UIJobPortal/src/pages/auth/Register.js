@@ -55,7 +55,7 @@ const Register = ({ history }) => {
   const { errors, register, handleSubmit } = useForm();
   const [value, setValue] = React.useState(null);
   const [department, setDepartment] = React.useState(null);
-  const [orgType, setOrgType] = React.useState(null);
+  const [orgType, setOrgType] = React.useState('INSTITUTIONTYPE');
   const [orgSubType, setOrgSubType] = React.useState(null);
   const history1 = useHistory();
 
@@ -76,7 +76,7 @@ const Register = ({ history }) => {
   }, []);
 
   const handleFormSubmit = () => {
-     
+     debugger
     var inputData = inputs;
     inputData['organization'] = orgInputs;
     var lookupIds = [];
