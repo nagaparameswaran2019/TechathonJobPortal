@@ -214,7 +214,7 @@ namespace CampusRecruitment.Service.Service
             {
                 Subject = "Techathon Recruitment Email",
                 Body = "Techathon Recruitment Email body",
-                ToEmail = new List<string> { "ezhilan.manoharan@rencata.com" },
+                ToEmail = new List<string> { "test.mail@gmail.com" },
                 FromEmail = AppSetting.GetConfigValue("SmtpFromEmail"),
                 FromDisplayName = "Company Name",
                 AttachmentPath = null,
