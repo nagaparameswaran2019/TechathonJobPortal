@@ -22,16 +22,16 @@ namespace CampusRecruitment.ViewModel
 
         public int JobOpeningId { get; set; }
 
-        public virtual ICollection<InterviewHistoryViewModel> InterviewHistories { get; } = new List<InterviewHistoryViewModel>();
+        public virtual ICollection<InterviewHistoryViewModel>? InterviewHistories { get; set; } = new List<InterviewHistoryViewModel>();
 
-        public virtual JobOpeningViewModel JobOpening { get; set; } = null!;
+        public virtual JobOpeningViewModel? JobOpening { get; set; } = null!;
 
-        public virtual ICollection<OfferViewModel> Offers { get; } = new List<OfferViewModel>();
+        public virtual ICollection<OfferViewModel>? Offers { get; } = new List<OfferViewModel>();
 
-        public virtual LookUpViewModel RoundType { get; set; } = null!;
+        public virtual LookUpViewModel? RoundType { get; set; } = null!;
 
-        public virtual LookUpViewModel StatusType { get; set; } = null!;
+        public virtual LookUpViewModel? StatusType { get; set; } = null!;
 
-        public virtual LookUpViewModel Student { get; set; } = null!;
+        public virtual LookUpViewModel? Student { get; set; } = null!;
     }
 }

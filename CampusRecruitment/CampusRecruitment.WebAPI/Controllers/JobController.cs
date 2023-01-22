@@ -58,5 +58,19 @@ namespace CampusRecruitment.WebAPI.Controllers
                 return new Result<InviteViewModel>("Unable to Save Invite details.", null, false);
             }
         }
+
+        [HttpPost]
+        [Route("SaveInterviewDetails")]
+        public Result<InterviewViewModel> SaveInterviewDetails([FromBody] InterviewViewModel model)
+        {
+            try
+            {
+                return _jobService.SaveInterviewDetails(model);
+            }
+            catch (Exception ex)
+            {
+                return new Result<InterviewViewModel>("Unable to Save Interview details.", null, false);
+            }
+        }
     }
 }
