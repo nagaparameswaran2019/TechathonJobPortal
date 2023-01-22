@@ -48,7 +48,7 @@ namespace CampusRecruitment.Service.Service
         {
             JobOpening? jobOpening = null;
 
-            model.IsActive = true;
+            //model.IsActive = true;
             if (model.JobOpeningId == 0)
             {
                 if (!string.IsNullOrEmpty(model.JobOpeningCoreAreaMapping))
@@ -143,6 +143,43 @@ namespace CampusRecruitment.Service.Service
                 }
             }
             return new Result<List<JobOpeningViewModel>>("Job openings retrieved successfully.", viewData, true);
+        }
+
+        public Result<InterviewViewModel> SaveInterviewDetails(InterviewViewModel interviewViewModel)
+        {
+            if (interviewViewModel == null)
+            {
+                return new Result<InterviewViewModel>("Unable to save interview details", null, false);
+            }
+
+            var data = interviewViewModel.CopyTo<Interview>();
+
+            if (data.InterviewId > 0)
+            {
+                _interviewRepository.Update(data);
+            }
+            else
+            {
+                _interviewRepository.Add(data);
+            }
+
+            InterviewHistory interviewHistory = new InterviewHistory()
+            {
+                AttendedDate = data.DateOfInterview,
+                InterviewId = data.InterviewId,
+                RoundTypeId = data.RoundTypeId,
+                StatusTypeId = data.StatusTypeId,
+                Interview = data
+            };
+
+            _interviewHistoryRepository.Add(interviewHistory);
+
+            _unitOfWork.Save();
+
+            var viewData = data.CopyTo<InterviewViewModel>();
+            viewData.InterviewHistories = null;
+
+            return new Result<InterviewViewModel>("Interview details saved successfully", viewData, true);
         }
     }
 }

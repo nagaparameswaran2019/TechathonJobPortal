@@ -27,6 +27,8 @@ public partial class LookUp
 
     public virtual ICollection<JobOpeningCoreAreaMapping> JobOpeningCoreAreaMappings { get; } = new List<JobOpeningCoreAreaMapping>();
 
+    public virtual ICollection<JobOpening> JobOpenings { get; } = new List<JobOpening>();
+
     public virtual LookUpGroup LookUpGroup { get; set; } = null!;
 
     public virtual ICollection<Organization> OrganizationOrganizationSubTypes { get; } = new List<Organization>();

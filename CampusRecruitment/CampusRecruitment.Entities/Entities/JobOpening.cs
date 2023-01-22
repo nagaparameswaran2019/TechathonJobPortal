@@ -13,9 +13,19 @@ public partial class JobOpening
 
     public bool? IsActive { get; set; }
 
+    public string? JobDescription { get; set; }
+
+    public string? Qualification { get; set; }
+
+    public string? Role { get; set; }
+
+    public int? EmploymentTypeId { get; set; }
+
+    public virtual LookUp? EmploymentType { get; set; }
+
     public virtual ICollection<Interview> Interviews { get; } = new List<Interview>();
 
     public virtual ICollection<Invite> Invites { get; } = new List<Invite>();
 
-    public virtual ICollection<JobOpeningCoreAreaMapping> JobOpeningCoreAreaMappings { get; set; } = new List<JobOpeningCoreAreaMapping>();
+    public virtual ICollection<JobOpeningCoreAreaMapping> JobOpeningCoreAreaMappings { get; } = new List<JobOpeningCoreAreaMapping>();
 }
