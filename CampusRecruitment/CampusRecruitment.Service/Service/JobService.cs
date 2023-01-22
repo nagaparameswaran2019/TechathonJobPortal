@@ -11,6 +11,11 @@ using CampusRecruitment.Repository.Repository;
 using CampusRecruitment.Mapper;
 using CampusRecruitment.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
+using CampusRecruitment.EmailService;
+using CampusRecruitment.Utils.Common;
+using System.Net;
+using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CampusRecruitment.Service.Service
 {
@@ -180,6 +185,46 @@ namespace CampusRecruitment.Service.Service
             viewData.InterviewHistories = null;
 
             return new Result<InterviewViewModel>("Interview details saved successfully", viewData, true);
+        }
+
+        public Result<OfferViewModel> SendOfferLetter(OfferViewModel interviewViewModel)
+        {
+            if (interviewViewModel == null)
+            {
+                return new Result<OfferViewModel>("Unable to save Offer details", null, false);
+            }
+
+            var data = interviewViewModel.CopyTo<Offer>();
+
+            if (data.OfferId > 0)
+            {
+                _offerRepository.Update(data);
+            }
+            else
+            {
+                _offerRepository.Add(data);
+            }
+
+            _unitOfWork.Save();
+
+            var viewData = data.CopyTo<OfferViewModel>();
+            viewData.Interview = null;
+
+            //EmailInfo emailInfo = new EmailInfo()
+            //{
+            //    Subject = "Test Techathon Email",
+            //    Body = "Test Techathon Email body",
+            //    ToEmail = new List<string> { "nagaparameswaran.jayaram@rencata.com" },
+            //    FromEmail = AppSetting.GetConfigValue("SmtpFromEmail"),
+            //    FromDisplayName = "Raja K",
+            //    AttachmentPath = null,
+            //    IsBodyHtml = true,
+            //    ResendCount = null,
+            //    CCEmail = (AppSetting.GetConfigValue("DefaultCcEmails").Split(',')).ToList()
+            //};
+            //EmailService.EmailService.SendEmail(emailInfo);
+
+            return new Result<OfferViewModel>("Offer details saved successfully", viewData, true);
         }
     }
 }

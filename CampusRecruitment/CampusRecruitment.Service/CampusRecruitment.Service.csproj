@@ -10,6 +10,7 @@
     <ProjectReference Include="..\CampusRecruitment.Mapper\CampusRecruitment.Mapper.csproj" />
     <ProjectReference Include="..\CampusRecruitment.Model\CampusRecruitment.ViewModel.csproj" />
     <ProjectReference Include="..\CampusRecruitment.Repository\CampusRecruitment.Repository.csproj" />
+    <ProjectReference Include="..\CampusRecruitment.Utils.Email\CampusRecruitment.EmailService.csproj" />
   </ItemGroup>
 
 </Project>

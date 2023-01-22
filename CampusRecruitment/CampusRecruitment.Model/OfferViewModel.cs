@@ -22,6 +22,6 @@ namespace CampusRecruitment.ViewModel
 
         public int InterviewId { get; set; }
 
-        public virtual InterviewViewModel Interview { get; set; } = null!;
+        public virtual InterviewViewModel? Interview { get; set; } = null!;
     }
 }

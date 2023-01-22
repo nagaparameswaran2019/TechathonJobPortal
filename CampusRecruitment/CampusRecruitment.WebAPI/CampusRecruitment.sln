@@ -11,23 +11,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampusRecruitment.Entities", "..\CampusRecruitment.Entities\CampusRecruitment.Entities.csproj", "{0BA6ECF7-6620-4F26-8CF1-F7877675262D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampusRecruitment.Repository", "..\CampusRecruitment.Repository\CampusRecruitment.Repository.csproj", "{379E70B8-EC51-4A3D-8711-1E96660A9161}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampusRecruitment.Repository", "..\CampusRecruitment.Repository\CampusRecruitment.Repository.csproj", "{379E70B8-EC51-4A3D-8711-1E96660A9161}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7397A7C5-46A0-42D6-8AFD-7324C08226E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampusRecruitment.Service", "..\CampusRecruitment.Service\CampusRecruitment.Service.csproj", "{93EDC87A-7BFA-4454-A1BB-BB42F34A038C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampusRecruitment.Service", "..\CampusRecruitment.Service\CampusRecruitment.Service.csproj", "{93EDC87A-7BFA-4454-A1BB-BB42F34A038C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mapper", "Mapper", "{70F851BB-EF15-4EE0-A170-B30BC04B3965}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampusRecruitment.Mapper", "..\CampusRecruitment.Mapper\CampusRecruitment.Mapper.csproj", "{70C9C91B-B4CC-422F-A5E9-7FF666BAFF36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampusRecruitment.Mapper", "..\CampusRecruitment.Mapper\CampusRecruitment.Mapper.csproj", "{70C9C91B-B4CC-422F-A5E9-7FF666BAFF36}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{71CC78F4-C2D7-459A-831C-43DA5D1EA94B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampusRecruitment.ViewModel", "..\CampusRecruitment.Model\CampusRecruitment.ViewModel.csproj", "{60916DA3-AC6D-4D7B-98CC-D591011DA12F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampusRecruitment.ViewModel", "..\CampusRecruitment.Model\CampusRecruitment.ViewModel.csproj", "{60916DA3-AC6D-4D7B-98CC-D591011DA12F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{E5BF28F8-B98D-491E-BD5A-912A85306907}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampusRecruitment.Utils.Common", "..\CampusRecruitment.Utils.Common\CampusRecruitment.Utils.Common.csproj", "{8A7DF059-FFF5-4D60-BFD4-AD9CDFD9BFF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampusRecruitment.Utils.Common", "..\CampusRecruitment.Utils.Common\CampusRecruitment.Utils.Common.csproj", "{8A7DF059-FFF5-4D60-BFD4-AD9CDFD9BFF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampusRecruitment.EmailService", "..\CampusRecruitment.Utils.Email\CampusRecruitment.EmailService.csproj", "{43A7373F-21D6-4EBA-BCEE-B74D10F5C61B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{8A7DF059-FFF5-4D60-BFD4-AD9CDFD9BFF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A7DF059-FFF5-4D60-BFD4-AD9CDFD9BFF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A7DF059-FFF5-4D60-BFD4-AD9CDFD9BFF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43A7373F-21D6-4EBA-BCEE-B74D10F5C61B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43A7373F-21D6-4EBA-BCEE-B74D10F5C61B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43A7373F-21D6-4EBA-BCEE-B74D10F5C61B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43A7373F-21D6-4EBA-BCEE-B74D10F5C61B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +81,7 @@ Global
 		{70C9C91B-B4CC-422F-A5E9-7FF666BAFF36} = {70F851BB-EF15-4EE0-A170-B30BC04B3965}
 		{60916DA3-AC6D-4D7B-98CC-D591011DA12F} = {71CC78F4-C2D7-459A-831C-43DA5D1EA94B}
 		{8A7DF059-FFF5-4D60-BFD4-AD9CDFD9BFF1} = {E5BF28F8-B98D-491E-BD5A-912A85306907}
+		{43A7373F-21D6-4EBA-BCEE-B74D10F5C61B} = {E5BF28F8-B98D-491E-BD5A-912A85306907}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E22E8E0-9C4F-4050-978F-3F3CD7F66492}
