@@ -92,3 +92,19 @@ export async function saveJobOpening(inputData) {
     }
 }
 
+export async function saveStudentDetails(inputData) { 
+    try {
+        const response = await fetch('https://localhost:7077/api/Student/SaveStudentDetails', {
+            method: 'POST',
+            body: JSON.stringify(inputData),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            }
+        }); 
+        return await response.json();
+    }
+    catch (error) {
+        return [];
+    }
+}
+
