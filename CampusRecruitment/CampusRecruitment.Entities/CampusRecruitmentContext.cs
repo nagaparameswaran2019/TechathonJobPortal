@@ -193,6 +193,10 @@ namespace CampusRecruitment.Entities
                 entity.HasOne(d => d.EmploymentType).WithMany(p => p.JobOpenings)
                     .HasForeignKey(d => d.EmploymentTypeId)
                     .HasConstraintName("FK_JobOpening_EmploymentTypeId");
+
+                entity.HasOne(d => d.Organization).WithMany(p => p.JobOpenings)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .HasConstraintName("FK_JobOpening_OrganizationId");
             });
 
             modelBuilder.Entity<JobOpeningCoreAreaMapping>(entity =>

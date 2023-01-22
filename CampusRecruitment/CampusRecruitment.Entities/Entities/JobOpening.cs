@@ -21,6 +21,8 @@ public partial class JobOpening
 
     public int? EmploymentTypeId { get; set; }
 
+    public int? OrganizationId { get; set; }
+
     public virtual LookUp? EmploymentType { get; set; }
 
     public virtual ICollection<Interview> Interviews { get; } = new List<Interview>();
@@ -28,4 +30,6 @@ public partial class JobOpening
     public virtual ICollection<Invite> Invites { get; } = new List<Invite>();
 
     public virtual ICollection<JobOpeningCoreAreaMapping> JobOpeningCoreAreaMappings { get; } = new List<JobOpeningCoreAreaMapping>();
+
+    public virtual Organization? Organization { get; set; }
 }

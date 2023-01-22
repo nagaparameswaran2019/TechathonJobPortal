@@ -27,6 +27,8 @@ public partial class Organization
 
     public virtual ICollection<Invite> Invites { get; } = new List<Invite>();
 
+    public virtual ICollection<JobOpening> JobOpenings { get; } = new List<JobOpening>();
+
     public virtual LookUp OrganizationSubType { get; set; } = null!;
 
     public virtual LookUp OrganizationType { get; set; } = null!;

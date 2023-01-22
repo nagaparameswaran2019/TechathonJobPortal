@@ -25,6 +25,8 @@ namespace CampusRecruitment.ViewModel
 
         public int? EmploymentTypeId { get; set; }
 
+        public int? OrganizationId { get; set; }
+
         public virtual LookUpViewModel? EmploymentType { get; set; }
 
         public virtual ICollection<InterviewViewModel> Interviews { get; } = new List<InterviewViewModel>();
@@ -32,5 +34,7 @@ namespace CampusRecruitment.ViewModel
         public virtual ICollection<InviteViewModel> Invites { get; } = new List<InviteViewModel>();
 
         public virtual ICollection<JobOpeningCoreAreaMappingViewModel> JobOpeningCoreAreaMappings { get; set; } = new List<JobOpeningCoreAreaMappingViewModel>();
+
+        public virtual OrganizationViewModel? Organization { get; set; }
     }
 }
