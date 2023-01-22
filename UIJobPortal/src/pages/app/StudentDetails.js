@@ -43,7 +43,7 @@ const StudentDetails = () => {
     const { errors, register, handleSubmit } = useForm();
     let gridPDFExport;
     const _export = React.useRef(null);
-    const apiUrl = 'https://localhost:7077/api/Student/GetAllStudentsByOrganizationId/7';
+    const apiUrl = 'https://localhost:7077/api/Student/GetAllStudentsByOrganizationId/'+localStorage.getItem("organizationId");
     const [page, setPage] = useState(initialDataState);
     const pageChange = (event) => {
         setPage(event.page);
