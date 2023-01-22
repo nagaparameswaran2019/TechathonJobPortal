@@ -262,7 +262,7 @@ const Menu = ({ sidebarToggle, mobileView }) => {
   var userData = localStorage.getItem('userData');
   userData = JSON.parse(userData);
   var menuData = menu;
-  if (userData.organizationType == 'COMPANY') {
+  if (userData!= null && userData.organizationType == 'COMPANY') {
     menuData = companyMenu; 
   }
   const [data, setMenuData] = useState(menuData);

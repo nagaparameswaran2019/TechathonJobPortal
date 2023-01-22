@@ -34,7 +34,7 @@ const Sidebar = ({ fixed, theme, className, sidebarToggle, mobileView, ...props 
     <div className={classes}>
       <div className="nk-sidebar-element nk-sidebar-head nk-header">
         <h4>
-          {userData.organizationName}
+          {userData!= null ?? userData.organizationName}
         </h4>
       </div>
       <div className="nk-sidebar-content" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
