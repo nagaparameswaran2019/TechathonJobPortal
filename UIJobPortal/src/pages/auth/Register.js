@@ -125,7 +125,7 @@ const Register = ({ history }) => {
 
   const onRadioButtonChanged = (event) => {
     setValue("");
-    setOrgSubType(null);
+    
     setDepartment([]);
     var orgType = event.currentTarget.dataset.orgType;
     setshowDepartment(orgType == 'INSTITUTIONTYPE' ? true : false);
@@ -136,6 +136,8 @@ const Register = ({ history }) => {
     
     var result = lookupDataSource.find(s => s.code == event.currentTarget.dataset.orgType).lookUps;
     setdataSource(result);
+    setOrgSubType({});
+    setOrgInputs(values => ({ ...values, ['departmentdata']: {} }))
   };
 
   return (
@@ -376,10 +378,10 @@ const Register = ({ history }) => {
                         data={dataSource}
                         textField="description"
                         dataItemKey="lookUpId"
-                        value={orgInputs.orgSubType}
+                        value={orgSubType}
                         name="orgSubType"
                         onChange={handleChange}
-                        placeholder="Please select ..."
+                        placeholder="Please select"
                       />
                     </div>
                   </FormGroup>
@@ -397,7 +399,7 @@ const Register = ({ history }) => {
                         value={orgInputs.departmentdata}
                         name="departmentdata"
                         onChange={onChangeDepartment}
-                        placeholder="Please select ..."
+                        placeholder="Please select"
                       />
                     </div>
                   </FormGroup>
