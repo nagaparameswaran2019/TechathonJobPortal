@@ -19,12 +19,17 @@ namespace CampusRecruitment.Service
         IUnitOfWork _unitOfWork;
         IDepartmentRepository _departmentRepository;
         IDepartmentCoreAreaMappingRepository _departmentCoreAreaMappingRepository;
+        ILookUpGroupRepository _lookUpGroupRepository;
 
-        public DepartmentService(IUnitOfWork unitOfWork, IDepartmentRepository departmentRepository, IDepartmentCoreAreaMappingRepository departmentCoreAreaMappingRepository)
+        public DepartmentService(IUnitOfWork unitOfWork
+            , IDepartmentRepository departmentRepository
+            , IDepartmentCoreAreaMappingRepository departmentCoreAreaMappingRepository,
+            ILookUpGroupRepository lookUpGroupRepository)
         {
             _unitOfWork = unitOfWork;
             _departmentRepository = departmentRepository;
             _departmentCoreAreaMappingRepository = departmentCoreAreaMappingRepository;
+            _lookUpGroupRepository = lookUpGroupRepository;
         }
 
         public Result<List<DepartmentViewModel>> GetAll()
@@ -40,17 +45,15 @@ namespace CampusRecruitment.Service
             {
                 var data = _departmentCoreAreaMappingRepository.Get(t => t.DepartmentId == model.DepartmentId).ToList();
 
-                List<DepartmentCoreAreaMapping> departmentList = model.CoreAreaTypes.Split(',').Select(s =>
-                new DepartmentCoreAreaMapping()
-                {
-                    CoreAreaTypeId = Convert.ToInt32(s.Trim()),
-                    DepartmentId = model.DepartmentId,
-                    CoreAreaType = null,
-                    Department = null
-                }
+                List<DepartmentCoreAreaMapping> departmentList = model.CoreAreaTypes.Split(',').Where(t => !data.Any(s => s.CoreAreaTypeId == Convert.ToInt32(t.Trim()))).Select(s =>
+                    new DepartmentCoreAreaMapping()
+                    {
+                        CoreAreaTypeId = Convert.ToInt32(s.Trim()),
+                        DepartmentId = model.DepartmentId,
+                        CoreAreaType = null,
+                        Department = null
+                    }
                 ).ToList();
-
-                departmentList = departmentList.Where(d => !data.Any(a => a.CoreAreaTypeId == d.DepartmentId)).ToList();
 
                 _departmentCoreAreaMappingRepository.Add(departmentList);
                 _unitOfWork.Save();
@@ -68,8 +71,29 @@ namespace CampusRecruitment.Service
 
         public Result<List<DepartmentViewModel>> GetAllDepartmentByOrgId(int orgId)
         {
-            var data = _departmentRepository.Get(predicate: t => t.OrganizationId == orgId, include: s => s.Include(i => i.DepartmentType)).ToList();
+            var jobCoreAreas = _lookUpGroupRepository.Get(predicate: t => t.Code.ToLower().Equals("coreareatype"), include: s => s.Include(i => i.LookUps)).FirstOrDefault();
+            var data = _departmentRepository.Get(predicate: t => t.OrganizationId == orgId, include: s => s.Include(i => i.DepartmentType).Include(c => c.DepartmentCoreAreaMappings)).ToList();
             var viewData = data.CopyTo<List<DepartmentViewModel>>();
+
+            if (jobCoreAreas != null && jobCoreAreas.LookUps?.Count > 0)
+            {
+                var lookUp = jobCoreAreas.LookUps.ToList();
+                foreach (var item in viewData)
+                {
+                    if (item.DepartmentCoreAreaMappings == null)
+                    {
+                        continue;
+                    }
+
+                    var filteredData = from a in item.DepartmentCoreAreaMappings
+                                       join b in lookUp
+                                       on a.CoreAreaTypeId equals b.LookUpId
+                                       select b.LookUpId.ToString();
+
+                    item.DepartmentCoreAreaMapping = string.Join(",", filteredData);
+                }
+            }
+
             return new Result<List<DepartmentViewModel>>("Department details retrieved successfully.", viewData, true);
         }
     }
