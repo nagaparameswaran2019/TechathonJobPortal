@@ -1,4 +1,4 @@
-const menu = [
+export const menu = [
   {
     text: "Dashboard",
     link: "/pages/app/Dashboard",
@@ -18,4 +18,16 @@ const menu = [
     link: "/pages/app/JobDetails",
   } ,
 ];
-export default menu;
+ 
+
+export const companyMenu = [
+  {
+    text: "Dashboard",
+    link: "/pages/app/Dashboard",
+  }, 
+  {
+    text: "Job Details",
+    link: "/pages/app/JobDetails",
+  } 
+];
+ 

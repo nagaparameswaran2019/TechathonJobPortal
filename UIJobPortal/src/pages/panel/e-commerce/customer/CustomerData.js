@@ -7,7 +7,7 @@ export const CustomerData = [
   {
     id: 1,
     avatarBg: "purple",
-    name: "Abu Bin Ishtiyak",
+    name: "fgfdgdfgfdgdfgfdgd",
     displayName: "Ishtiak",
     dob: "10 Aug, 1980",
     role: "Customer",

@@ -16,46 +16,66 @@ import PageContainer from "../../layout/page-container/PageContainer";
 import Head from "../../layout/head/Head";
 import AuthFooter from "./AuthFooter";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { userLogin } from "../../services";
+ 
 
-const Login = () => {
+const Login = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const [passState, setPassState] = useState(false);
+  const [inputData, setInputData] = useState({});
   const [errorVal, setError] = useState("");
 
   const onFormSubmit = (formData) => {
-    setLoading(true);
-    const loginName = "info@softnio.com";
-    const pass = "123456";
-    if (formData.name === loginName && formData.passcode === pass) {
-      localStorage.setItem("accessToken", "token");
-      setTimeout(() => {
-        debugger
-        //sessionStorage.setItem('LoginOrgType', 'INSTITUTION'); 
-        sessionStorage.setItem('LoginOrgType', 'COMPANY'); 
-        window.history.pushState(
-          `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
-          "auth-login",
-          "pages/app/Dashboard",
-          `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`
-        );
-        window.location.reload();
-      }, 2000);
-    } else {
-      setTimeout(() => {
-        setError("Cannot login with credentials");
-        setLoading(false);
-      }, 2000);
-    }
+    setLoading(true); 
+    localStorage.setItem("accessToken", "token");
+    setTimeout(() => {
+    
+      //sessionStorage.setItem('LoginOrgType', 'INSTITUTION'); 
+      sessionStorage.setItem('LoginOrgType', 'COMPANY');
+      var _inputData = inputData;
+      // return
+      userLogin(formData)
+        .then((result) => { 
+          debugger
+          if (result.isSuccess) {
+            localStorage.setItem("accessToken", result);
+            localStorage.setItem("organizationId", result.data.organizationId);
+            localStorage.setItem("userData", JSON.stringify(result.data));   
+
+            window.history.pushState(
+              `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
+              "auth-login",
+              "pages/app/Dashboard",
+              `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`
+            );
+          }
+          console.log(result);
+          window.location.reload();
+        });
+    },300);
+    // } 
+    // else {
+    //   setTimeout(() => {
+    //     setError("Cannot login with credentials");
+    //     setLoading(false);
+    //   }, 2000);
+    // }
   };
 
+  const handleInputChange = (event) => {
+   
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputData(values => ({ ...values, [name]: value }))
+  }
   const { errors, register, handleSubmit } = useForm();
 
   return (
     <React.Fragment>
       <Head title="Login" />
       <PageContainer>
-        <Block className="nk-block-middle nk-auth-body  wide-xs"> 
+        <Block className="nk-block-middle nk-auth-body  wide-xs">
           <PreviewCard className="card-bordered" bodyClass="card-inner-lg">
             <BlockHead>
               <BlockContent>
@@ -81,9 +101,11 @@ const Login = () => {
                   <input
                     type="text"
                     id="default-01"
-                    name="name"
+                    name="UserName"
                     ref={register({ required: "This field is required" })}
-                    defaultValue="info@softnio.com"
+                    defaultValue=""
+                    value={inputData.UserName || ""}
+                    onChange={handleInputChange}
                     placeholder="Enter your email address or username"
                     className="form-control-lg form-control"
                   />
@@ -93,7 +115,7 @@ const Login = () => {
               <FormGroup>
                 <div className="form-label-group">
                   <label className="form-label" htmlFor="password">
-                    Passcode
+                    Password
                   </label>
                   <Link className="link link-primary link-sm" to={`${process.env.PUBLIC_URL}/auth-reset`}>
                     Forgot Code?
@@ -115,10 +137,12 @@ const Login = () => {
                   <input
                     type={passState ? "text" : "password"}
                     id="password"
-                    name="passcode"
-                    defaultValue="123456"
+                    name="Password"
+                    defaultValue=""
+                    value={inputData.Password || ""}
+                    onChange={handleInputChange}
                     ref={register({ required: "This field is required" })}
-                    placeholder="Enter your passcode"
+                    placeholder="Enter your password"
                     className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
                   />
                   {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}

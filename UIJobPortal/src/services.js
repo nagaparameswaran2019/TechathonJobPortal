@@ -34,6 +34,23 @@ export async function getDepartmentRecord(api) {
     }
 }
 
+export async function userLogin(inputData) {
+    debugger
+    try {
+        const response = await fetch('https://localhost:7077/api/Account/Login', {
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+            method: 'POST',
+            body: JSON.stringify(inputData),
+        });
+        return await response.json();
+    }
+    catch (error) {
+        return [];
+    }
+}
+
 export async function registerUserDetails(inputData) {
 
     try {
@@ -58,3 +75,20 @@ export async function registerUserDetails(inputData) {
         return [];
     }
 }
+
+export async function saveJobOpening(inputData) { 
+    try {
+        const response = await fetch('https://localhost:7077/api/Job/SaveJobOpening', {
+            method: 'POST',
+            body: JSON.stringify(inputData),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            }
+        }); 
+        return await response.json();
+    }
+    catch (error) {
+        return [];
+    }
+}
+

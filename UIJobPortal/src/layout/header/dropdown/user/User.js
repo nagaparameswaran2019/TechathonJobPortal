@@ -11,7 +11,8 @@ const User = () => {
   const handleSignout = () => {
     localStorage.removeItem("accessToken");
   };
-
+  var userData = localStorage.getItem('userData');
+  userData = JSON.parse(userData);
   return (
     <Dropdown isOpen={open} className="user-dropdown" toggle={toggle}>
       <DropdownToggle
@@ -26,7 +27,7 @@ const User = () => {
           <UserAvatar icon="user-alt" className="sm" />
           <div className="user-info d-none d-md-block">
             <div className="user-status">Administrator</div>
-            <div className="user-name dropdown-indicator">Abu Bin Ishityak</div>
+            <div className="user-name dropdown-indicator">{userData.firstName + ' ' + userData.lastName}</div>
           </div>
         </div>
       </DropdownToggle>
@@ -37,8 +38,8 @@ const User = () => {
               <span>AB</span>
             </div>
             <div className="user-info">
-              <span className="lead-text">Abu Bin Ishtiyak</span>
-              <span className="sub-text">info@softnio.com</span>
+              <span className="lead-text">{userData.firstName + ' ' + userData.lastName}</span>
+              <span className="sub-text">{userData.email}</span>
             </div>
           </div>
         </div>
