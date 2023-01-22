@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import menu from "./MenuData";
+import  {menu, companyMenu}  from "./MenuData";
 import { NavLink, Link } from "react-router-dom";
 import Icon from "../../components/icon/Icon";
 import classNames from "classnames";
@@ -259,8 +259,15 @@ const MenuSub = ({ icon, link, text, sub, sidebarToggle, mobileView, ...props })
 };
 
 const Menu = ({ sidebarToggle, mobileView }) => {
-  const [data, setMenuData] = useState(menu);
-
+  var userData = localStorage.getItem('userData');
+  userData = JSON.parse(userData);
+  var menuData = menu;
+  if (userData.organizationType == 'COMPANY') {
+    menuData = companyMenu; 
+  }
+  const [data, setMenuData] = useState(menuData);
+  
+ 
   useEffect(() => {
     data.forEach((item, index) => {
       if (item.panel) {
@@ -294,6 +301,7 @@ const Menu = ({ sidebarToggle, mobileView }) => {
           <MenuItem
             key={item.text}
             link={item.link}
+
             icon={item.icon}
             text={item.text}
             sub={item.subMenu}

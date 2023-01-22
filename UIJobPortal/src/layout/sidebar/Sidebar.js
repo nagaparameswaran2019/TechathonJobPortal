@@ -4,7 +4,7 @@ import SimpleBar from "simplebar-react";
 import Logo from "../logo/Logo";
 import Menu from "../menu/Menu";
 import Toggle from "./Toggle";
- 
+
 
 const Sidebar = ({ fixed, theme, className, sidebarToggle, mobileView, ...props }) => {
   const [collapseSidebar, setSidebar] = useState(false);
@@ -27,14 +27,19 @@ const Sidebar = ({ fixed, theme, className, sidebarToggle, mobileView, ...props 
     [`${className}`]: className,
   });
 
+  var userData = localStorage.getItem('userData');
+  userData = JSON.parse(userData);
+
   return (
     <div className={classes}>
-      <div className="nk-sidebar-element nk-sidebar-head"> 
-         MTNC Arts & Science College
+      <div className="nk-sidebar-element nk-sidebar-head nk-header">
+        <h4>
+          {userData.organizationName}
+        </h4>
       </div>
       <div className="nk-sidebar-content" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <SimpleBar className="nk-sidebar-menu"> 
-            <Menu sidebarToggle={sidebarToggle} mobileView={mobileView} /> 
+        <SimpleBar className="nk-sidebar-menu">
+          <Menu sidebarToggle={sidebarToggle} mobileView={mobileView} />
         </SimpleBar>
       </div>
     </div>
