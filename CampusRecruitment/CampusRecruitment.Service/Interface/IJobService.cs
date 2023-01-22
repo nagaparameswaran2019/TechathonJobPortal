@@ -13,5 +13,6 @@ namespace CampusRecruitment.Service.Interface
         Result<InviteViewModel> SaveInvite(InviteViewModel inviteViewModel);
         Result<List<JobOpeningViewModel>> GetJobOpeningsByOrganizationId(int organizationId);
         Result<InterviewViewModel> SaveInterviewDetails(InterviewViewModel interviewViewModel);
+        Result<OfferViewModel> SendOfferLetter(OfferViewModel interviewViewModel);
     }
 }

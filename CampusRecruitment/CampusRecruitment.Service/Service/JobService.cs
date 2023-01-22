@@ -181,5 +181,31 @@ namespace CampusRecruitment.Service.Service
 
             return new Result<InterviewViewModel>("Interview details saved successfully", viewData, true);
         }
+
+        public Result<OfferViewModel> SendOfferLetter(OfferViewModel interviewViewModel)
+        {
+            if (interviewViewModel == null)
+            {
+                return new Result<OfferViewModel>("Unable to save Offer details", null, false);
+            }
+
+            var data = interviewViewModel.CopyTo<Offer>();
+
+            if (data.OfferId > 0)
+            {
+                _offerRepository.Update(data);
+            }
+            else
+            {
+                _offerRepository.Add(data);
+            }
+
+            _unitOfWork.Save();
+
+            var viewData = data.CopyTo<OfferViewModel>();
+            viewData.Interview = null;
+
+            return new Result<OfferViewModel>("Offer details saved successfully", viewData, true);
+        }
     }
 }

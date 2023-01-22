@@ -72,5 +72,19 @@ namespace CampusRecruitment.WebAPI.Controllers
                 return new Result<InterviewViewModel>("Unable to Save Interview details.", null, false);
             }
         }
+
+        [HttpPost]
+        [Route("SendOfferLetter")]
+        public Result<OfferViewModel> SendOfferLetter([FromBody] OfferViewModel model)
+        {
+            try
+            {
+                return _jobService.SendOfferLetter(model);
+            }
+            catch (Exception ex)
+            {
+                return new Result<OfferViewModel>("Unable to Save Offer details.", null, false);
+            }
+        }
     }
 }
