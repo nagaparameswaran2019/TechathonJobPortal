@@ -143,12 +143,27 @@ const StudentDetails = () => {
         const field = props.field || "";
         return (
             <td className="k-command-cell">
-                <button className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary k-grid-edit-command" onClick={() => { console.log(props.dataItem[field].toString()); }}>Edit</button>
+                <button className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary k-grid-edit-command" onClick={() => { editStudent(props.dataItem); }}>Edit</button>
                 <button className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary k-grid-edit-command" onClick={() => getAllStudent()}>Delete</button>
             </td>
         );
     };
     const MyCustomCell = (props) => <CustomCell {...props} />;
+    const editStudent = (strudentRow) => {
+        let entries = Object.entries(strudentRow)
+        let data = entries.map( ([key, val] = entry) => {
+            const name = key; 
+            const value = val;           
+            if(name == 'department')
+            {
+                setDepartmentValue(val.departmentId);
+            }
+            //console.log(name+' = ' +val);
+            if(name != 'dateOfBirth')  
+            setInputs(values => ({ ...values, [name]: value }));        
+        });
+    }
+
     var studentGrid = [];
     if (Array.isArray(dataSource) && dataSource.length) {
         studentGrid = (
