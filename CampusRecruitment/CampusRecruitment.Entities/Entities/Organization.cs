@@ -19,6 +19,10 @@ public partial class Organization
 
     public int OrganizationSubTypeId { get; set; }
 
+    public virtual ICollection<Conversation> ConversationOrganizationFroms { get; } = new List<Conversation>();
+
+    public virtual ICollection<Conversation> ConversationOrganizationTos { get; } = new List<Conversation>();
+
     public virtual ICollection<Department> Departments { get; set; } = new List<Department>();
 
     public virtual ICollection<Invite> Invites { get; } = new List<Invite>();
