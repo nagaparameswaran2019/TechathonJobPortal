@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace CampusRecruitment.Repository.Interface
 {
-    public interface ILookUpGroupRepository : IGenericRepository<LookUpGroup>
+    public interface IConversationRepository : IGenericRepository<Conversation>
     {
-        List<LookUpGroup> GetLookupGroupByName(string? groupNames);
     }
 }

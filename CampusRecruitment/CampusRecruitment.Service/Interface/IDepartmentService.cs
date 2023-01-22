@@ -9,7 +9,7 @@ namespace CampusRecruitment.Service.Interface
 {
     public interface IDepartmentService
     {
-        List<DepartmentViewModel> GetAll();
+        Result<List<DepartmentViewModel>> GetAll();
         Result<List<DepartmentCoreAreaMappingViewModel>> AddCoreAreasToDepartment(DepartmentCoreAreaMappingViewModel model);
         Result<List<DepartmentViewModel>> GetAllDepartmentByOrgId(int orgId);
     }

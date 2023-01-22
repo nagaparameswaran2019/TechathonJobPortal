@@ -32,9 +32,11 @@ namespace CampusRecruitment.Mapper
             base.CreateMap<Student, StudentDepartmentModel>()
                 .ForMember(t => t.DepartmentName, opt => opt.MapFrom(src => src.Department.DepartmentType.Description))
                 .ReverseMap();
-            //.ForMember(t => t.OrganizationName, opt => opt.MapFrom(src => src != null && src.Organization != null ? src.Organization.Name : string.Empty))
-            //.ForMember(t => t.OrganizationType, opt => opt.MapFrom(src => src != null && src.Organization != null && src.Organization.OrganizationType != null ? src.Organization.OrganizationType.Code : string.Empty))
-            //.ForMember(t => t.OrganizationSubType, opt => opt.MapFrom(src => src != null && src.Organization != null && src.Organization.OrganizationSubType != null ? src.Organization.OrganizationSubType.Code : string.Empty));
+            base.CreateMap<Conversation, ConversationViewModel>().ReverseMap();
+            base.CreateMap<Conversation, ConversationHistoryViewModel>()
+                .ForMember(t => t.OrganizationFromName, opt => opt.MapFrom(src => src.OrganizationFrom.Name))
+                .ForMember(t => t.OrganizationToName, opt => opt.MapFrom(src => src.OrganizationTo.Name))
+                .ReverseMap();
         }
     }
 }

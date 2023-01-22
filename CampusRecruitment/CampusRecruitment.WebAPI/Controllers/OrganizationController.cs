@@ -22,12 +22,11 @@ namespace CampusRecruitment.WebAPI.Controllers
         {
             try
             {
-                List<OrganizationViewModel> organizationViewModels = _organizationService.GetAllOrganization();
-                return new Result<List<OrganizationViewModel>>("Organization details get successfully", organizationViewModels);
+                return _organizationService.GetAllOrganization();
             }
             catch (Exception ex)
             {
-                return new Result<List<OrganizationViewModel>>("Unable to get Organization the details", null, false);
+                return new Result<List<OrganizationViewModel>>("Unable to get Organization details", null, false);
             }
         }
 
@@ -41,12 +40,11 @@ namespace CampusRecruitment.WebAPI.Controllers
         {
             try
             {
-                List<LookUpViewModel> organizationViewModels = _organizationService.GetOrganizationTypes();
-                return new Result<List<LookUpViewModel>>("Lookup details get successfully", organizationViewModels);
+                return _organizationService.GetOrganizationTypes();
             }
             catch (Exception ex)
             {
-                return new Result<List<LookUpViewModel>>("Unable to get Lookup the details", null, false);
+                return new Result<List<LookUpViewModel>>("Unable to get Organization Types", null, false);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace CampusRecruitment.Repository.Repository
             _context = context;
         }
 
-        public List<LookUpGroup> GetLookupGroupByName(string groupNames)
+        public List<LookUpGroup> GetLookupGroupByName(string? groupNames)
         {
             List<string> groupNameList = !string.IsNullOrEmpty(groupNames) ? groupNames.Split(',').Select(s => s.ToLower().Trim()).ToList() : new List<string>();
             List<LookUpGroup> lookUpGroups = null;

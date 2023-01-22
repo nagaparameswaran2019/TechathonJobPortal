@@ -9,7 +9,7 @@ namespace CampusRecruitment.Service.Interface
 {
     public interface IUserService
     {
-        List<UserViewModel> GetAll();
+        Result<List<UserViewModel>> GetAll();
         Result<UserViewModel> RegisterUser(UserViewModel model);
         Result<LoginModel> Login(LoginModel model);
     }

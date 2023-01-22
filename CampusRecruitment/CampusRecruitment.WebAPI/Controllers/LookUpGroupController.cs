@@ -22,8 +22,7 @@ namespace CampusRecruitment.WebAPI.Controllers
         {
             try
             {
-                List<LookUpGroupViewModel> lookUpGroupViewModels = _lookUpGroupService.GetLookupGroupByName(groupNames);
-                return new Result<List<LookUpGroupViewModel>>("Lookup details get successfully", lookUpGroupViewModels);
+                return _lookUpGroupService.GetLookupGroupByName(groupNames);
             }
             catch (Exception ex)
             {

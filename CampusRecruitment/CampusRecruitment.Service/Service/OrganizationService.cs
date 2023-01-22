@@ -25,18 +25,18 @@ namespace CampusRecruitment.Service.Service
             _lookUpRepository = lookUpRepository;
         }
 
-        public List<OrganizationViewModel> GetAllOrganization()
+        public Result<List<OrganizationViewModel>> GetAllOrganization()
         {
             var data = _organizationRepository.GetAll();
             var viewData = data.CopyTo<List<OrganizationViewModel>>();
-            return viewData;
+            return new Result<List<OrganizationViewModel>>("Organization details get successfully", viewData);
         }
 
-        public List<LookUpViewModel> GetOrganizationTypes()
+        public Result<List<LookUpViewModel>> GetOrganizationTypes()
         {
             var data = _lookUpRepository.Get(t => t.LookUpGroupId == 3);
             var viewData = data.CopyTo<List<LookUpViewModel>>();
-            return viewData;
+            return new Result<List<LookUpViewModel>>("Organization Types get successfully", viewData);
         }
     }
 }

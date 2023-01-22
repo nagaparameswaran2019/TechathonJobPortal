@@ -23,8 +23,7 @@ namespace CampusRecruitment.WebAPI.Controllers
         {
             try
             {
-                List<DepartmentViewModel> departmentViewModels = _departmentService.GetAll();
-                return new Result<List<DepartmentViewModel>>("Department details get successfully", departmentViewModels);
+                return _departmentService.GetAll();
             }
             catch (Exception ex)
             {
@@ -56,7 +55,7 @@ namespace CampusRecruitment.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return new Result<List<DepartmentViewModel>>("Unable to get department details", null, false);
+                return new Result<List<DepartmentViewModel>>("Unable to get department details by organization", null, false);
             }
         }
     }

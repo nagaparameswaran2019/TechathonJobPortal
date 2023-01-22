@@ -9,6 +9,6 @@ namespace CampusRecruitment.Service.Interface
 {
     public interface ILookUpGroupService
     {
-        List<LookUpGroupViewModel> GetLookupGroupByName(string groupNames);
+        Result<List<LookUpGroupViewModel>> GetLookupGroupByName(string? groupNames);
     }
 }

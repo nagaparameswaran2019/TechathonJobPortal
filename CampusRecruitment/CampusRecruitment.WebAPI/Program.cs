@@ -92,6 +92,9 @@ builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 
+builder.Services.AddScoped<IConversationService, ConversationService>();
+builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
+
 
 AutoMapper.Mapper.Initialize(mc =>
 {

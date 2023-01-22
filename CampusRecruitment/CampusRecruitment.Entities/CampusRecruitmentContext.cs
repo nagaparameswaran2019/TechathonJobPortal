@@ -16,6 +16,8 @@ namespace CampusRecruitment.Entities
 
         }
 
+        public virtual DbSet<Conversation> Conversations { get; set; }
+
         public virtual DbSet<Department> Departments { get; set; }
 
         public virtual DbSet<DepartmentCoreAreaMapping> DepartmentCoreAreaMappings { get; set; }
@@ -44,6 +46,26 @@ namespace CampusRecruitment.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Conversation>(entity =>
+            {
+                entity.HasKey(e => e.ConversationId).HasName("PK_Conversation_ConversationId");
+
+                entity.ToTable("Conversation");
+
+                entity.Property(e => e.ConversationDate).HasColumnType("datetime");
+                entity.Property(e => e.Message).IsUnicode(false);
+
+                entity.HasOne(d => d.OrganizationFrom).WithMany(p => p.ConversationOrganizationFroms)
+                    .HasForeignKey(d => d.OrganizationFromId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Conversation_OrganizationFromId");
+
+                entity.HasOne(d => d.OrganizationTo).WithMany(p => p.ConversationOrganizationTos)
+                    .HasForeignKey(d => d.OrganizationToId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Conversation_OrganizationToId");
+            });
+
             modelBuilder.Entity<Department>(entity =>
             {
                 entity.HasKey(e => e.DepartmentId).HasName("PK_Department_DepartmentId");
