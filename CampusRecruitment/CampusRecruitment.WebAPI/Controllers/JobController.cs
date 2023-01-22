@@ -41,13 +41,13 @@ namespace CampusRecruitment.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return new Result<List<JobOpeningViewModel>>("Unable to get Job opening details", null, false);
+                return new Result<List<JobOpeningViewModel>>("Unable to get Job opening details by organization", null, false);
             }
         }
 
         [HttpPost]
         [Route("SaveInvite")]
-        public Result<InviteViewModel> AddInvite([FromBody] InviteViewModel model)
+        public Result<InviteViewModel> SaveInvite([FromBody] InviteViewModel model)
         {
             try
             {

@@ -23,11 +23,11 @@ namespace CampusRecruitment.Service.Service
             _unitOfWork = unitOfWork;
             _lookUpGroupRepository = lookUpGroupRepository;
         }
-        public List<LookUpGroupViewModel> GetLookupGroupByName(string groupNames)
+        public Result<List<LookUpGroupViewModel>> GetLookupGroupByName(string? groupNames)
         {
             var data = _lookUpGroupRepository.GetLookupGroupByName(groupNames);
             var viewData = data.CopyTo<List<LookUpGroupViewModel>>();
-            return viewData;
+            return new Result<List<LookUpGroupViewModel>>("Lookup details get successfully", viewData);
         }
     }
 }

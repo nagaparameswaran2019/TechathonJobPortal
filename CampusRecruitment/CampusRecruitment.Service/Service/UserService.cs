@@ -33,11 +33,11 @@ namespace CampusRecruitment.Service.Service
             //_departmentRepository = departmentRepository;
         }
 
-        public List<UserViewModel> GetAll()
+        public Result<List<UserViewModel>> GetAll()
         {
             var data = _userRepository.GetAll();
             var viewData = data.CopyTo<List<UserViewModel>>();
-            return viewData;
+            return new Result<List<UserViewModel>>("User details get successfully", viewData);
         }
 
         public Result<UserViewModel> RegisterUser(UserViewModel model)

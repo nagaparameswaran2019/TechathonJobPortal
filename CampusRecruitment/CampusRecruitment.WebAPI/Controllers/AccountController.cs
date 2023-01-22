@@ -17,12 +17,11 @@ namespace CampusRecruitment.WebAPI.Controllers
 
         [HttpGet]
         [Route("GetAllUsers")]
-        public Result<List<UserViewModel>> GetAllOrganization()
+        public Result<List<UserViewModel>> GetAllUsers()
         {
             try
             {
-                List<UserViewModel> userViewModels = _userService.GetAll();
-                return new Result<List<UserViewModel>>("User details get successfully", userViewModels);
+                return _userService.GetAll();
             }
             catch (Exception ex)
             {
@@ -54,7 +53,7 @@ namespace CampusRecruitment.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return new Result<LoginModel>("Unable to register user details", null, false);
+                return new Result<LoginModel>("Unable to login now, please try again after sometime", null, false);
             }
         }
     }

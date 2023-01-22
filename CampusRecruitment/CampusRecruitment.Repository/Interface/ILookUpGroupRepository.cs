@@ -10,6 +10,6 @@ namespace CampusRecruitment.Repository.Interface
 {
     public interface ILookUpGroupRepository : IGenericRepository<LookUpGroup>
     {
-        List<LookUpGroup> GetLookupGroupByName(string groupNames);
+        List<LookUpGroup> GetLookupGroupByName(string? groupNames);
     }
 }

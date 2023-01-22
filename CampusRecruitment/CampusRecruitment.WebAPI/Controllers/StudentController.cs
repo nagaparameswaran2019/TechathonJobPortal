@@ -27,7 +27,7 @@ namespace CampusRecruitment.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return new Result<StudentViewModel>("Unable to get student details", null, false);
+                return new Result<StudentViewModel>("Unable to save student details", null, false);
             }
         }
 
@@ -41,7 +41,7 @@ namespace CampusRecruitment.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return new Result<List<StudentViewModel>>("Unable to get student details", null, false);
+                return new Result<List<StudentViewModel>>("Unable to get student details by department", null, false);
             }
         }
 
@@ -55,7 +55,7 @@ namespace CampusRecruitment.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return new Result<List<StudentDepartmentModel>>("Unable to get student details", null, false);
+                return new Result<List<StudentDepartmentModel>>("Unable to get student details by organization", null, false);
             }
         }
     }

@@ -9,7 +9,7 @@ namespace CampusRecruitment.Service.Interface
 {
     public interface IOrganizationService
     {
-        List<OrganizationViewModel> GetAllOrganization();
-        List<LookUpViewModel> GetOrganizationTypes();
+        Result<List<OrganizationViewModel>> GetAllOrganization();
+        Result<List<LookUpViewModel>> GetOrganizationTypes();
     }
 }

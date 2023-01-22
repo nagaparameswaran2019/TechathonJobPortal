@@ -27,11 +27,11 @@ namespace CampusRecruitment.Service
             _departmentCoreAreaMappingRepository = departmentCoreAreaMappingRepository;
         }
 
-        public List<DepartmentViewModel> GetAll()
+        public Result<List<DepartmentViewModel>> GetAll()
         {
             var data = _departmentRepository.GetAll();
             var viewData = data.CopyTo<List<DepartmentViewModel>>();
-            return viewData;
+            return new Result<List<DepartmentViewModel>>("Department details get successfully", viewData, true);
         }
 
         public Result<List<DepartmentCoreAreaMappingViewModel>> AddCoreAreasToDepartment(DepartmentCoreAreaMappingViewModel model)
