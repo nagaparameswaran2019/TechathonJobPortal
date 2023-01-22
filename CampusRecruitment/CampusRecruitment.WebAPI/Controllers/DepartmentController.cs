@@ -1,4 +1,5 @@
-﻿using CampusRecruitment.Service.Interface;
+﻿using CampusRecruitment.Entities.Entities;
+using CampusRecruitment.Service.Interface;
 using CampusRecruitment.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,20 @@ namespace CampusRecruitment.WebAPI.Controllers
             catch (Exception ex)
             {
                 return new Result<List<DepartmentCoreAreaMappingViewModel>>("Unable to create department core area mapping", null, false);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllDepartmentByOrganizationId/{organizationId}")]
+        public Result<List<DepartmentViewModel>> GetAllDepartmentByOrganizationId([FromRoute] int organizationId)
+        {
+            try
+            {
+                return _departmentService.GetAllDepartmentByOrgId(organizationId);
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<DepartmentViewModel>>("Unable to get department details", null, false);
             }
         }
     }

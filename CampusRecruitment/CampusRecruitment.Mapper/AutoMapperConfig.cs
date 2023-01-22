@@ -14,7 +14,9 @@ namespace CampusRecruitment.Mapper
         public AutoMapperConfig()
         {
             base.CreateMap<Organization, OrganizationViewModel>().ReverseMap();
-            base.CreateMap<Department, DepartmentViewModel>().ReverseMap();
+            base.CreateMap<Department, DepartmentViewModel>()
+                .ForMember(t => t.Name, opt => opt.MapFrom(src => src.DepartmentType.Description))
+            .ReverseMap();
             base.CreateMap<DepartmentCoreAreaMapping, DepartmentCoreAreaMappingViewModel>().ReverseMap();
             base.CreateMap<LookUpGroup, LookUpGroupViewModel>().ReverseMap();
             base.CreateMap<LookUp, LookUpViewModel>().ReverseMap();

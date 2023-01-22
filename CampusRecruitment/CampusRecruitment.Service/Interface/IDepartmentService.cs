@@ -11,5 +11,6 @@ namespace CampusRecruitment.Service.Interface
     {
         List<DepartmentViewModel> GetAll();
         Result<List<DepartmentCoreAreaMappingViewModel>> AddCoreAreasToDepartment(DepartmentCoreAreaMappingViewModel model);
+        Result<List<DepartmentViewModel>> GetAllDepartmentByOrgId(int orgId);
     }
 }

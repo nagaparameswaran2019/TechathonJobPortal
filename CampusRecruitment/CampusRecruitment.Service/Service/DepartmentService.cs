@@ -10,6 +10,7 @@ using CampusRecruitment.ViewModel;
 using CampusRecruitment.Repository.Repository;
 using CampusRecruitment.Mapper;
 using CampusRecruitment.Entities.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CampusRecruitment.Service
 {
@@ -58,6 +59,13 @@ namespace CampusRecruitment.Service
             {
                 return new Result<List<DepartmentCoreAreaMappingViewModel>>("CoreAreaTypes should not be empty", null, false);
             }
+        }
+
+        public Result<List<DepartmentViewModel>> GetAllDepartmentByOrgId(int orgId)
+        {
+            var data = _departmentRepository.Get(predicate: t => t.OrganizationId == orgId, include: s => s.Include(i => i.DepartmentType)).ToList();
+            var viewData = data.CopyTo<List<DepartmentViewModel>>();
+            return new Result<List<DepartmentViewModel>>("Department details retrieved successfully.", viewData, true);
         }
     }
 }
