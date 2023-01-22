@@ -76,7 +76,7 @@ export async function registerUserDetails(inputData) {
     }
 }
 
-export async function saveJobOpening(inputData) { 
+export async function saveJobOpening(inputData) {
     try {
         const response = await fetch('https://localhost:7077/api/Job/SaveJobOpening', {
             method: 'POST',
@@ -84,7 +84,7 @@ export async function saveJobOpening(inputData) {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             }
-        }); 
+        });
         return await response.json();
     }
     catch (error) {
@@ -92,7 +92,7 @@ export async function saveJobOpening(inputData) {
     }
 }
 
-export async function saveStudentDetails(inputData) { 
+export async function saveStudentDetails(inputData) {
     try {
         const response = await fetch('https://localhost:7077/api/Student/SaveStudentDetails', {
             method: 'POST',
@@ -100,7 +100,7 @@ export async function saveStudentDetails(inputData) {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             }
-        }); 
+        });
         return await response.json();
     }
     catch (error) {
@@ -108,3 +108,30 @@ export async function saveStudentDetails(inputData) {
     }
 }
 
+export async function getAllDepartmentByOrganizationId(organizationId) {
+    try {
+        const response = await fetch('https://localhost:7077/api/Department/GetAllDepartmentByOrganizationId/' + organizationId, {
+            headers: { "Content-Type": "application/json" },
+        });
+        return await response.json();
+    }
+    catch (error) {
+        return [];
+    }
+}
+
+export async function addCoreAreasToDepartment(inputData) {
+    try {
+        const response = await fetch('https://localhost:7077/api/Department/AddCoreAreasToDepartment', {
+            method: 'POST',
+            body: JSON.stringify(inputData),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            }
+        });
+        return await response.json();
+    }
+    catch (error) {
+        return [];
+    }
+}

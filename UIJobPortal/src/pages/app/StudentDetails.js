@@ -18,7 +18,7 @@ import { getDataService } from '../../services';
 import { filterBy } from "@progress/kendo-data-query";
 import { DatePicker } from "@progress/kendo-react-dateinputs";
 import { LoadingPanel } from "../../SharedControls/loadingpanel";
-import { getOrganizationCoreTypes, saveStudentDetails } from '../../services';
+import { getOrganizationCoreTypes, saveStudentDetails, getAllDepartmentByOrganizationId } from '../../services';
 import studentData from './StudentData.json';
 
 const initialFilter = {
@@ -53,16 +53,16 @@ const StudentDetails = () => {
     const [departmentValue, setDepartmentValue] = useState({});
     const [dataSource, setDataSource] = useState({
         data: []
-    });
-
-
+    }); 
 
     useEffect(() => {
         setTimeout(() => {
-            getOrganizationCoreTypes('DEPARTMENTTYPE')
+            var organizationId = JSON.parse(localStorage.userData).organizationId;
+            getAllDepartmentByOrganizationId(organizationId)
                 .then((result) => {
+                    debugger
                     if (result.isSuccess) {
-                        setLookupDataSource(result.data[0].lookUps);
+                        setLookupDataSource(result.data);
                     }
                     console.log(result);
                 });
@@ -80,7 +80,7 @@ const StudentDetails = () => {
         console.log(inputs);
         console.log(departmentValue);
         dataItem['dateOfBirth'] = inputs.dateOfBirth;
-        dataItem['departmentId'] = departmentValue.lookUpId;
+        dataItem['departmentId'] = departmentValue.departmentId;
         dataItem['StatusId'] = 1 /*NOTSTARTED*/;
 
         dataItem.dateOfBirth = dataItem.dateOfBirth.toLocaleDateString()
@@ -203,8 +203,8 @@ const StudentDetails = () => {
     };
 
     return (
-        <div style={{ marginTop: 65, position: "fixed" }} className="col-md-4">
-            <h4>Student Details</h4>
+        <div style={{ marginTop: 75, position: "fixed" }} className="col-md-4">
+            <h6>Student Details</h6>
             <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
                 <div className="form-group" style={{ marginBottom: 15 }}>
                     <label className="form-label" htmlFor="firstName">
@@ -324,8 +324,8 @@ const StudentDetails = () => {
                     <div className="form-control-wrap">
                         <DropDownList
                             data={lookupDataSource}
-                            textField="description"
-                            dataItemKey="lookUpId"
+                            textField="name"
+                            dataItemKey="departmentId"
                             value={departmentValue}
                             name="department"
                             onChange={handleChange}
