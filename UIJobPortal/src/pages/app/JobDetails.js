@@ -1,20 +1,25 @@
 import React, { Suspense, useLayoutEffect, useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { MultiSelect } from "@progress/kendo-react-dropdowns";
+import { MultiSelect, DropDownList } from "@progress/kendo-react-dropdowns";
 import { getOrganizationCoreTypes, saveJobOpening } from '../../services';
 const JobDetails = () => {
     const [lookupDataSource, setLookupDataSource] = useState([]);
+    const [employmentType, setEmploymentType] = useState([]);
     const [inputs, setInputs] = useState({});
     const [coreArea, setCoreArea] = useState([]);
+    const [employmentTypeValue, setEmploymentTypeValue] = useState([]);
+    
     const { errors, register, handleSubmit } = useForm();
 
     useEffect(() => {
         setTimeout(() => {
-            getOrganizationCoreTypes('COREAREATYPE')
+            getOrganizationCoreTypes('COREAREATYPE,ROLETYPE')
                 .then((result) => {
                     if (result.isSuccess) {
+                        debugger
                         setLookupDataSource(result.data[0].lookUps);
+                        setEmploymentType(result.data[1].lookUps);
                     }
                     console.log(lookupDataSource);
                 });
@@ -37,6 +42,10 @@ const JobDetails = () => {
         // setInputs(values => ({ ...values, ["jobOpeningCoreAreaMapping"]: lookupIds.join() }));
         // setCoreArea(values => ({ ...values, [event.target.name]: event.value }));
         setCoreArea(values => (event.value));
+    };
+
+    const empTypeHandleChange = (event) => {
+        setEmploymentTypeValue(values => (event.value));
     };
 
     const handleFormSubmit = (formData) => {
@@ -72,23 +81,98 @@ const JobDetails = () => {
             <div className="col-md-6">
                 <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
                     <div className="row">
+                        {/* "jobDescription": "string",
+  "qualification": "string",
+  "role": "string",
+  "employmentTypeId": 0,
+  "employmentType": {
+    "lookUpId": 0,
+    "code": "string",
+    "description": "string",
+    "lookUpGroupId": 0
+  }, */}
                         <div className="col-md-6">
                             <div className="form-group" style={{ marginBottom: 15 }}>
-                                <label className="form-label" htmlFor="firstName">
-                                    No Of Job Openings
+                                <label className="form-label" htmlFor="jobDescription">
+                                    Job Description
                                 </label>
                                 <div className="form-control-wrap">
                                     <input
                                         type="text"
-                                        id="numberOfOpening"
-                                        name="numberOfOpening"
-                                        value={inputs.numberOfOpening || ""}
+                                        id="jobDescription"
+                                        name="jobDescription"
+                                        value={inputs.jobDescription || ""}
                                         onChange={handleInputChange}
-                                        placeholder="No Of Job Openings"
-                                        ref={register({ required: true })}
+                                        placeholder="Job Description"
                                         className="form-control-lg form-control"
                                     />
                                     {errors.name && <p className="invalid">This field is required</p>}
+                                </div>
+                            </div>
+                            <div className="form-group" style={{ marginBottom: 15 }}>
+                                <label className="form-label" htmlFor="qualification">
+                                    Qualification
+                                </label>
+                                <div className="form-control-wrap">
+                                    <input
+                                        type="text"
+                                        id="qualification"
+                                        name="qualification"
+                                        value={inputs.qualification || ""}
+                                        onChange={handleInputChange}
+                                        placeholder="Qualification"
+                                        className="form-control-lg form-control"
+                                    />
+                                    {errors.name && <p className="invalid">This field is required</p>}
+                                </div>
+                            </div>
+                            <div className="form-group" style={{ marginBottom: 15 }}>
+                                <label className="form-label" htmlFor="qualification">
+                                    Qualification
+                                </label>
+                                <div className="form-control-wrap">
+                                    <input
+                                        type="text"
+                                        id="qualification"
+                                        name="qualification"
+                                        value={inputs.qualification || ""}
+                                        onChange={handleInputChange}
+                                        placeholder="Qualification"
+                                        className="form-control-lg form-control"
+                                    />
+                                    {errors.name && <p className="invalid">This field is required</p>}
+                                </div>
+                            </div>
+                            <div className="form-group" style={{ marginBottom: 15 }}>
+                                <label className="form-label" htmlFor="role">
+                                    Role
+                                </label>
+                                <div className="form-control-wrap">
+                                    <input
+                                        type="text"
+                                        id="role"
+                                        name="role"
+                                        value={inputs.role || ""}
+                                        onChange={handleInputChange}
+                                        placeholder="role"
+                                        className="form-control-lg form-control"
+                                    />
+                                    {errors.name && <p className="invalid">This field is required</p>}
+                                </div>
+                            </div>
+                            <div className="form-group" style={{ marginBottom: 15 }}>
+                                <label className="form-label" htmlFor="employmentTypeId">
+                                    Employment Type</label>
+                                <div className="form-control-wrap">
+                                    <DropDownList
+                                        data={employmentType}
+                                        textField="description"
+                                        dataItemKey="lookUpId"
+                                        value={employmentTypeValue}
+                                        name="employmentTypeId"
+                                        onChange={empTypeHandleChange}
+                                        placeholder="Please select ..."
+                                    />
                                 </div>
                             </div>
                             <div className="form-group" style={{ marginBottom: 15 }}>
