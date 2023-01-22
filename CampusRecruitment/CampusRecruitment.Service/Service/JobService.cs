@@ -11,6 +11,11 @@ using CampusRecruitment.Repository.Repository;
 using CampusRecruitment.Mapper;
 using CampusRecruitment.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
+using CampusRecruitment.EmailService;
+using CampusRecruitment.Utils.Common;
+using System.Net;
+using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CampusRecruitment.Service.Service
 {
@@ -204,6 +209,20 @@ namespace CampusRecruitment.Service.Service
 
             var viewData = data.CopyTo<OfferViewModel>();
             viewData.Interview = null;
+
+            //EmailInfo emailInfo = new EmailInfo()
+            //{
+            //    Subject = "Test Techathon Email",
+            //    Body = "Test Techathon Email body",
+            //    ToEmail = new List<string> { "nagaparameswaran.jayaram@rencata.com" },
+            //    FromEmail = AppSetting.GetConfigValue("SmtpFromEmail"),
+            //    FromDisplayName = "Raja K",
+            //    AttachmentPath = null,
+            //    IsBodyHtml = true,
+            //    ResendCount = null,
+            //    CCEmail = (AppSetting.GetConfigValue("DefaultCcEmails").Split(',')).ToList()
+            //};
+            //EmailService.EmailService.SendEmail(emailInfo);
 
             return new Result<OfferViewModel>("Offer details saved successfully", viewData, true);
         }
