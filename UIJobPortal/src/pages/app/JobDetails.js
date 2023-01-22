@@ -16,8 +16,7 @@ const JobDetails = () => {
         setTimeout(() => {
             getOrganizationCoreTypes('COREAREATYPE,ROLETYPE')
                 .then((result) => {
-                    if (result.isSuccess) {
-                        debugger
+                    if (result.isSuccess) { 
                         setLookupDataSource(result.data[0].lookUps);
                         setEmploymentType(result.data[1].lookUps);
                     }
@@ -32,13 +31,11 @@ const JobDetails = () => {
 
     const handleInputChange = (event) => {
         const name = event.target.name;
-        const value = event.target.value;
-
+        const value = event.target.value; 
         setInputs(values => ({ ...values, [name]: value }))
     }
 
     const handleChange = (event) => {
-
         // setInputs(values => ({ ...values, ["jobOpeningCoreAreaMapping"]: lookupIds.join() }));
         // setCoreArea(values => ({ ...values, [event.target.name]: event.value }));
         setCoreArea(values => (event.value));
@@ -49,25 +46,24 @@ const JobDetails = () => {
     };
 
     const handleFormSubmit = (formData) => {
-        debugger
+       
         var lookupIds = [];
         coreArea.forEach((element, index) => {
             lookupIds.push(element.lookUpId);
             console.log(element.lookUpId)
         });
         formData["jobOpeningCoreAreaMapping"] = lookupIds.join();
-        console.log(formData);
-
+        formData['employmentTypeId'] = formData.employmentTypeId.lookUpId;
+ 
         setTimeout(() => {
             saveJobOpening(formData)
-                .then((result) => {
-                    debugger
+                .then((result) => { 
                     if (result.isSuccess) {
                         setInputs({});
                         setCoreArea([]);
-                        alert(result.message);
-                    }
-                    console.log(result);
+                        setEmploymentTypeValue({});
+                    } 
+                    alert(result.message);
                 });
         }, 200);
 
@@ -105,10 +101,11 @@ const JobDetails = () => {
                                         onChange={handleInputChange}
                                         placeholder="Job Description"
                                         className="form-control-lg form-control"
+                                        ref={register({ required: false })}
                                     />
                                     {errors.name && <p className="invalid">This field is required</p>}
                                 </div>
-                            </div>
+                            </div> 
                             <div className="form-group" style={{ marginBottom: 15 }}>
                                 <label className="form-label" htmlFor="qualification">
                                     Qualification
@@ -122,23 +119,7 @@ const JobDetails = () => {
                                         onChange={handleInputChange}
                                         placeholder="Qualification"
                                         className="form-control-lg form-control"
-                                    />
-                                    {errors.name && <p className="invalid">This field is required</p>}
-                                </div>
-                            </div>
-                            <div className="form-group" style={{ marginBottom: 15 }}>
-                                <label className="form-label" htmlFor="qualification">
-                                    Qualification
-                                </label>
-                                <div className="form-control-wrap">
-                                    <input
-                                        type="text"
-                                        id="qualification"
-                                        name="qualification"
-                                        value={inputs.qualification || ""}
-                                        onChange={handleInputChange}
-                                        placeholder="Qualification"
-                                        className="form-control-lg form-control"
+                                        ref={register({ required: false })}
                                     />
                                     {errors.name && <p className="invalid">This field is required</p>}
                                 </div>
@@ -156,6 +137,7 @@ const JobDetails = () => {
                                         onChange={handleInputChange}
                                         placeholder="role"
                                         className="form-control-lg form-control"
+                                        ref={register({ required: false })}
                                     />
                                     {errors.name && <p className="invalid">This field is required</p>}
                                 </div>
@@ -171,12 +153,13 @@ const JobDetails = () => {
                                         value={employmentTypeValue}
                                         name="employmentTypeId"
                                         onChange={empTypeHandleChange}
-                                        placeholder="Please select ..."
+                                        defaultItem="Please select ..." 
+                                        ref={register({ required: false })}
                                     />
                                 </div>
                             </div>
                             <div className="form-group" style={{ marginBottom: 15 }}>
-                                <label className="form-label" htmlFor="name">
+                                <label className="form-label" htmlFor="minCgpaorPercent">
                                     Min Cgpa/Percent
                                 </label>
                                 <div className="form-control-wrap">
