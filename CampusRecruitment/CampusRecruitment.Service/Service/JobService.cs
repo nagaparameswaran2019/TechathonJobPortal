@@ -128,7 +128,7 @@ namespace CampusRecruitment.Service.Service
             var jobCoreAreas = _lookUpGroupRepository.Get(predicate: t => t.Code.ToLower().Equals("coreareatype"), include: s => s.Include(i => i.LookUps)).FirstOrDefault();
 
             List<JobOpening> jobOpenings = _jobOpeningRepository.Get(
-                predicate: t => t.Invites.Any(inv => inv.OrganizationId == organizationId),
+                predicate: t => t.OrganizationId == organizationId || t.Invites.Any(inv => inv.OrganizationId == organizationId),
             include: inc => inc.Include(c => c.JobOpeningCoreAreaMappings)).ToList();
 
             var viewData = jobOpenings.CopyTo<List<JobOpeningViewModel>>();
