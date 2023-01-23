@@ -88,7 +88,7 @@ const Register = ({ history }) => {
     var inputData = inputs;
     inputData['organization'] = orgInputs;
     inputData.organization.organizationSubTypeId = orgSubType.lookUpId;
-    
+
     if (orgType == 'INSTITUTIONTYPE') {
       var lookupIds = [];
       inputData.organization.departmentdata.forEach((element, index) => {
@@ -96,6 +96,9 @@ const Register = ({ history }) => {
         console.log(element.lookUpId)
       });
       inputData.organization.department = lookupIds.join();
+    }
+    else{
+      inputData.organization.department = '';
     }
 
     setTimeout(() => {
