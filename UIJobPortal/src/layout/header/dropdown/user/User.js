@@ -26,7 +26,7 @@ const User = () => {
         <div className="user-toggle">
           <UserAvatar icon="user-alt" className="sm" />
           <div className="user-info d-none d-md-block">
-            <div className="user-status">Administrator</div>
+            {/* <div className="user-status">Administrator</div> */}
             <div className="user-name dropdown-indicator">{userData.firstName || '' + ' ' + userData.lastName || ''}</div>
           </div>
         </div>
@@ -48,12 +48,12 @@ const User = () => {
             <LinkItem link="/user-profile-regular" icon="user-alt" onClick={toggle}>
               View Profile
             </LinkItem>
-            <LinkItem link="/user-profile-setting" icon="setting-alt" onClick={toggle}>
+            {/* <LinkItem link="/user-profile-setting" icon="setting-alt" onClick={toggle}>
               Account Setting
             </LinkItem>
             <LinkItem link="/user-profile-activity" icon="activity-alt" onClick={toggle}>
               Login Activity
-            </LinkItem>
+            </LinkItem> */}
           </LinkList>
         </div>
         <div className="dropdown-inner">

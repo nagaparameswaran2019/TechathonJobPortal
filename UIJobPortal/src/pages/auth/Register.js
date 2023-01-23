@@ -87,14 +87,14 @@ const Register = ({ history }) => {
     debugger
     var inputData = inputs;
     inputData['organization'] = orgInputs;
-    var lookupIds = [];
-    inputData.organization.departmentdata.forEach((element, index) => {
-      lookupIds.push(element.lookUpId);
-      console.log(element.lookUpId)
-    });
     inputData.organization.organizationSubTypeId = orgSubType.lookUpId;
-
+    
     if (orgType == 'INSTITUTIONTYPE') {
+      var lookupIds = [];
+      inputData.organization.departmentdata.forEach((element, index) => {
+        lookupIds.push(element.lookUpId);
+        console.log(element.lookUpId)
+      });
       inputData.organization.department = lookupIds.join();
     }
 
@@ -401,7 +401,7 @@ const Register = ({ history }) => {
                         placeholder="Email"
                         ref={register({ required: "This field is required" })}
                         className="form-control-lg form-control" />
-                         {errors.email && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
+                      {errors.email && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </div>
                   <div className="form-group">
@@ -418,7 +418,7 @@ const Register = ({ history }) => {
                         ref={register({ required: "This field is required" })}
                         className="form-control-lg form-control"
                       />
-                       {errors.contact && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
+                      {errors.contact && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </div>
                   <div className="form-group">
@@ -435,7 +435,7 @@ const Register = ({ history }) => {
                         ref={register({ required: "This field is required" })}
                         className="form-control-lg form-control"
                       />
-                         {errors.website && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
+                      {errors.website && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </div>
                   <FormGroup>
@@ -475,7 +475,7 @@ const Register = ({ history }) => {
                         ref={register({ required: "This field is required" })}
                         placeholder="Please select"
                       />
-                       {errors.departmentdata && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
+                      {errors.departmentdata && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </FormGroup>
                 </div>
