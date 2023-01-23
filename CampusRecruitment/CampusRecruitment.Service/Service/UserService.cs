@@ -52,25 +52,25 @@ namespace CampusRecruitment.Service.Service
             model.CreatedDate = DateTime.Now;
             model.ModifiedDate = DateTime.Now;
 
+            User user = model.CopyTo<User>();
+
             if (!string.IsNullOrEmpty(model.Organization.Department))
             {
-                List<DepartmentViewModel> departmentList = model.Organization.Department.Split(',').Select(s =>
-                new DepartmentViewModel()
+                List<Department> departmentList = model.Organization.Department.Split(',').Select(s =>
+                new Department()
                 {
                     DepartmentTypeId = Convert.ToInt32(s.Trim()),
                     OrganizationId = model.Organization.OrganizationId,
-                    Organization = model.Organization,
+                    DepartmentType = null
                 }
                 ).ToList();
 
-                model.Organization.Departments = departmentList;
+                user.Organization.Departments = departmentList;
             }
             else
             {
-                model.Organization.Departments = null;
+                user.Organization.Departments = null;
             }
-
-            User user = model.CopyTo<User>();
 
             _userRepository.Add(user);
 
