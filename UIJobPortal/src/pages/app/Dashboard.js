@@ -25,6 +25,7 @@ const initialDataState = {
 function Dashboard() {
   const [controlLoaded, setcontrolLoaded] = useState(false);
   const [filter, setFilter] = React.useState(initialFilter);
+  const [buttonDesc, setbuttonDesc] = useState('');
   let gridPDFExport;
   const _export = React.useRef(null);
   const apiUrl = 'https://api.github.com/users/hadley/orgs';
@@ -45,6 +46,7 @@ function Dashboard() {
           debugger
           var organizationTypeId = record.organizationType == "INSTITUTION" ? 10 : 11;
           setorgDesc(organizationTypeId == 10 ? 'Companies' : 'Institutions');
+          setbuttonDesc(organizationTypeId == 10 ? 'Reply' : 'Invite')
           var dataSource = result.data.filter(r => r.organizationTypeId == organizationTypeId);
           console.log(dataSource);
           setDataSource(dataSource);
@@ -70,11 +72,10 @@ function Dashboard() {
     const field = props.field || "";
     return (
       <td className="k-command-cell">
-        <button className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary k-grid-edit-command" onClick={() => { alert(props.dataItem[field].toString()); }}>Invite</button>
+        <button className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary k-grid-edit-command" onClick={() => { alert(props.dataItem[field].toString()); }}>{buttonDesc}</button>
       </td>
     );
   };
-  const MyCustomCell = (props) => <CustomCell {...props} />;
   // "organizationId": 7,
   // "name": "test",
   // "email": "test@email.com",
@@ -94,6 +95,7 @@ function Dashboard() {
         <GridColumn field="email" width="250px" title="Email" />
         <GridColumn field="website" title="Website" />
         <GridColumn field="contact" width="250px" title="Contact" />
+        <GridColumn cell={CustomCell} field="studentID" title=" " width="200px" />
       </Grid>
     );
   }
