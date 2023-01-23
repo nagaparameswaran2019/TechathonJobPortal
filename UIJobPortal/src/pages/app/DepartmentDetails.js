@@ -2,6 +2,7 @@ import React, { Suspense, useLayoutEffect, useState, useEffect } from "react";
 import { DropDownList, MultiSelect } from "@progress/kendo-react-dropdowns";
 import { getOrganizationCoreTypes, addCoreAreasToDepartment, getAllDepartmentByOrganizationId } from '../../services';
 import { Switch, Route } from "react-router-dom";
+import { Grid, GridColumn, GridToolbar } from "@progress/kendo-react-grid";
 import { useForm } from "react-hook-form";
 
 
@@ -13,7 +14,7 @@ const DepartmentDetails = () => {
     const [coreArea, setCoreArea] = useState([]);
     const [passState, setPassState] = useState(false);
     const [gridData, setGridData] = useState([]);
-
+ 
     useEffect(() => {
         setTimeout(() => {
             var organizationId = JSON.parse(localStorage.userData).organizationId;
@@ -22,8 +23,9 @@ const DepartmentDetails = () => {
 
                     if (result.isSuccess) {
                         setDepartmentDataSource(result.data);
+                        setGridData(result.data);
                     }
-                    setGridData(result.data);
+                    
                     getOrganizationCoreTypes('COREAREATYPE')
                         .then((output) => {
                             if (output.isSuccess) {
@@ -43,22 +45,15 @@ const DepartmentDetails = () => {
                                         var lookup = output.data[0].lookUps.find(s => s.lookUpId == c);
                                         r.coreAreaLookup.push(lookup);
                                         coreAreaSelected.push(lookup.description);
-                                        console.log(lookup);
-
+                                        console.log(lookup); 
                                     })
                                     r.selectedCoreAreas = coreAreaSelected.join(', ');
-                                }
-                                gridData.push(r);
-                                setDepartmentDataSource(gridData);
-                                console.log(gridData);
-                            })
-
-                        });
-                    console.log(result);
-                });
-
-
-        }, 100);
+                                } 
+                                departmentDataSource.push(r); 
+                            }) 
+                        }); 
+                }); 
+        }, 500);
     }, []);
 
     const handleChange = (event) => {
@@ -104,6 +99,19 @@ const DepartmentDetails = () => {
         name: "Please select", departmentId: -1,
     };
 
+    var departmentDetailsGrid = [];
+    if (Array.isArray(gridData) && gridData.length) {
+        departmentDetailsGrid = (
+            <Grid style={{ height: "400px" }}
+                data={gridData}
+                total={gridData.length} >
+                <GridColumn field="name" title="Name" width="400px" />
+                <GridColumn field="selectedCoreAreas" title="Core Area's" /> 
+                <GridColumn field="" title="Action" width="250px" />
+            </Grid>
+        );
+    }
+
     return (
         <div style={{ marginTop: 75 }} className="col-md-12">
             <h6>Department Core area mapping</h6>
@@ -119,10 +127,10 @@ const DepartmentDetails = () => {
                                 dataItemKey="departmentId"
                                 value={departmentValue}
                                 name="department"
-                                ref={register({ required: true })}
-                                // defaultItem={defaultItem}
+                                ref={register({ required: true })} 
                                 onChange={handleChange}
                             />
+                             {errors.department && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                         </div>
                     </div>
                     <div className="form-group" style={{ marginBottom: 15 }}>
@@ -141,9 +149,10 @@ const DepartmentDetails = () => {
                                 onChange={onCoreAreaChange}
                                 placeholder="Please select"
                             />
+                            {errors.coreArea && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                         </div>
                     </div>
-                    <div className="k-form-buttons">
+                    <div className="k-form-buttons pb-4">
                         <button
                             type={"submit"}
                             disabled={!passState}
@@ -153,7 +162,9 @@ const DepartmentDetails = () => {
                     </div>
                 </div>
             </form>
-            <div className="col-md-12"></div>
+            <div className="col-md-12">
+                {departmentDetailsGrid}
+            </div>
         </div>
     );
 };

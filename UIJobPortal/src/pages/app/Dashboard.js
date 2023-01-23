@@ -37,12 +37,15 @@ function Dashboard() {
   });
   const IsOrgType = sessionStorage.getItem('LoginOrgType') == 'INSTITUTION' ? true : false;
   const [orgDesc, setorgDesc] = useState(IsOrgType ? 'College' : 'Company');
+  var record = JSON.parse(localStorage.userData);
   useEffect(() => {
     setTimeout(() => {
       getAllOrganization(apiUrl)
         .then((result) => {
           debugger
-          var dataSource = result.data.filter(r=>r.organizationTypeId ==11);
+          var organizationTypeId = record.organizationType == "INSTITUTION" ? 10 : 11;
+          setorgDesc(organizationTypeId == 10 ? 'Companies' : 'Institutions');
+          var dataSource = result.data.filter(r => r.organizationTypeId == organizationTypeId);
           console.log(dataSource);
           setDataSource(dataSource);
           setcontrolLoaded(true);
@@ -98,7 +101,7 @@ function Dashboard() {
     <div>
       {!controlLoaded && <LoadingPanel />}
       <div style={{ marginTop: 75, marginRight: 20 }} className="col-md-12">
-        <div className="page-head"><h6>Institution Details</h6>
+        <div className="page-head"><h6>{orgDesc}</h6>
           <ExcelExport data={dataSource} ref={_export} fileName="dashboardGrid.xlsx">
             {dashboardGrid}
           </ExcelExport>

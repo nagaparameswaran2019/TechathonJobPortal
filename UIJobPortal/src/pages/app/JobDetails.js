@@ -88,66 +88,39 @@ const JobDetails = () => {
             <Grid style={{ height: "400px" }}
                 data={jobDetailsDataSource}
                 total={jobDetailsDataSource.length} >
-                <GridColumn field="numberOfOpening" title="No Of Opening" width="250px" />
-                <GridColumn field="minCgpaorPercent" title="Min Cgpa/Percent" width="250px" />
-                <GridColumn field="jobDescription" title="Job Description" width="250px" />
+                <GridColumn field="numberOfOpening" title="No Of Opening" width="150px" />
+                <GridColumn field="minCgpaorPercent" title="Min CGPA/Percent" width="150px" />
+                <GridColumn field="jobDescription" title="Job Description" />
                 <GridColumn field="jobOpeningCoreAreaMapping" title="Key Skill" />
                 <GridColumn field="employmentType" title="Employment Type" width="250px" />
             </Grid>
         );
-    }
-
-    {/* "jobOpeningId": 1,
-      "numberOfOpening": 5,
-      "minCgpaorPercent": 60,
-      "isActive": true,
-      "jobOpeningCoreAreaMapping": "Tamil,English",
-      "jobDescription": null,
-      "qualification": null,
-      "role": null,
-      "employmentTypeId": null,
-      "organizationId": 15,
-      "employmentType": null,
-      "interviews": [],
-      "invites": [],
-      "jobOpeningCoreAreaMappings": null,
-      "organization": null */}
+    } 
 
     return (
         <div style={{ marginTop: 65 }} className="col-md-12">
             <div className="brand-logo pt-4 pb-4  col-md-6">
-                <h4 tag="h1">Job description</h4>
+                <h6>Job Details</h6>
             </div>
             <div className="col-md-6">
                 <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
                     <div className="row">
-                        {/* "jobDescription": "string",
-  "qualification": "string",
-  "role": "string",
-  "employmentTypeId": 0,
-  "employmentType": {
-    "lookUpId": 0,
-    "code": "string",
-    "description": "string",
-    "lookUpGroupId": 0
-  }, */}
                         <div className="col-md-6">
                             <div className="form-group" style={{ marginBottom: 15 }}>
                                 <label className="form-label" htmlFor="jobDescription">
                                     Job Description
                                 </label>
                                 <div className="form-control-wrap">
-                                    <input
-                                        type="text"
-                                        id="jobDescription"
+                                    <textarea  id="jobDescription"
                                         name="jobDescription"
                                         value={inputs.jobDescription || ""}
                                         onChange={handleInputChange}
                                         placeholder="Job Description"
                                         className="form-control-lg form-control"
-                                        ref={register({ required: false })}
-                                    />
-                                    {errors.name && <p className="invalid">This field is required</p>}
+                                        ref={register({ required: true })}>
+
+                                    </textarea>
+                                 {errors.jobDescription && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                                 </div>
                             </div>
                             <div className="form-group" style={{ marginBottom: 15 }}>
@@ -163,9 +136,9 @@ const JobDetails = () => {
                                         onChange={handleInputChange}
                                         placeholder="Qualification"
                                         className="form-control-lg form-control"
-                                        ref={register({ required: false })}
+                                        ref={register({ required: true })}
                                     />
-                                    {errors.name && <p className="invalid">This field is required</p>}
+                                      {errors.qualification && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                                 </div>
                             </div>
                             <div className="form-group" style={{ marginBottom: 15 }}>
@@ -181,9 +154,9 @@ const JobDetails = () => {
                                         onChange={handleInputChange}
                                         placeholder="role"
                                         className="form-control-lg form-control"
-                                        ref={register({ required: false })}
+                                        ref={register({ required: true })}
                                     />
-                                    {errors.name && <p className="invalid">This field is required</p>}
+                                  {errors.role && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                                 </div>
                             </div>
                             <div className="form-group" style={{ marginBottom: 15 }}>
@@ -201,6 +174,7 @@ const JobDetails = () => {
                                         ref={register({ required: false })}
                                     />
                                 </div>
+                                {errors.employmentTypeId && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                             </div>
                             <div className="form-group" style={{ marginBottom: 15 }}>
                                 <label className="form-label" htmlFor="minCgpaorPercent">
@@ -213,11 +187,11 @@ const JobDetails = () => {
                                         name="minCgpaorPercent"
                                         value={inputs.minCgpaorPercent || ""}
                                         onChange={handleInputChange}
-                                        placeholder="Min Cgpa/Percent"
+                                        placeholder="Min CGPA/Percent"
                                         ref={register({ required: true })}
                                         className="form-control-lg form-control"
                                     />
-                                    {errors.name && <p className="invalid">This field is required</p>}
+                                    {errors.minCgpaorPercent && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                                 </div>
                             </div>
                             <div className="form-group" style={{ marginBottom: 15 }}>
@@ -233,8 +207,10 @@ const JobDetails = () => {
                                         name="coreArea"
                                         className=""
                                         onChange={handleChange}
+                                        ref={register({ required: true })}
                                         placeholder="Please select"
                                     />
+                                    {errors.coreArea && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                                 </div>
                             </div>
                         </div>
