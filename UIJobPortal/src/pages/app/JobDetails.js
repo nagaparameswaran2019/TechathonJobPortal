@@ -1,26 +1,39 @@
 import React, { Suspense, useLayoutEffect, useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Grid, GridColumn, GridToolbar } from "@progress/kendo-react-grid";
 import { MultiSelect, DropDownList } from "@progress/kendo-react-dropdowns";
-import { getOrganizationCoreTypes, saveJobOpening } from '../../services';
+import { getOrganizationCoreTypes, saveJobOpening, getJobOpeningsByOrganizationId } from '../../services';
 const JobDetails = () => {
     const [lookupDataSource, setLookupDataSource] = useState([]);
     const [employmentType, setEmploymentType] = useState([]);
     const [inputs, setInputs] = useState({});
     const [coreArea, setCoreArea] = useState([]);
     const [employmentTypeValue, setEmploymentTypeValue] = useState([]);
-    
+    const [jobDetailsDataSource, setJobDetailsDataSource] = useState([]);
+
     const { errors, register, handleSubmit } = useForm();
 
     useEffect(() => {
         setTimeout(() => {
             getOrganizationCoreTypes('COREAREATYPE,ROLETYPE')
                 .then((result) => {
-                    if (result.isSuccess) { 
+                    if (result.isSuccess) {
                         setLookupDataSource(result.data[0].lookUps);
                         setEmploymentType(result.data[1].lookUps);
                     }
                     console.log(lookupDataSource);
+                });
+            var userData = JSON.parse(localStorage.getItem('userData'));
+            // console.log(userData);
+            getJobOpeningsByOrganizationId(userData.organizationId)
+                .then((result) => {
+                    debugger
+                    if (result.isSuccess) {
+
+                        console.log(result.data)
+                        setJobDetailsDataSource(result.data);
+                    }
                 });
         }, 100);
     }, []);
@@ -31,7 +44,7 @@ const JobDetails = () => {
 
     const handleInputChange = (event) => {
         const name = event.target.name;
-        const value = event.target.value; 
+        const value = event.target.value;
         setInputs(values => ({ ...values, [name]: value }))
     }
 
@@ -46,7 +59,7 @@ const JobDetails = () => {
     };
 
     const handleFormSubmit = (formData) => {
-       
+
         var lookupIds = [];
         coreArea.forEach((element, index) => {
             lookupIds.push(element.lookUpId);
@@ -54,25 +67,56 @@ const JobDetails = () => {
         });
         formData["jobOpeningCoreAreaMapping"] = lookupIds.join();
         formData['employmentTypeId'] = formData.employmentTypeId.lookUpId;
- 
+
         setTimeout(() => {
             saveJobOpening(formData)
-                .then((result) => { 
+                .then((result) => {
                     if (result.isSuccess) {
                         setInputs({});
                         setCoreArea([]);
                         setEmploymentTypeValue({});
-                    } 
+                    }
                     alert(result.message);
                 });
         }, 200);
 
     };
 
+    var jobDetailsGrid = [];
+    if (Array.isArray(jobDetailsDataSource) && jobDetailsDataSource.length) {
+        jobDetailsGrid = (
+            <Grid style={{ height: "400px" }}
+                data={jobDetailsDataSource}
+                total={jobDetailsDataSource.length} >
+                <GridColumn field="numberOfOpening" title="No Of Opening" width="250px" />
+                <GridColumn field="minCgpaorPercent" title="Min Cgpa/Percent" width="250px" />
+                <GridColumn field="jobDescription" title="Job Description" width="250px" />
+                <GridColumn field="jobOpeningCoreAreaMapping" title="Key Skill" />
+                <GridColumn field="employmentType" title="Employment Type" width="250px" />
+            </Grid>
+        );
+    }
+
+    {/* "jobOpeningId": 1,
+      "numberOfOpening": 5,
+      "minCgpaorPercent": 60,
+      "isActive": true,
+      "jobOpeningCoreAreaMapping": "Tamil,English",
+      "jobDescription": null,
+      "qualification": null,
+      "role": null,
+      "employmentTypeId": null,
+      "organizationId": 15,
+      "employmentType": null,
+      "interviews": [],
+      "invites": [],
+      "jobOpeningCoreAreaMappings": null,
+      "organization": null */}
+
     return (
-        <div style={{ marginTop: 65, position: "fixed" }} className="col-md-12">
+        <div style={{ marginTop: 65 }} className="col-md-12">
             <div className="brand-logo pt-4 pb-4  col-md-6">
-                <h4 tag="h1">Job Details</h4>
+                <h4 tag="h1">Job description</h4>
             </div>
             <div className="col-md-6">
                 <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
@@ -105,7 +149,7 @@ const JobDetails = () => {
                                     />
                                     {errors.name && <p className="invalid">This field is required</p>}
                                 </div>
-                            </div> 
+                            </div>
                             <div className="form-group" style={{ marginBottom: 15 }}>
                                 <label className="form-label" htmlFor="qualification">
                                     Qualification
@@ -153,7 +197,7 @@ const JobDetails = () => {
                                         value={employmentTypeValue}
                                         name="employmentTypeId"
                                         onChange={empTypeHandleChange}
-                                        defaultItem="Please select ..." 
+                                        defaultItem="Please select ..."
                                         ref={register({ required: false })}
                                     />
                                 </div>
@@ -205,6 +249,9 @@ const JobDetails = () => {
                         </div>
                     </div>
                 </form>
+            </div>
+            <div className="col-md-12">
+                {jobDetailsGrid}
             </div>
         </div>
     );

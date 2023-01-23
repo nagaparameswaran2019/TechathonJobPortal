@@ -43,7 +43,7 @@ const StudentDetails = () => {
     const { errors, register, handleSubmit } = useForm();
     let gridPDFExport;
     const _export = React.useRef(null);
-    const apiUrl = 'https://localhost:7077/api/Student/GetAllStudentsByOrganizationId/'+localStorage.getItem("organizationId");
+    const apiUrl = 'https://localhost:7077/api/Student/GetAllStudentsByOrganizationId/' + localStorage.getItem("organizationId");
     const [page, setPage] = useState(initialDataState);
     const pageChange = (event) => {
         setPage(event.page);
@@ -53,7 +53,7 @@ const StudentDetails = () => {
     const [departmentValue, setDepartmentValue] = useState({});
     const [dataSource, setDataSource] = useState({
         data: []
-    }); 
+    });
 
     useEffect(() => {
         setTimeout(() => {
@@ -91,8 +91,9 @@ const StudentDetails = () => {
                 .then((result) => {
                     debugger
                     if (result.isSuccess) {
-                        
+                        getAllStudent();
                     }
+                    dataItem = {};
                     alert(result.message);
                     console.log(result);
                 });
@@ -151,23 +152,22 @@ const StudentDetails = () => {
     const MyCustomCell = (props) => <CustomCell {...props} />;
     const editStudent = (strudentRow) => {
         let entries = Object.entries(strudentRow)
-        let data = entries.map( ([key, val] = entry) => {
-            const name = key; 
-            const value = val;           
-            if(name == 'department')
-            {
+        let data = entries.map(([key, val] = entry) => {
+            const name = key;
+            const value = val;
+            if (name == 'department') {
                 setDepartmentValue(val.departmentId);
             }
             //console.log(name+' = ' +val);
-            if(name != 'dateOfBirth')  
-            setInputs(values => ({ ...values, [name]: value }));        
+            if (name != 'dateOfBirth')
+                setInputs(values => ({ ...values, [name]: value }));
         });
     }
 
     var studentGrid = [];
     if (Array.isArray(dataSource) && dataSource.length) {
         studentGrid = (
-            <Grid style={{ height: "600px" }}
+            <Grid style={{ height: "400px" }}
                 data={filterBy(dataSource, filter)} filterable={false} sortable={false} filter={filter} onFilterChange={(e) => { setFilter(e.filter); }}
                 total={dataSource.length}
             >
@@ -218,151 +218,139 @@ const StudentDetails = () => {
     };
 
     return (
-        <div style={{ marginTop: 75, position: "fixed" }} className="col-md-4">
+        <div style={{ marginTop: 75 }} className="col-md-12">
             <h6>Student Details</h6>
-            <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
-                <div className="form-group" style={{ marginBottom: 15 }}>
-                    <label className="form-label" htmlFor="firstName">
-                        First Name</label>
-                    <div className="form-control-wrap">
-                        <input
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            value={inputs.firstName || ""}
-                            onChange={handleInputChange}
-                            placeholder="First name"
-                            ref={register({ required: true })}
-                            className="form-control-lg form-control"
-                        />
+            <div className="col-md-4 pb-4">
+                <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
+                    <div className="form-group" style={{ marginBottom: 15 }}>
+                        <label className="form-label" htmlFor="firstName">
+                            First Name</label>
+                        <div className="form-control-wrap">
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                value={inputs.firstName || ""}
+                                onChange={handleInputChange}
+                                placeholder="First name"
+                                ref={register({ required: true })}
+                                className="form-control-lg form-control"
+                            />
+                        </div>
+                        {errors.firstName && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
-                </div>
-                <div className="form-group" style={{ marginBottom: 15 }}>
-                    <label className="form-label" htmlFor="lastName">
-                        Last Name</label>
-                    {/* "studentId": 0,
-  "firstName": "Mani",
-  "lastName": "Kumar",
-  "dateOfBirth": "10/10/1990",
-  "email": "test@email.com",
-  "cgpaorPercentage": 5.6,
-  "contact": "12345",
-  "statusId": 1,
-  "departmentId": 8 */}
-                    <div className="form-control-wrap">
-                        <input
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            value={inputs.lastName || ""}
-                            onChange={handleInputChange}
-                            placeholder="Last name"
-                            ref={register({ required: true })}
-                            className="form-control-lg form-control"
-                        />
+                    <div className="form-group" style={{ marginBottom: 15 }}>
+                        <label className="form-label" htmlFor="lastName">
+                            Last Name</label>
+                        <div className="form-control-wrap">
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                value={inputs.lastName || ""}
+                                onChange={handleInputChange}
+                                placeholder="Last name"
+                                ref={register({ required: true })}
+                                className="form-control-lg form-control"
+                            />
+                        </div>
+                        {errors.lastName && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
-                </div>
-                <div className="form-group" style={{ marginBottom: 15 }}>
-                    <label className="form-label" htmlFor="email">
-                        Email</label>
-                    <div className="form-control-wrap">
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={inputs.email || ""}
-                            ref={register({ required: true })}
-                            onChange={handleInputChange}
-                            className="form-control-lg form-control"
-                            placeholder="Email"
-                        />
+                    <div className="form-group" style={{ marginBottom: 15 }}>
+                        <label className="form-label" htmlFor="email">
+                            Email</label>
+                        <div className="form-control-wrap">
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={inputs.email || ""}
+                                ref={register({ required: true })}
+                                onChange={handleInputChange}
+                                className="form-control-lg form-control"
+                                placeholder="Email"
+                            />
+                        </div>
+                        {errors.email && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
-                </div>
-                <div className="form-group" style={{ marginBottom: 15 }}>
-                    <label className="form-label" htmlFor="dateOfBirth">
-                        DOB</label>
-                    <div className="form-control-wrap">
-                        <DatePicker
-                            name="dateOfBirth"
-                            id="dateOfBirth"
-                            format="MM/dd/yyyy"
-                            onChange={dobHandleChange}
-                            value={inputs.dateOfBirth || ""}
-                        />
-                        {/* <input
-                            type="text"
-                            id="dateOfBirth"
-                            name="dateOfBirth"
-                            value={inputs.dateOfBirth || ""}
-                            ref={register({ required: true })}
-                            onChange={handleInputChange}
-                            className="form-control-lg form-control"
-                            placeholder="Date Of Birth"
-                        /> */}
+                    <div className="form-group" style={{ marginBottom: 15 }}>
+                        <label className="form-label" htmlFor="dateOfBirth">
+                            DOB</label>
+                        <div className="form-control-wrap">
+                            <DatePicker
+                                name="dateOfBirth"
+                                id="dateOfBirth"
+                                format="MM/dd/yyyy"
+                                ref={register({ required: true })}
+                                onChange={dobHandleChange}
+                                value={inputs.dateOfBirth || ""}
+                            />
+                        </div>
+                        {errors.dateOfBirth && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
-                </div>
-                <div className="form-group" style={{ marginBottom: 15 }}>
-                    <label className="form-label" htmlFor="cgpaorPercentage">
-                        CGPA/Percentage</label>
-                    <div className="form-control-wrap">
-                        <input
-                            type="text"
-                            id="cgpaorPercentage"
-                            name="cgpaorPercentage"
-                            value={inputs.cgpaorPercentage || ""}
-                            ref={register({ required: true })}
-                            onChange={handleInputChange}
-                            className="form-control-lg form-control"
-                            placeholder="CGPA/Percentage"
-                        />
+                    <div className="form-group" style={{ marginBottom: 15 }}>
+                        <label className="form-label" htmlFor="cgpaorPercentage">
+                            CGPA/Percentage</label>
+                        <div className="form-control-wrap">
+                            <input
+                                type="text"
+                                id="cgpaorPercentage"
+                                name="cgpaorPercentage"
+                                value={inputs.cgpaorPercentage || ""}
+                                ref={register({ required: true })}
+                                onChange={handleInputChange}
+                                className="form-control-lg form-control"
+                                placeholder="CGPA/Percentage"
+                            />
+                        </div>
+                        {errors.cgpaorPercentage && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
-                </div>
-                <div className="form-group" style={{ marginBottom: 15 }}>
-                    <label className="form-label" htmlFor="contact">
-                        Contact</label>
-                    <div className="form-control-wrap">
-                        <input
-                            type="text"
-                            id="contact"
-                            name="contact"
-                            value={inputs.contact || ""}
-                            ref={register({ required: true })}
-                            onChange={handleInputChange}
-                            className="form-control-lg form-control"
-                            placeholder="Contact"
-                        />
+                    <div className="form-group" style={{ marginBottom: 15 }}>
+                        <label className="form-label" htmlFor="contact">
+                            Contact</label>
+                        <div className="form-control-wrap">
+                            <input
+                                type="text"
+                                id="contact"
+                                name="contact"
+                                value={inputs.contact || ""}
+                                ref={register({ required: true })}
+                                onChange={handleInputChange}
+                                className="form-control-lg form-control"
+                                placeholder="Contact"
+                            />
+                        </div>
+                        {errors.contact && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
-                </div>
-                <div className="form-group" style={{ marginBottom: 15 }}>
-                    <label className="form-label" htmlFor="name">
-                        Department</label>
-                    <div className="form-control-wrap">
-                        <DropDownList
-                            data={lookupDataSource}
-                            textField="name"
-                            dataItemKey="departmentId"
-                            value={departmentValue}
-                            name="department"
-                            onChange={handleChange}
-                            placeholder="Please select ..."
-                        />
+                    <div className="form-group" style={{ marginBottom: 15 }}>
+                        <label className="form-label" htmlFor="name">
+                            Department</label>
+                        <div className="form-control-wrap">
+                            <DropDownList
+                                data={lookupDataSource}
+                                textField="name"
+                                dataItemKey="departmentId"
+                                value={departmentValue}
+                                name="department"
+                                onChange={handleChange}
+                                placeholder="Please select ..."
+                            />
+                        </div>
+                        {errors.department && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
-                </div>
-                <div className="k-form-buttons">
-                    <button
-                        type={"submit"}
-                        className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base">
-                        Submit
-                    </button>
-                </div>
+                    <div className="k-form-buttons">
+                        <button
+                            type={"submit"}
+                            className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base">
+                            Submit
+                        </button>
+                    </div>
 
-            </form>
-
-            <br></br>
-            <br></br>
-            <div style={{ position: "fixed" }} className="col-md-8">
+                </form>
+            </div>
+            <div className="col-md-12">
                 {!controlLoaded && <LoadingPanel />}
-                <div className="page-head"><h2>Student List</h2>
+                <div className="page-head"> 
                     <ExcelExport data={dataSource} ref={_export} fileName="studentGrid.xlsx">
                         {studentGrid}
                     </ExcelExport>

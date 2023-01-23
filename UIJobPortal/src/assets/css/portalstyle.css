@@ -1,0 +1,17 @@
+.password-validation {
+    position: absolute;
+    z-index: 19;
+    top: auto;
+    bottom: 47px;
+    border: 1px solid #221e1e33;
+    border-radius: 4px;
+    background-color: white;
+}
+.password-validation div {
+    padding: 6px;
+}
+
+.password-validation p {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}

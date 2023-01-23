@@ -18,7 +18,7 @@ import AuthFooter from "./AuthFooter";
 import { useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
 import { userLogin } from "../../services";
- 
+
 
 const Login = ({ history }) => {
   const [loading, setLoading] = useState(false);
@@ -27,21 +27,21 @@ const Login = ({ history }) => {
   const [errorVal, setError] = useState("");
 
   const onFormSubmit = (formData) => {
-    setLoading(true); 
+    setLoading(true);
     localStorage.setItem("accessToken", "token");
     setTimeout(() => {
-    
+
       //sessionStorage.setItem('LoginOrgType', 'INSTITUTION'); 
       sessionStorage.setItem('LoginOrgType', 'COMPANY');
       var _inputData = inputData;
       // return
       userLogin(formData)
-        .then((result) => { 
+        .then((result) => {
           debugger
           if (result.isSuccess) {
             localStorage.setItem("accessToken", result);
             localStorage.setItem("organizationId", result.data.organizationId);
-            localStorage.setItem("userData", JSON.stringify(result.data));   
+            localStorage.setItem("userData", JSON.stringify(result.data));
 
             window.history.pushState(
               `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
@@ -53,7 +53,7 @@ const Login = ({ history }) => {
           console.log(result);
           window.location.reload();
         });
-    },300);
+    }, 300);
     // } 
     // else {
     //   setTimeout(() => {
@@ -64,7 +64,7 @@ const Login = ({ history }) => {
   };
 
   const handleInputChange = (event) => {
-   
+
     const name = event.target.name;
     const value = event.target.value;
     setInputData(values => ({ ...values, [name]: value }))
@@ -78,6 +78,11 @@ const Login = ({ history }) => {
         <Block className="nk-block-middle nk-auth-body  wide-xs">
           <PreviewCard className="card-bordered" bodyClass="card-inner-lg">
             <BlockHead>
+              <BlockContent>
+                <div className="pb-4 text-center">
+                  <h4>Campus Recruitment Platform(CRP)</h4>
+                </div>
+              </BlockContent>
               <BlockContent>
                 <BlockTitle tag="h4">Sign-In</BlockTitle>
               </BlockContent>
@@ -109,7 +114,7 @@ const Login = ({ history }) => {
                     placeholder="Enter your email address or username"
                     className="form-control-lg form-control"
                   />
-                  {errors.name && <span className="invalid">{errors.name.message}</span>}
+                  {errors.UserName && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                 </div>
               </FormGroup>
               <FormGroup>
@@ -145,7 +150,7 @@ const Login = ({ history }) => {
                     placeholder="Enter your password"
                     className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
                   />
-                  {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
+                {errors.Password && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                 </div>
               </FormGroup>
               <FormGroup>

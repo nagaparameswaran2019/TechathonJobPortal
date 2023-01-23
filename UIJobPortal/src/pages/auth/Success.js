@@ -15,7 +15,7 @@ const Success = () => {
         <Block className="nk-block-middle nk-auth-body  text-center">
           <div className="brand-logo pb-5">
             <Link to={process.env.PUBLIC_URL + "/"} className="logo-link">
-              <h2>Job Portal</h2>
+              <h2>CRP</h2>
             </Link>
           </div>
           <BlockHead>

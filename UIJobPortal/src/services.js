@@ -10,6 +10,17 @@ export async function getOrganizationCoreTypes(inputData) {
         return [];
     }
 }
+export async function getAllOrganization(apiUrl) {
+    try {
+        const response = await fetch("https://localhost:7077/api/Organization/GetAllOrganization", {
+            headers: { "Content-Type": "application/json" },
+        });
+        return await response.json();
+    }
+    catch (error) {
+        return [];
+    }
+}
 
 export async function getDataService(apiUrl) {
     try {
@@ -128,6 +139,18 @@ export async function addCoreAreasToDepartment(inputData) {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             }
+        });
+        return await response.json();
+    }
+    catch (error) {
+        return [];
+    }
+}
+
+export async function getJobOpeningsByOrganizationId(organizationId) {
+    try {
+        const response = await fetch("https://localhost:7077/api/Job/GetJobOpeningsByOrganizationId/" + organizationId, {
+            headers: { "Content-Type": "application/json" },
         });
         return await response.json();
     }

@@ -12,32 +12,59 @@ const DepartmentDetails = () => {
     const { errors, register, handleSubmit } = useForm();
     const [coreArea, setCoreArea] = useState([]);
     const [passState, setPassState] = useState(false);
+    const [gridData, setGridData] = useState([]);
 
     useEffect(() => {
         setTimeout(() => {
             var organizationId = JSON.parse(localStorage.userData).organizationId;
             getAllDepartmentByOrganizationId(organizationId)
                 .then((result) => {
-                    debugger
+
                     if (result.isSuccess) {
                         setDepartmentDataSource(result.data);
                     }
+                    setGridData(result.data);
+                    getOrganizationCoreTypes('COREAREATYPE')
+                        .then((output) => {
+                            if (output.isSuccess) {
+                                setLookupDataSource(output.data[0].lookUps);
+                            }
+                            console.log(lookupDataSource);
+                            result.data.forEach(r => {
+
+                                r['coreAreaLookup'] = [];
+                                r['selectedCoreAreas'] = '';
+
+                                if (r.departmentCoreAreaMapping !== '') {
+                                    var coreAreaSelected = [];
+                                    var _coreAreas = r.departmentCoreAreaMapping.split(',');
+                                    _coreAreas.forEach((c, index) => {
+                                        debugger
+                                        var lookup = output.data[0].lookUps.find(s => s.lookUpId == c);
+                                        r.coreAreaLookup.push(lookup);
+                                        coreAreaSelected.push(lookup.description);
+                                        console.log(lookup);
+
+                                    })
+                                    r.selectedCoreAreas = coreAreaSelected.join(', ');
+                                }
+                                gridData.push(r);
+                                setDepartmentDataSource(gridData);
+                                console.log(gridData);
+                            })
+
+                        });
                     console.log(result);
                 });
 
-            getOrganizationCoreTypes('COREAREATYPE')
-                .then((result) => {
-                    if (result.isSuccess) {
-                        setLookupDataSource(result.data[0].lookUps);
-                    }
-                    console.log(lookupDataSource);
-                });
+
         }, 100);
     }, []);
 
     const handleChange = (event) => {
+        debugger
         setDepartmentValue(event.value);
-        setCoreArea([]);
+        setCoreArea(event.value.coreAreaLookup);
     };
     const onCoreAreaChange = (event) => {
         setPassState(event.value.length > 0);
@@ -50,15 +77,15 @@ const DepartmentDetails = () => {
             lookupIds.push(element.lookUpId);
             console.log(element.lookUpId)
         });
-        
-        var inputData = {  "departmentCoreAreaMappingId": 0,  "departmentId": dataItem.department.departmentId,  "coreAreaTypes": lookupIds.join()}
-        
+
+        var inputData = { "departmentCoreAreaMappingId": 0, "departmentId": dataItem.department.departmentId, "coreAreaTypes": lookupIds.join() }
+
         setTimeout(() => {
             addCoreAreasToDepartment(inputData)
                 .then((result) => {
                     debugger
                     if (result.isSuccess) {
-                        
+
                     }
                     setPassState(true);
                     setDepartmentValue({});
@@ -78,53 +105,55 @@ const DepartmentDetails = () => {
     };
 
     return (
-        <div style={{ marginTop: 75, position: "fixed" }} className="col-md-4">
+        <div style={{ marginTop: 75 }} className="col-md-12">
             <h6>Department Core area mapping</h6>
             <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
-                <div className="form-group" style={{ marginBottom: 15 }}>
-                    <label className="form-label" htmlFor="name">
-                        Department</label>
-                    <div className="form-control-wrap">
-                        <DropDownList
-                            data={departmentDataSource}
-                            textField="name"
-                            dataItemKey="departmentId"
-                            value={departmentValue}
-                            name="department"
-                            ref={register({ required: true })}
-                            // defaultItem={defaultItem}
-                            onChange={handleChange}
-                        />
+                <div className="col-md-3">
+                    <div className="form-group" style={{ marginBottom: 15 }}>
+                        <label className="form-label" htmlFor="name">
+                            Department</label>
+                        <div className="form-control-wrap">
+                            <DropDownList
+                                data={departmentDataSource}
+                                textField="name"
+                                dataItemKey="departmentId"
+                                value={departmentValue}
+                                name="department"
+                                ref={register({ required: true })}
+                                // defaultItem={defaultItem}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group" style={{ marginBottom: 15 }}>
+                        <label className="form-label" htmlFor="name">
+                            Core Area
+                        </label>
+                        <div className="form-control-wrap">
+                            <MultiSelect
+                                data={lookupDataSource}
+                                textField="description"
+                                dataItemKey="lookUpId"
+                                value={coreArea}
+                                name="coreArea"
+                                className=""
+                                ref={register({ required: true })}
+                                onChange={onCoreAreaChange}
+                                placeholder="Please select"
+                            />
+                        </div>
+                    </div>
+                    <div className="k-form-buttons">
+                        <button
+                            type={"submit"}
+                            disabled={!passState}
+                            className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base">
+                            Submit
+                        </button>
                     </div>
                 </div>
-                <div className="form-group" style={{ marginBottom: 15 }}>
-                    <label className="form-label" htmlFor="name">
-                        Core Area
-                    </label>
-                    <div className="form-control-wrap">
-                        <MultiSelect
-                            data={lookupDataSource}
-                            textField="description"
-                            dataItemKey="lookUpId"
-                            value={coreArea}
-                            name="coreArea"
-                            className=""
-                            ref={register({ required: true })}
-                            onChange={onCoreAreaChange}
-                            placeholder="Please select"
-                        />
-                    </div>
-                </div>
-                <div className="k-form-buttons">
-                    <button
-                        type={"submit"}
-                        disabled={!passState}
-                        className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base">
-                        Submit
-                    </button>
-                </div>
-
             </form>
+            <div className="col-md-12"></div>
         </div>
     );
 };

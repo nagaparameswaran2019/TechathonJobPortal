@@ -14,11 +14,17 @@ import PageContainer from "../../layout/page-container/PageContainer";
 import Head from "../../layout/head/Head";
 import AuthFooter from "./AuthFooter";
 import { useForm } from "react-hook-form";
-import { Link, useHistory   } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { ComboBox, MultiSelect } from "@progress/kendo-react-dropdowns";
 import { getOrganizationCoreTypes, registerUserDetails } from '../../services';
 import { de } from "date-fns/locale";
-import { NavigatorFilterEvent } from "@progress/kendo-react-charts"; 
+import { NavigatorFilterEvent } from "@progress/kendo-react-charts";
+import {
+  Notification,
+  NotificationGroup,
+} from "@progress/kendo-react-notification";
+import { zIndex } from "@progress/kendo-popup-common";
+import { Error } from "@progress/kendo-react-labels";
 
 const Register = ({ history }) => {
   var _inputs = {
@@ -28,7 +34,7 @@ const Register = ({ history }) => {
     "userName": "",
     "password": "",
     "createdDate": "2023-01-21T05:50:23.534Z",
-    "modifiedDate": "2023-01-21T05:50:23.534Z",
+    "modifiedDate": "2023-01-21T05:50:23.534Z",
     "organizationId": 0
   };
 
@@ -46,7 +52,9 @@ const Register = ({ history }) => {
     "department": "",
     "departmentdata": []
   });
+  const [passValid, setpassValid] = useState(true);
   const [passState, setPassState] = useState(false);
+  const [confirmPassState, setConfirmPassState] = useState(false);
   const [showDepartment, setshowDepartment] = useState(true);
   const [loading, setLoading] = useState(false);
   const [dataSource, setdataSource] = useState([]);
@@ -76,7 +84,7 @@ const Register = ({ history }) => {
   }, []);
 
   const handleFormSubmit = () => {
-     debugger
+    debugger
     var inputData = inputs;
     inputData['organization'] = orgInputs;
     var lookupIds = [];
@@ -86,10 +94,10 @@ const Register = ({ history }) => {
     });
     inputData.organization.organizationSubTypeId = orgSubType.lookUpId;
 
-    if(orgType == 'INSTITUTIONTYPE'){
+    if (orgType == 'INSTITUTIONTYPE') {
       inputData.organization.department = lookupIds.join();
-    } 
-    
+    }
+
     setTimeout(() => {
       registerUserDetails(inputData)
         .then((result) => {
@@ -102,19 +110,46 @@ const Register = ({ history }) => {
     }, 200);
   };
 
-  const onChangeDepartment = (event) => { 
+  const onChangeDepartment = (event) => {
     setOrgInputs(values => ({ ...values, [event.target.name]: event.value }))
   };
 
-  const handleChange = (event) => { 
-    setDepartment([]); 
-    setOrgSubType(event.value); 
+  const handleChange = (event) => {
+    setDepartment([]);
+    setOrgSubType(event.value);
   };
 
   const handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }))
+  }
+
+  const handlePasswordChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setpassValid(false);
+    if (value == "") {
+      setpassValid(true);
+    }
+    setInputs(values => ({ ...values, [name]: value }))
+
+    if (inputs.password.length >= "8"
+      && value.match(/[A-Z]/)
+      && value.match(/[a-z]/)
+      && value.match(/[\d`~!@#$%\^&*()+=|;:'",.<>\/?\\\-]/)
+      && value === inputs.confirmpassword && value) {
+      setpassValid(true);
+    }
+  }
+
+  const handleConfirmPasswordChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({ ...values, [name]: value }));
+    if (value === inputs.password && value) {
+      setpassValid(true);
+    }
   }
 
   const handleOrgInputChange = (event) => {
@@ -125,20 +160,38 @@ const Register = ({ history }) => {
 
   const onRadioButtonChanged = (event) => {
     setValue("");
-    
+
     setDepartment([]);
     var orgType = event.currentTarget.dataset.orgType;
     setshowDepartment(orgType == 'INSTITUTIONTYPE' ? true : false);
     setOrgType(orgType);
 
-    var orgTypeID = orgType == 'INSTITUTIONTYPE'? 11:10;
+    var orgTypeID = orgType == 'INSTITUTIONTYPE' ? 11 : 10;
     setOrgInputs(values => ({ ...values, ['organizationTypeId']: orgTypeID }))
-    
+
     var result = lookupDataSource.find(s => s.code == event.currentTarget.dataset.orgType).lookUps;
     setdataSource(result);
     setOrgSubType({});
     setOrgInputs(values => ({ ...values, ['departmentdata']: {} }))
   };
+
+
+  let colour1 = "red", colour2 = "red", colour3 = "red", colour4 = "red", colour5 = "red";
+  if (inputs.password.length >= "8") {
+    colour1 = "green";
+  }
+  if (inputs.password.match(/[A-Z]/)) {
+    colour2 = "green";
+  }
+  if (inputs.password.match(/[a-z]/)) {
+    colour3 = "green";
+  }
+  if (inputs.password.match(/[\d`~!@#$%\^&*()+=|;:'",.<>\/?\\\-]/)) {
+    colour4 = "green";
+  }
+  if (inputs.password === inputs.confirmpassword && inputs.password) {
+    colour5 = "green";
+  }
 
   return (
     <React.Fragment>
@@ -146,7 +199,7 @@ const Register = ({ history }) => {
       <PageContainer>
         <Block className="nk-block-middle nk-auth-body">
           <div className="brand-logo pb-4 text-center">
-            <h2 tag="h4">Job Portal</h2>
+            <h2 tag="h4">Campus Recruitment Platform(CRP)</h2>
           </div>
           <PreviewCard className="card-bordered" bodyClass="card-inner-lg">
             <BlockHead>
@@ -172,7 +225,7 @@ const Register = ({ history }) => {
                         ref={register({ required: true })}
                         className="form-control-lg form-control"
                       />
-                      {errors.name && <p className="invalid">This field is required</p>}
+                      {errors.firstName && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </FormGroup>
                   <FormGroup>
@@ -190,7 +243,7 @@ const Register = ({ history }) => {
                         ref={register({ required: true })}
                         className="form-control-lg form-control"
                       />
-                      {errors.name && <p className="invalid">This field is required</p>}
+                      {errors.lastname && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </FormGroup>
                   <FormGroup>
@@ -211,10 +264,23 @@ const Register = ({ history }) => {
                         className="form-control-lg form-control"
                         placeholder="Enter your email address or username"
                       />
-                      {errors.email && <p className="invalid">This field is required</p>}
+                      {errors.userName && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </FormGroup>
+
                   <FormGroup>
+                    {!passValid &&
+                      <div className="password-validation">
+                        <div>
+                          <p style={{ fontWeight: "bold" }}>All checkmarks must turn green, password must have:</p>
+                          <p><i style={{ color: colour1, fontSize: "15px" }} class="k-icon k-i-check-outline k-i-checkmark-outline" aria-hidden="true"></i> At least 8 characters</p>
+                          <p><i style={{ color: colour2, fontSize: "15px" }} class="k-icon k-i-check-outline k-i-checkmark-outline" aria-hidden="true"></i> At least 1 uppercase letter</p>
+                          <p><i style={{ color: colour3, fontSize: "15px" }} class="k-icon k-i-check-outline k-i-checkmark-outline" aria-hidden="true"></i> At least 1 lowercase letter</p>
+                          <p><i style={{ color: colour4, fontSize: "15px" }} class="k-icon k-i-check-outline k-i-checkmark-outline" aria-hidden="true"></i> At least 1 number or special character</p>
+                          <p><i style={{ color: colour5, fontSize: "15px" }} class="k-icon k-i-check-outline k-i-checkmark-outline" aria-hidden="true"></i> Password === Confirm Password</p>
+                        </div>
+                      </div>
+                    }
                     <div className="form-label-group">
                       <label className="form-label" htmlFor="password">
                         Password
@@ -227,8 +293,7 @@ const Register = ({ history }) => {
                           ev.preventDefault();
                           setPassState(!passState);
                         }}
-                        className={`form-icon lg form-icon-right passcode-switch ${passState ? "is-hidden" : "is-shown"}`}
-                      >
+                        className={`form-icon lg form-icon-right passcode-switch ${passState ? "is-hidden" : "is-shown"}`}>
                         <Icon name="eye" className="passcode-icon icon-show"></Icon>
 
                         <Icon name="eye-off" className="passcode-icon icon-hide"></Icon>
@@ -238,12 +303,12 @@ const Register = ({ history }) => {
                         id="password"
                         name="password"
                         value={inputs.password || ""}
-                        onChange={handleInputChange}
+                        onChange={handlePasswordChange}
                         ref={register({ required: "This field is required" })}
                         placeholder="Enter your password"
                         className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
                       />
-                      {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
+                      {errors.password && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </FormGroup>
                   <FormGroup>
@@ -257,24 +322,24 @@ const Register = ({ history }) => {
                         href="#confirmPassword"
                         onClick={(ev) => {
                           ev.preventDefault();
-                          setPassState(!passState);
+                          setConfirmPassState(!confirmPassState);
                         }}
-                        className={`form-icon lg form-icon-right passcode-switch ${passState ? "is-hidden" : "is-shown"}`}
+                        className={`form-icon lg form-icon-right passcode-switch ${confirmPassState ? "is-hidden" : "is-shown"}`}
                       >
                         <Icon name="eye" className="passcode-icon icon-show"></Icon>
                         <Icon name="eye-off" className="passcode-icon icon-hide"></Icon>
                       </a>
                       <input
-                        type={passState ? "text" : "password"}
+                        type={confirmPassState ? "text" : "password"}
                         id="confirmPassword"
                         name="confirmpassword"
                         value={inputs.confirmpassword || ""}
-                        onChange={handleInputChange}
+                        onChange={handleConfirmPasswordChange}
                         ref={register({ required: "This field is required" })}
                         placeholder="Enter your confirm password"
-                        className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
+                        className={`form-control-lg form-control ${confirmPassState ? "is-hidden" : "is-shown"}`}
                       />
-                      {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
+                      {errors.confirmpassword && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </FormGroup>
                   <FormGroup>
@@ -317,9 +382,10 @@ const Register = ({ history }) => {
                         value={orgInputs.name || ""}
                         onChange={handleOrgInputChange}
                         placeholder="Enter organization name"
-                        ref={register({ required: true })}
+                        ref={register({ required: "This field is required" })}
                         className="form-control-lg form-control"
                       />
+                      {errors.name && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </div>
                   <div className="form-group">
@@ -332,7 +398,10 @@ const Register = ({ history }) => {
                         type="text"
                         value={orgInputs.email || ""}
                         onChange={handleOrgInputChange}
+                        placeholder="Email"
+                        ref={register({ required: "This field is required" })}
                         className="form-control-lg form-control" />
+                         {errors.email && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </div>
                   <div className="form-group">
@@ -346,9 +415,10 @@ const Register = ({ history }) => {
                         value={orgInputs.contact || ""}
                         onChange={handleOrgInputChange}
                         placeholder="Enter organization contact"
-                        ref={register({ required: true })}
+                        ref={register({ required: "This field is required" })}
                         className="form-control-lg form-control"
                       />
+                       {errors.contact && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </div>
                   <div className="form-group">
@@ -362,9 +432,10 @@ const Register = ({ history }) => {
                         value={orgInputs.website || ""}
                         onChange={handleOrgInputChange}
                         placeholder="Enter organization contact"
-                        ref={register({ required: true })}
+                        ref={register({ required: "This field is required" })}
                         className="form-control-lg form-control"
                       />
+                         {errors.website && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </div>
                   <FormGroup>
@@ -381,8 +452,10 @@ const Register = ({ history }) => {
                         value={orgSubType}
                         name="orgSubType"
                         onChange={handleChange}
+                        ref={register({ required: "This field is required" })}
                         placeholder="Please select"
                       />
+                      {errors.orgSubType && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </FormGroup>
                   <FormGroup className={showDepartment ? 'd-block' : 'd-none'}>
@@ -399,8 +472,10 @@ const Register = ({ history }) => {
                         value={orgInputs.departmentdata}
                         name="departmentdata"
                         onChange={onChangeDepartment}
+                        ref={register({ required: "This field is required" })}
                         placeholder="Please select"
                       />
+                       {errors.departmentdata && <div role="alert" className="k-form-error k-text-start">This field is required</div>}
                     </div>
                   </FormGroup>
                 </div>
@@ -415,7 +490,7 @@ const Register = ({ history }) => {
             </form>
             <div className="form-note-s2 text-center pt-4">
               {" "}
-              
+
               Already have an account?{" "}
               <Link to={`${process.env.PUBLIC_URL}/auth-login`}>
                 <strong>Sign in instead</strong>
